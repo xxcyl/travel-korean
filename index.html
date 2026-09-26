@@ -211,6 +211,11 @@ ul.plain li{margin:0 0 4px}
 .refg div{background:var(--surface);border:1px solid var(--line);border-radius:8px;text-align:center;padding:4px 2px}
 .refg b{display:block;font:400 20px/1.2 var(--f-disp)}
 .refg span{font-size:11px;color:var(--muted)}
+/* 手寫 */
+.tbox{position:relative;width:100%;max-width:300px;aspect-ratio:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;touch-action:none;overflow:hidden;
+  background-image:linear-gradient(var(--line),var(--line)),linear-gradient(var(--line),var(--line));background-size:100% 1px,1px 100%;background-position:center;background-repeat:no-repeat}
+.tg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#tc{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
 /* shadowing */
 .sh-ko{font:700 26px/1.35 var(--f-ko);margin:0}
 .sh-zh{font-size:17px;font-weight:500;margin:2px 0 4px}
@@ -593,7 +598,8 @@ a.btn{text-decoration:none;display:inline-block}
         '<p class="note" style="margin-top:10px">短橫在右 ㅏ 是 a、在左 ㅓ 是 eo；在上 ㅗ 是 o、在下 ㅜ 是 u。沒有短橫的 ㅡ、ㅣ 分別是 eu、i。</p>'+
         '<h2>多一劃，就是加 y</h2><p class="lead">短橫變兩條，前面就多一個 y 的音，這 4 個不用另外背。</p>'+
         '<div class="pairs">'+pair("ㅏ","ㅑ")+pair("ㅓ","ㅕ")+pair("ㅗ","ㅛ")+pair("ㅜ","ㅠ")+'</div>'+
-        '<p class="note" style="margin-top:10px">常見的 ㅐ、ㅔ 都唸 e，像「주세요」的 세 就是 ㅅ+ㅔ。</p>';
+        '<p class="note" style="margin-top:10px">常見的 ㅐ、ㅔ 都唸 e，像「주세요」的 세 就是 ㅅ+ㅔ。</p>'+
+        '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="v"></div>';
     }else if(step===2){
       body='<p class="lead">子音像家族：基本形<b>加一劃</b>變成送氣音（氣比較強），<b>寫兩次</b>變成緊音。先認基本形和送氣音就夠旅遊用。</p>'+
         '<div class="fam"><div class="fh">基本</div><div class="fh">加一劃・送氣</div><div class="fh">雙寫・緊音</div>'+
@@ -602,9 +608,11 @@ a.btn{text-decoration:none;display:inline-block}
         }).join('')+'</div>'+
         '<p class="note" style="margin-top:10px">緊音在旅遊時先當成基本音，對方通常也聽得懂。點卡片會唸出音節和例字。</p>'+
         '<h2>其他 5 個</h2><div class="hgrid">'+["ㄴ","ㄹ","ㅁ","ㅇ","ㅎ"].map(function(c){return hc(cons(c));}).join('')+'</div>'+
-        '<p class="note" style="margin-top:10px">ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。</p>';
+        '<p class="note" style="margin-top:10px">ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。</p>'+
+        '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="c"></div>';
     }else if(step===3){
       body='<p class="lead">韓文像拼積木：子音＋母音，有時再加一個尾音，組成一個方塊字。選選看：</p><div id="builder"></div>'+
+        '<h2>把這個字寫寫看</h2><p class="lead">注意子音、母音、尾音各佔方塊的哪一塊。</p><div id="tracer" data-set="b"></div>'+
         '<h2>尾音只有 7 種唸法</h2><p class="lead">尾音不會單獨發音，一定黏在前面的音後面。k、t、p 收尾時嘴巴做好動作，但不把氣放出來。</p>'+
         '<div class="stack">'+FINALS.map(function(f){
           return '<div class="fin"><div class="fl"><b>'+f[0]+'</b><span>收 '+f[1]+'</span></div><div class="fx" lang="ko">아 → '+String.fromCharCode(0xC544+f[2])+'</div>'+
@@ -638,7 +646,67 @@ a.btn{text-decoration:none;display:inline-block}
       (words.length?'<p class="lead" style="margin:12px 0 8px;font-size:14px">教材裡有「'+syl+'」的字，點來聽：</p><div class="grid">'+words.map(function(k){
           return '<button class="chip" type="button" data-open="'+esc(k)+'"><span class="ko">'+esc(PH[k].ko)+'</span><span class="zh">'+esc(PH[k].zh)+'</span></button>';}).join('')+'</div>'
         :'<p class="lead" style="margin:12px 0 0;font-size:14px">教材裡還沒有含「'+syl+'」的字，換個組合試試。</p>');
+    if(tr.set==='b'){tr.list=[syl];tr.g=syl;renderTracer();}
   }
+
+  /* 手寫描寫：範本用字型顯示，不評分；可隱藏範本自由書寫 */
+  var tr={set:null,list:[],g:null,guide:true,strokes:[]};
+  function initTracer(){
+    var box=$('tracer');if(!box){tr.set=null;return;}
+    tr.set=box.getAttribute('data-set');
+    if(tr.set==='b')return; /* 拼字積木會在 renderBuilder 裡把組好的字交給手寫區 */
+    tr.list=tr.set==='v'?VOW.map(function(a){return a[0];})
+      :CON.map(function(a){return a[0];}).concat(["ㄲ","ㄸ","ㅃ","ㅆ","ㅉ"]);
+    tr.g=tr.list[0];renderTracer();
+  }
+  function renderTracer(){
+    var box=$('tracer');if(!box)return;
+    tr.strokes=[];
+    box.innerHTML=(tr.list.length>1?'<div class="picks" role="radiogroup" aria-label="選擇字母">'+tr.list.map(function(g){
+        return '<button type="button" role="radio" data-tr="'+g+'" aria-checked="'+(g===tr.g)+'">'+g+'</button>';}).join('')+'</div>':'')+
+      '<div class="tbox"><canvas class="tg" id="tgc" aria-hidden="true"'+(tr.guide?'':' hidden')+'></canvas><canvas id="tc" aria-label="手寫區，用手指或滑鼠書寫"></canvas></div>'+
+      '<div class="row-btns" style="margin-top:8px"><button class="btn" type="button" data-trx="clear">清除</button>'+
+      '<button class="btn" type="button" data-trx="guide" aria-pressed="'+(!tr.guide)+'">隱藏範本</button></div>';
+    sizeCanvas();
+  }
+  function sizeCanvas(){
+    var c=$('tc');if(!c)return;
+    var r=window.devicePixelRatio||1,g=$('tgc');
+    c.width=g.width=c.clientWidth*r;c.height=g.height=c.clientHeight*r;
+    drawStrokes();drawGuide();
+  }
+  /* 依字形實際筆畫範圍縮放置中，單一字母和整個字塊都一樣大 */
+  function drawGuide(){
+    var g=$('tgc');if(!g)return;
+    var font=function(px){return '400 '+px+'px "Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';};
+    var paint=function(){
+      if(!$('tgc'))return;
+      var x=g.getContext('2d'),w=g.width;
+      x.clearRect(0,0,w,g.height);
+      x.font=font(100);
+      var m=x.measureText(tr.g),bw=m.actualBoundingBoxLeft+m.actualBoundingBoxRight,bh=m.actualBoundingBoxAscent+m.actualBoundingBoxDescent;
+      if(!bw||!bh)return;
+      var k=w*0.72/Math.max(bw,bh);
+      x.font=font(100*k);x.fillStyle=getComputedStyle(document.body).color;x.globalAlpha=.16;
+      x.fillText(tr.g,(w-bw*k)/2+m.actualBoundingBoxLeft*k,(g.height-bh*k)/2+m.actualBoundingBoxAscent*k);
+    };
+    paint();
+    if(document.fonts&&document.fonts.load)document.fonts.load(font(100),tr.g).then(paint).catch(function(){});
+  }
+  function drawStrokes(){
+    var c=$('tc');if(!c)return;
+    var x=c.getContext('2d'),w=c.width;
+    x.clearRect(0,0,w,c.height);x.lineCap='round';x.lineJoin='round';x.lineWidth=w*0.035;
+    x.strokeStyle=getComputedStyle(document.body).color;
+    tr.strokes.forEach(function(st){x.beginPath();st.forEach(function(p,i){i?x.lineTo(p[0]*w,p[1]*w):x.moveTo(p[0]*w,p[1]*w);});if(st.length===1)x.lineTo(st[0][0]*w+0.1,st[0][1]*w);x.stroke();});
+  }
+  var drawingTr=false;
+  function trPos(e){var r=e.target.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.width];}
+  document.addEventListener('pointerdown',function(e){if(e.target.id!=='tc')return;drawingTr=true;e.target.setPointerCapture(e.pointerId);tr.strokes.push([trPos(e)]);drawStrokes();});
+  document.addEventListener('pointermove',function(e){if(!drawingTr||e.target.id!=='tc')return;tr.strokes[tr.strokes.length-1].push(trPos(e));drawStrokes();});
+  document.addEventListener('pointerup',function(){drawingTr=false;});
+  document.addEventListener('pointercancel',function(){drawingTr=false;});
+  window.addEventListener('resize',sizeCanvas);
 
   /* 解碼招牌：看字 → 看拆解 → 猜意思 */
   var dq={k:null,opts:[],done:false,right:0,total:0};
@@ -772,6 +840,7 @@ a.btn{text-decoration:none;display:inline-block}
       if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
     });
     if($('quiz'))nextQuiz();
+    initTracer();
     renderBuilder();
     if($('decode'))nextDecode();
     renderAI();
@@ -861,7 +930,7 @@ a.btn{text-decoration:none;display:inline-block}
   document.addEventListener('click',function(e){
     if(e.target.closest('#show')){hideBig();return;}
     if(e.target.id==='sheet'){closeSheet();return;}
-    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-dq],#speed,#back,#seed');
+    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-dq],[data-tr],[data-trx],#speed,#back,#seed');
     if(!t)return;
     if(t.id==='speed'){state.slow=!state.slow;save();syncSpeed();return;}
     if(t.id==='back'){location.hash=t.dataset.to;return;}
@@ -881,6 +950,12 @@ a.btn{text-decoration:none;display:inline-block}
       else if(act==='show')showBig();
       else if(act==='shadow'){var k=cur,ls=PH[k].sc||(PRIORITY.indexOf(k)>=0?'common':'one');closeSheet();location.hash='#/shadow/'+ls+'/'+encodeURIComponent(k);}
       else if(act==='close')closeSheet();
+      return;
+    }
+    if(t.hasAttribute('data-tr')){tr.g=t.getAttribute('data-tr');renderTracer();var ft=document.querySelector('[data-tr="'+tr.g+'"]');if(ft)ft.focus();return;}
+    if(t.hasAttribute('data-trx')){
+      if(t.getAttribute('data-trx')==='clear'){tr.strokes=[];drawStrokes();}
+      else{tr.guide=!tr.guide;t.setAttribute('aria-pressed',String(!tr.guide));$('tgc').hidden=!tr.guide;}
       return;
     }
     if(t.hasAttribute('data-hb')){
