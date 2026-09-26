@@ -12,91 +12,97 @@
   --bg:#eef1f6; --surface:#ffffff; --ink:#152036; --muted:#5a6780; --line:#d5dbe6;
   --sign:#0d3b8c; --soft:#e6ebf4;
   --l1:#0052a4; --l2:#007a37; --l3:#b85400; --l4:#007aa6; --l5:#8a5aa0; --l6:#d4145f; --l7:#667000;
-  --on-c:#ffffff;
+  --on-c:#ffffff; --heard:#007a37;
   --f-body:"Noto Sans TC","Noto Sans KR","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --f-ko:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans TC",sans-serif;
   --f-disp:"Black Han Sans","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --tabh:58px;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
+    color-scheme:dark;
     --bg:#0e1524; --surface:#172238; --ink:#e8edf6; --muted:#9aa8c2; --line:#2a3856; --sign:#1a4fb8; --soft:#1f2c47;
-    --l1:#3f86d8; --l2:#2fb36a; --l3:#f08a3c; --l4:#35b4e2; --l5:#b489c9; --l6:#ee4a86; --l7:#a3b12a; --on-c:#0e1524;
+    --l1:#3f86d8; --l2:#2fb36a; --l3:#f08a3c; --l4:#35b4e2; --l5:#b489c9; --l6:#ee4a86; --l7:#a3b12a; --on-c:#0e1524; --heard:#2fb36a;
   }
 }
 :root[data-theme="dark"]{
+  color-scheme:dark;
   --bg:#0e1524; --surface:#172238; --ink:#e8edf6; --muted:#9aa8c2; --line:#2a3856; --sign:#1a4fb8; --soft:#1f2c47;
-  --l1:#3f86d8; --l2:#2fb36a; --l3:#f08a3c; --l4:#35b4e2; --l5:#b489c9; --l6:#ee4a86; --l7:#a3b12a; --on-c:#0e1524;
+  --l1:#3f86d8; --l2:#2fb36a; --l3:#f08a3c; --l4:#35b4e2; --l5:#b489c9; --l6:#ee4a86; --l7:#a3b12a; --on-c:#0e1524; --heard:#2fb36a;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 68px);-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--f-body)}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body)}
+body.lock{overflow:hidden}
 button{font:inherit;color:inherit}
+a{color:inherit}
 :focus-visible{outline:3px solid var(--l4);outline-offset:2px}
+[hidden]{display:none!important}
 
-/* route map nav */
-.map{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
-.map-in{display:flex;gap:2px;align-items:center;overflow-x:auto;padding:8px 12px;max-width:760px;margin:0 auto;scrollbar-width:none}
-.map-in::-webkit-scrollbar{display:none}
-.map a{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:999px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500}
-.map a:hover{background:var(--soft)}
-.map i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--on-c);font:700 12px/1 var(--f-body);font-style:normal;background:var(--c)}
-.speed{flex:0 0 auto;margin-left:auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:8px;min-height:50px;padding:0 12px}
+.top h1{margin:0;font-size:18px;line-height:1.3;flex:1;text-wrap:balance}
+.back{border:0;background:none;padding:6px 8px 6px 2px;font-size:22px;line-height:1;cursor:pointer;color:var(--muted)}
+.speed{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
 
-.wrap{max-width:760px;margin:0 auto;padding:0 16px 56px}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 32px)}
+h2{font-size:17px;margin:26px 0 10px;text-wrap:balance}
+h2:first-child{margin-top:4px}
+.lead{color:var(--muted);margin:0 0 12px;max-width:38em}
+.note{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14px;margin:0 0 12px}
+.stack{display:grid;gap:8px}
 
-/* hero: station nameplate */
-.sign{margin-top:16px;background:var(--sign);color:#fff;border-radius:10px;padding:16px 14px 14px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
-.sign .nb{font-size:13px;line-height:1.35;opacity:.9}
+/* home nameplate */
+.sign{background:var(--sign);color:#fff;border-radius:10px;padding:14px 14px 12px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.sign .nb{font-size:12px;line-height:1.35;opacity:.9}
 .sign .nb.r{text-align:right}
 .sign .mid{text-align:center}
-.sign .k{font:400 34px/1.1 var(--f-disp)}
-.sign h1{margin:4px 0 0;font-size:17px;font-weight:700;letter-spacing:.04em}
-.track{height:6px;background:var(--sign);position:relative;margin:0 10px}
-.track::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--l1) 0 25%,var(--l2) 25% 50%,var(--l3) 50% 75%,var(--l4) 75% 100%);border-radius:0 0 4px 4px}
-.intro{margin:18px 0 6px;font-size:17px;max-width:38em}
-.rhythm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 4px}
-.rhythm div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.45}
-.rhythm b{display:block;font-size:20px;line-height:1.2}
+.sign .k{font:400 30px/1.1 var(--f-disp)}
+.sign .t{margin-top:4px;font-size:15px;font-weight:700;letter-spacing:.04em}
+.track{height:6px;margin:0 10px 16px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,var(--l1) 0 17%,var(--l2) 17% 34%,var(--l3) 34% 50%,var(--l4) 50% 67%,var(--l5) 67% 84%,var(--l6) 84% 100%)}
 
-/* sections as line segments */
-.sec{position:relative;padding:4px 0 8px 44px;margin-top:34px;--c:var(--l1)}
-.sec::before{content:"";position:absolute;left:13px;top:16px;bottom:0;width:6px;background:var(--c);border-radius:3px}
-.sec[data-l="2"]{--c:var(--l2)} .sec[data-l="3"]{--c:var(--l3)} .sec[data-l="4"]{--c:var(--l4)}
-.sec[data-l="5"]{--c:var(--l5)} .sec[data-l="6"]{--c:var(--l6)} .sec[data-l="7"]{--c:var(--l7)}
-.sh{display:flex;align-items:center;min-height:32px;margin:0 0 8px}
-.bd{position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--c);color:var(--on-c);display:grid;place-items:center;font:700 16px/1 var(--f-body)}
-.sh h2{margin:0;font-size:22px;line-height:1.3}
-.lead{color:var(--muted);margin:0 0 14px;max-width:38em}
-h3{font-size:17px;margin:22px 0 8px}
-.note{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14px;margin:0 0 12px}
-.note b{font-weight:700}
+/* search */
+.search{position:relative;margin:0 0 4px}
+.search input{width:100%;font:inherit;font-size:16px;padding:10px 12px 10px 38px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2}
 
 /* phrase rows */
-.ph{display:grid;grid-template-columns:1fr auto;gap:1px 10px;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;margin:0 0 8px}
-.ph:hover{border-color:var(--c)}
-.ph .ko{grid-column:1;font:700 20px/1.4 var(--f-ko)}
-.ph .zh{grid-column:1;font-weight:500}
-.ph .rm{grid-column:1;font-size:13px;color:var(--muted)}
-.ph .zy{grid-column:1;font-size:14px}
-.ph .pl{grid-column:2;grid-row:1 / span 4;align-self:center;width:38px;height:38px;border-radius:50%;background:var(--c);color:var(--on-c);display:grid;place-items:center}
-.pl svg{width:18px;height:18px;fill:currentColor}
-.ph.on{border-color:var(--c);background:var(--soft)}
+.ph{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:start;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.ph:hover{border-color:var(--c,var(--l1))}
+.ph .dt{grid-row:1 / span 3;margin-top:10px;width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line)}
+.ph .dt.on{background:var(--heard);border-color:var(--heard)}
+.ph .ko{font:700 19px/1.4 var(--f-ko)}
+.ph .zh{font-weight:500;font-size:15px}
+.ph .rm{font-size:13px;color:var(--muted)}
 
 /* chips */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
 .chip{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;line-height:1.3}
-.chip:hover,.hc:hover{border-color:var(--c)}
-.chip .ko{display:block;font:700 20px/1.3 var(--f-ko)}
+.chip:hover{border-color:var(--c,var(--l1))}
+.chip .ko{display:block;font:700 18px/1.3 var(--f-ko)}
 .chip .rm{display:block;font-size:12px;color:var(--muted)}
 .chip .zh{display:block;font-size:14px;font-weight:500}
-.grid.wide{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+
+/* scene tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;gap:2px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:10px;padding:10px 12px 12px}
+.tile:hover{border-color:var(--c)}
+.tile b{font-size:17px}
+.tile .ko{font:400 14px/1.3 var(--f-ko);color:var(--muted)}
+.tile .cnt{font-size:12px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.wide-link{display:flex;align-items:center;gap:12px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.wide-link .g{flex:none;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--c,var(--l7));color:var(--on-c);font:400 24px/1 var(--f-disp)}
+.wide-link b{display:block}
+.wide-link span span{font-size:14px;color:var(--muted)}
+.wide-link::after{content:"›";margin-left:auto;font-size:22px;color:var(--muted)}
 
 /* hangul cards */
 .hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
-.hc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 4px 8px;text-align:center;cursor:pointer;line-height:1.3}
+.hc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;line-height:1.3}
+.hc:hover{border-color:var(--l7)}
 .hc b{display:block;font:400 34px/1.15 var(--f-disp)}
 .hc .s{display:block;font:700 15px/1.3 var(--f-ko)}
 .hc .r{display:block;font-size:12px;color:var(--muted)}
@@ -104,195 +110,119 @@ h3{font-size:17px;margin:22px 0 8px}
 .hc .ex{display:block;font-size:12px;color:var(--muted);margin-top:4px;padding-top:4px;border-top:1px dashed var(--line)}
 .hc .exk{font:700 13px/1.3 var(--f-ko);color:var(--ink)}
 
-/* tabs */
-.tabs{display:flex;gap:6px;overflow-x:auto;margin:0 0 12px;padding:2px 2px 4px;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;border:2px solid var(--tc);background:var(--surface);border-radius:999px;padding:5px 14px;font-weight:500;cursor:pointer}
-.tab[aria-selected="true"]{background:var(--tc);color:var(--on-c)}
-
-/* checklists */
-.prog{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:14px;color:var(--muted)}
-.bar{flex:1;height:10px;background:var(--line);border-radius:5px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--l2);transition:width .25s}
-details.wk{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:0 0 8px;overflow:hidden}
-details.wk summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:10px 12px;font-weight:700}
-details.wk summary::-webkit-details-marker{display:none}
-details.wk summary .w{background:var(--wc);color:var(--on-c);border-radius:999px;padding:1px 12px;font-size:14px}
-details.wk summary .cnt{margin-left:auto;font-weight:400;font-size:13px;color:var(--muted)}
-details.wk .body{padding:0 12px 8px}
-details.wk.later{opacity:.62}
-details.wk summary .tag{font-size:12px;font-weight:500;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:0 8px}
-.dur{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px;font-size:14px}
-.dur span{color:var(--muted);margin-right:2px}
-.dur button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font-weight:500;cursor:pointer}
-.dur button[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:var(--on-c)}
-.chk{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
-.chk input{width:20px;height:20px;margin:2px 0 0;flex:0 0 auto;accent-color:var(--wc,var(--c))}
-.chk span{flex:1}
-
-/* prompts */
-.pr{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 10px}
-.pr .pt{margin:0 0 4px;font-weight:700}
-.pr .tx{margin:0 0 8px;font-size:15px;white-space:pre-wrap}
-.cp{border:1px solid var(--c);background:transparent;color:var(--c);border-radius:999px;padding:4px 14px;font-size:14px;font-weight:500;cursor:pointer}
-.cp:hover{background:var(--c);color:var(--on-c)}
-
 .tbl{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border-radius:10px;overflow:hidden}
 .tbl th,.tbl td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .tbl th{background:var(--soft)}
 .scroll{overflow-x:auto}
 ul.plain{margin:0 0 12px;padding-left:1.2em}
 ul.plain li{margin:0 0 4px}
-.foot{margin-top:40px;font-size:13px;color:var(--muted)}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.chk input{width:20px;height:20px;margin:2px 0 0;flex:0 0 auto;accent-color:var(--l7)}
+.foot{margin-top:32px;font-size:13px;color:var(--muted)}
 
-#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;max-width:88vw;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+/* practice */
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 16px;text-align:center}
+.quiz .q{font-size:22px;font-weight:700;margin:6px 0 4px;text-wrap:balance}
+.quiz .hint{font-size:13px;color:var(--muted)}
+.quiz .a{margin:14px 0 0;padding-top:14px;border-top:1px dashed var(--line)}
+.quiz .a .ko{font:700 24px/1.4 var(--f-ko)}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:500;cursor:pointer}
+.btn.pri{background:var(--l1);border-color:var(--l1);color:var(--on-c)}
+.pr{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.pr .pt{margin:0 0 4px;font-weight:700}
+.pr .tx{margin:0 0 8px;font-size:15px}
+.cp{border:1px solid var(--l6);background:transparent;color:var(--l6);border-radius:999px;padding:4px 14px;font-size:14px;font-weight:500;cursor:pointer}
+
+/* empty state */
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:20px 16px;text-align:center}
+.empty p{margin:0 0 12px;color:var(--muted)}
+
+/* bottom tab bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar-in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabh)}
+.tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;font-size:12px;color:var(--muted)}
+.tabbar a[aria-current="page"]{color:var(--l1);font-weight:700}
+.tabbar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar .gl{font:400 20px/22px var(--f-disp)}
+
+/* phrase sheet */
+.sheet{position:fixed;inset:0;z-index:40;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,16,30,.45)}
+.panel{width:100%;max-width:560px;background:var(--surface);border-radius:16px 16px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:88vh;overflow-y:auto}
+.panel .ko{font:700 28px/1.35 var(--f-ko);margin:0}
+.panel .zh{font-size:18px;font-weight:500;margin:2px 0 6px}
+.panel .rm{font-size:14px;color:var(--muted)}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 4px}
+.act{display:flex;flex-direction:column;align-items:center;gap:4px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 4px;font-size:13px;font-weight:500;cursor:pointer}
+.act svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.act[aria-pressed="true"]{border-color:var(--l6);color:var(--l6)}
+.act[aria-pressed="true"] svg{fill:currentColor}
+.spell{margin-top:12px;font-size:14px}
+.spell summary{cursor:pointer;color:var(--muted)}
+.spell .sy{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.spell .sy span{background:var(--soft);border-radius:8px;padding:4px 10px;font-family:var(--f-ko)}
+.close{display:block;margin:14px auto 0;border:0;background:none;color:var(--muted);cursor:pointer;padding:6px 12px}
+
+/* show-to-staff */
+.show{position:fixed;inset:0;z-index:50;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;cursor:pointer}
+.show .ko{font:700 clamp(40px,13vw,96px)/1.25 var(--f-ko);text-wrap:balance;word-break:keep-all}
+.show .zh{font-size:18px;color:var(--muted)}
+.show .x{font-size:13px;color:var(--muted)}
+
+#toast{position:fixed;left:50%;bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;max-width:88vw;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
 #toast.show{opacity:1}
-@media (max-width:420px){
-  .rhythm{grid-template-columns:1fr}
-  .sign .k{font-size:28px}
-}
-@media (prefers-reduced-motion:reduce){.bar i,#toast{transition:none}}
+@media (max-width:420px){.sign .k{font-size:26px}.acts{gap:6px}}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}}
 </style>
 </head>
 <body>
 
-<nav class="map" aria-label="章節">
-  <div class="map-in">
-    <a href="#s1" style="--c:var(--l1)"><i>1</i>路線</a>
-    <a href="#s2" style="--c:var(--l2)"><i>2</i>字母</a>
-    <a href="#s3" style="--c:var(--l3)"><i>3</i>招牌</a>
-    <a href="#s4" style="--c:var(--l4)"><i>4</i>數字</a>
-    <a href="#s5" style="--c:var(--l5)"><i>5</i>會話</a>
-    <a href="#s6" style="--c:var(--l6)"><i>6</i>練習</a>
-    <a href="#s7" style="--c:var(--l7)"><i>7</i>出發</a>
-    <button class="speed" id="speed" type="button" aria-pressed="true">語速：慢</button>
+<header class="top">
+  <div class="top-in">
+    <button class="back" id="back" type="button" aria-label="返回" hidden>‹</button>
+    <h1 id="ttl">旅遊韓語</h1>
+    <button class="speed" id="speed" type="button" aria-pressed="false">語速：正常</button>
+  </div>
+</header>
+
+<main class="wrap" id="view"></main>
+
+<nav class="tabbar" aria-label="主要分頁">
+  <div class="tabbar-in">
+    <a href="#/" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>情境</a>
+    <a href="#/practice" data-tab="practice"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>練習</a>
+    <a href="#/tools" data-tab="tools"><span class="gl" aria-hidden="true">가</span>工具</a>
+    <a href="#/list" data-tab="list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>清單</a>
   </div>
 </nav>
 
-<main class="wrap">
-  <header>
-    <div class="sign">
-      <div class="nb">◀ 零基礎<br>從這裡開始</div>
-      <div class="mid">
-        <div class="k">여행 한국어</div>
-        <h1>韓國旅遊速成教材</h1>
-      </div>
-      <div class="nb r">出發 ▶<br>韓國</div>
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sk" tabindex="-1" id="panel">
+    <p class="ko" id="sk"></p>
+    <p class="zh" id="sz"></p>
+    <div class="rm" id="sr"></div>
+    <div class="acts">
+      <button class="act" type="button" data-act="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>播放</button>
+      <button class="act" type="button" data-act="slow"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>慢速</button>
+      <button class="act" type="button" data-act="star" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>收藏</button>
+      <button class="act" type="button" data-act="show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>出示</button>
     </div>
-    <div class="track" aria-hidden="true"></div>
-    <p class="intro">目標不是學會韓文，而是在出發前做到三件事：讀得出招牌、開口點餐問路、遇到狀況求得到救。點任何韓文都能聽發音。</p>
-    <div class="rhythm">
-      <div><b>5 分鐘</b>複習昨天的內容</div>
-      <div><b>15 分鐘</b>學今天的新內容</div>
-      <div><b>10 分鐘</b>大聲唸、跟 Claude 對話</div>
-    </div>
+    <details class="spell" id="spell"><summary>看拼法</summary><div class="sy" id="sy"></div></details>
+    <button class="close" type="button" data-act="close">關閉</button>
+  </div>
+</div>
 
-    <h3>先記住這三句</h3>
-    <p class="lead" style="margin-bottom:10px">把名詞放在前面就能用，例如 화장실 어디예요？（廁所在哪裡？）</p>
-    <div id="trio" style="--c:var(--l1)"></div>
-  </header>
+<div class="show" id="show" role="dialog" aria-modal="true" aria-label="出示給對方看" tabindex="-1" hidden>
+  <div class="ko" id="showk"></div>
+  <div class="zh" id="showz"></div>
+  <div class="x">點一下關閉</div>
+</div>
 
-  <section class="sec" id="s1" data-l="1">
-    <div class="sh"><span class="bd">1</span><h2>學習路線</h2></div>
-    <p class="lead">依出發前剩下的時間，決定要學到哪裡。時間少就先顧好「必學」，其他到了韓國也用得上。勾選的進度會存在這個瀏覽器裡。</p>
-    <div class="dur" id="dur" role="group" aria-label="出發前還有多久"></div>
-    <div class="prog"><span id="progtxt">已完成 0 / 0</span><span class="bar"><i id="progbar"></i></span></div>
-    <div id="plan"></div>
-  </section>
-
-  <section class="sec" id="s2" data-l="2">
-    <div class="sh"><span class="bd">2</span><h2>韓文字母</h2></div>
-    <p class="lead">韓文字母只有 24 個基本字母，多數人 2 到 3 天就能認完。點卡片會先唸音節，再唸一個以它開頭的例字。</p>
-    <div class="note">下方「≈」後面是用中文寫的近似音，只能幫你起步，實際發音請以語音為準。</div>
-    <h3>母音（10 個）</h3>
-    <div class="hgrid" id="vowels"></div>
-    <h3>子音（14 個）</h3>
-    <div class="hgrid" id="cons"></div>
-    <h3>字母怎麼組成字</h3>
-    <ul class="plain">
-      <li>韓文像拼積木：子音 + 母音，有時再加一個尾音。<b>한</b> = ㅎ + ㅏ + ㄴ。</li>
-      <li>母音在右邊（ㅏ ㅣ）就左右排，在下面（ㅗ ㅜ ㅡ）就上下排。</li>
-      <li>ㅇ 放在開頭時不發音，只是佔位，所以 아 就是單純的「阿」。</li>
-      <li>ㄲ ㄸ ㅃ ㅆ ㅉ 是加重的音，旅遊階段先當成一般的 ㄱ ㄷ ㅂ ㅅ ㅈ 也能被聽懂。</li>
-    </ul>
-    <h3>尾音只有 7 種發音</h3>
-    <div class="scroll"><table class="tbl">
-      <tr><th>尾音字母</th><th>唸成</th><th>例子</th></tr>
-      <tr><td>ㄱ ㄲ ㅋ</td><td>k</td><td>학교、부엌</td></tr>
-      <tr><td>ㄴ</td><td>n</td><td>안녕</td></tr>
-      <tr><td>ㄷ ㅅ ㅈ ㅊ ㅌ ㅎ</td><td>t</td><td>옷、꽃</td></tr>
-      <tr><td>ㄹ</td><td>l</td><td>물</td></tr>
-      <tr><td>ㅁ</td><td>m</td><td>감사</td></tr>
-      <tr><td>ㅂ ㅍ</td><td>p</td><td>밥、앞</td></tr>
-      <tr><td>ㅇ</td><td>ng</td><td>공항</td></tr>
-    </table></div>
-    <p class="note" style="margin-top:10px"><b>台灣人的優勢：</b>如果你會閩南語或客語，k、t、p 收尾的音你本來就會（像「六」「食」「十」），n、m、ng 收尾則跟華語的 -n、-ng 很像。</p>
-  </section>
-
-  <section class="sec" id="s3" data-l="3">
-    <div class="sh"><span class="bd">3</span><h2>看得懂的招牌</h2></div>
-    <p class="lead">認完字母後，先試著拼出這些字，再點卡片核對。</p>
-    <h3>路上常見的字</h3>
-    <div class="grid" id="signs"></div>
-    <h3>外來語：其實你早就會了</h3>
-    <p class="lead" style="margin-bottom:10px">很多韓文是英文的音譯，唸出來你就懂。</p>
-    <div class="grid" id="loans"></div>
-  </section>
-
-  <section class="sec" id="s4" data-l="4">
-    <div class="sh"><span class="bd">4</span><h2>數字與價錢</h2></div>
-    <p class="lead">韓文有兩套數字，用途不同。</p>
-    <div class="note"><b>漢字數字</b>用在價錢、樓層、號碼、日期。<b>固有數字</b>用在數量、人數、幾點。</div>
-    <h3>漢字數字（價錢用）</h3>
-    <div class="grid" id="sino"></div>
-    <h3>看價錢練習</h3>
-    <p class="note">一萬直接說 <b>만</b>，不說 일만。所以 12,000 是 만 이천，50,000 是 오만。</p>
-    <div id="prices" style="--c:var(--l4)"></div>
-    <h3>固有數字（數東西用）</h3>
-    <div class="grid" id="native"></div>
-    <p class="note" style="margin-top:10px">後面接量詞時，하나 → <b>한</b>、둘 → <b>두</b>、셋 → <b>세</b>、넷 → <b>네</b>。常用量詞：개（個）、명（人）、잔（杯）、병（瓶）。例外：<b>인분</b>（人份）要配漢字數字，兩人份是 이 인분。</p>
-    <div id="counters" style="--c:var(--l4)"></div>
-  </section>
-
-  <section class="sec" id="s5" data-l="5">
-    <div class="sh"><span class="bd">5</span><h2>情境會話</h2></div>
-    <p class="lead">先選情境，再點句子聽發音，跟著大聲唸三遍。</p>
-    <div class="tabs" role="tablist" id="tabs"></div>
-    <div id="panel" role="tabpanel"></div>
-    <h3>餐點與飲料</h3>
-    <div class="grid wide" id="foods"></div>
-    <p class="note" style="margin-top:10px">辣不辣：<b>매워요</b>（maewoyo）是「很辣」，<b>안 매워요</b> 是「不辣」。</p>
-  </section>
-
-  <section class="sec" id="s6" data-l="6">
-    <div class="sh"><span class="bd">6</span><h2>用 Claude 語音練習</h2></div>
-    <p class="lead">看再多不如開口說。Claude 的語音模式可以用韓文跟你對話。</p>
-    <div class="note"><b>設定方式：</b>在 Claude App 打開「設定 &gt; 一般 &gt; 語音 &gt; 語言」，手動選「한국어」。先用文字貼上下面的提示詞，再點輸入框旁的音波圖示切換成語音，同一個對話可以文字和語音來回切換。</div>
-    <div id="prompts" style="--c:var(--l6)"></div>
-  </section>
-
-  <section class="sec" id="s7" data-l="7">
-    <div class="sh"><span class="bd">7</span><h2>出發前檢查</h2></div>
-    <p class="lead">以下是一般性資訊，出發前請再到官方管道確認。</p>
-    <div id="pre" style="--wc:var(--l7)"></div>
-    <h3>小小文化提醒</h3>
-    <ul class="plain">
-      <li>韓國一般沒有給小費的習慣。</li>
-      <li>遞東西或接東西時用雙手，比較有禮貌。</li>
-      <li>很多餐廳桌上有呼叫鈴，沒有的話就舉手喊 여기요。</li>
-      <li>部分烤肉店是 2 人份起點，一個人吃前先問一下。</li>
-    </ul>
-  </section>
-
-  <p class="foot">近似音與語音播放都只是輔助。如果播放沒有聲音，請確認手機的文字轉語音已安裝韓文語音，或改用 Chrome、Safari 開啟。</p>
-</main>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script src="audio/manifest.js"></script>
 <script>
 (function(){
-  var SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
-
   /* ---------- data ---------- */
   /* 字母, 音節, 羅馬拼音, 近似音, 例字, 例字中文 */
   var VOW=[["ㅏ","아","a","阿","아이","小孩"],["ㅑ","야","ya","呀","약국","藥局"],["ㅓ","어","eo","喔（嘴張大）","어디","哪裡"],["ㅕ","여","yeo","約（嘴張大）","여기","這裡"],["ㅗ","오","o","歐","오늘","今天"],["ㅛ","요","yo","喲（嘴圓）","요금","費用"],["ㅜ","우","u","烏","우유","牛奶"],["ㅠ","유","yu","尤","유자차","柚子茶"],["ㅡ","으","eu","嘴扁平發ㄜ","은행","銀行"],["ㅣ","이","i","衣","이거","這個"]];
@@ -307,7 +237,7 @@ ul.plain li{margin:0 0 4px}
   var FOODS=[["김치","gimchi","泡菜"],["비빔밥","bibimbap","拌飯"],["불고기","bulgogi","醃烤牛肉"],["삼겹살","samgyeopsal","五花肉"],["김밥","gimbap","紫菜飯捲"],["떡볶이","tteokbokki","辣炒年糕"],["김치찌개","gimchijjigae","泡菜鍋"],["순두부찌개","sundubu-jjigae","嫩豆腐鍋"],["삼계탕","samgyetang","蔘雞湯"],["냉면","naengmyeon","冷麵"],["치킨","chikin","炸雞"],["소주","soju","燒酒"],["맥주","maekju","啤酒"],["물","mul","水"],["아메리카노","amerikano","美式咖啡"]];
 
   var SC=[
-   {n:"打招呼",c:"var(--l1)",tip:"안녕히 계세요 是你離開時對留下的人說；안녕히 가세요 是你留下、對離開的人說。",it:[
+   {id:"greet",n:"打招呼",ko:"인사",c:"var(--l1)",tip:"안녕히 계세요 是你離開時對留下的人說；안녕히 가세요 是你留下、對離開的人說。",it:[
     ["안녕하세요","annyeonghaseyo","安妞哈誰唷","你好"],
     ["감사합니다","gamsahamnida","砍沙哈咪達","謝謝"],
     ["죄송합니다","joesonghamnida","催松哈咪達","對不起"],
@@ -323,7 +253,7 @@ ul.plain li{margin:0 0 4px}
     ["영어 할 수 있어요?","yeongeo hal su isseoyo?","泳喔 哈 蘇 伊搜唷","你會說英文嗎？"],
     ["다시 한번 말씀해 주세요","dasi hanbeon malsseumhae juseyo","他西 韓崩 馬森黑 組誰唷","請再說一次"],
     ["천천히 말해 주세요","cheoncheonhi malhae juseyo","醜醜尼 馬累 組誰唷","請說慢一點"]]},
-   {n:"餐廳",c:"var(--l2)",tip:"句型：想要的東西 + 주세요。看不懂菜單就指著說 이거 주세요。",it:[
+   {id:"food",n:"餐廳",ko:"식당",c:"var(--l2)",tip:"句型：想要的東西 + 주세요。看不懂菜單就指著說 이거 주세요。",it:[
     ["여기요!","yeogiyo","呦嘰唷","服務生！（叫人）"],
     ["두 명이에요","du myeong-ieyo","吐 謬恩伊誒唷","兩位"],
     ["메뉴판 주세요","menyupan juseyo","妹妞盤 組誰唷","請給我菜單"],
@@ -338,7 +268,7 @@ ul.plain li{margin:0 0 4px}
     ["맛있어요","masisseoyo","馬西搜唷","很好吃"],
     ["잘 먹겠습니다","jal meokgetseumnida","插 摸給森咪達","我開動了"],
     ["잘 먹었습니다","jal meogeotseumnida","插 摸狗森咪達","謝謝招待／我吃飽了"]]},
-   {n:"交通",c:"var(--l3)",tip:"目的地放前面：강남역 가 주세요（請載我到江南站）。手機準備好地圖，直接給司機看最保險。",it:[
+   {id:"move",n:"交通",ko:"교통",c:"var(--l3)",tip:"目的地放前面：강남역 가 주세요（請載我到江南站）。手機準備好地圖，直接給司機看最保險。",it:[
     ["강남역 가 주세요","gangnamyeok ga juseyo","剛南唷 卡 組誰唷","請載我到江南站（換成你的目的地）"],
     ["이 주소로 가 주세요","i jusoro ga juseyo","伊 租搜囉 卡 組誰唷","請載我到這個地址"],
     ["여기서 내려 주세요","yeogiseo naeryeo juseyo","呦嘰搜 內溜 組誰唷","請讓我在這裡下車"],
@@ -347,7 +277,7 @@ ul.plain li{margin:0 0 4px}
     ["이 버스 강남에 가요?","i beoseu gangname gayo?","伊 撥斯 剛南誒 卡唷","這班公車有到江南嗎？"],
     ["얼마나 걸려요?","eolmana geollyeoyo?","喔嗎那 勾溜唷","要花多久？"],
     ["티머니 충전해 주세요","timeoni chungjeonhae juseyo","踢摸尼 蟲鍾黑 組誰唷","請幫我儲值 T-money"]]},
-   {n:"購物",c:"var(--l4)",tip:"殺價只適合傳統市場，百貨公司和連鎖店多半是定價。",it:[
+   {id:"shop",n:"購物",ko:"쇼핑",c:"var(--l4)",tip:"殺價只適合傳統市場，百貨公司和連鎖店多半是定價。",it:[
     ["그냥 구경하는 거예요","geunyang gugyeonghaneun geoyeyo","肯娘 苦庸哈能 狗耶唷","我只是看看"],
     ["얼마예요?","eolmayeyo?","喔嗎耶唷","多少錢？"],
     ["좀 깎아 주세요","jom kkakka juseyo","宗 嘎嘎 組誰唷","可以算便宜一點嗎？（市場）"],
@@ -356,13 +286,13 @@ ul.plain li{margin:0 0 4px}
     ["더 큰 거 있어요?","deo keun geo isseoyo?","頭 坑 勾 伊搜唷","有大一點的嗎？"],
     ["세금 환급 돼요?","segeum hwangeup dwaeyo?","誰更 歡格 推唷","可以退稅嗎？"],
     ["영수증 주세요","yeongsujeung juseyo","泳蘇增 組誰唷","請給我收據"]]},
-   {n:"住宿",c:"var(--l5)",tip:"入住時直接出示護照和訂房確認信就好。",it:[
+   {id:"stay",n:"住宿",ko:"숙소",c:"var(--l5)",tip:"入住時直接出示護照和訂房確認信就好。",it:[
     ["예약했어요","yeyakhaesseoyo","耶亞克黑搜唷","我有預約"],
     ["짐 좀 맡길 수 있어요?","jim jom matgil su isseoyo?","奇姆 宗 馬個 蘇 伊搜唷","可以寄放行李嗎？"],
     ["와이파이 비밀번호가 뭐예요?","waipai bimilbeonhoga mwoyeyo?","哇伊怕伊 匹米崩後嘎 摸耶唷","Wi-Fi 密碼是什麼？"],
     ["수건 좀 더 주세요","sugeon jom deo juseyo","蘇共 宗 頭 組誰唷","請再給我毛巾"],
     ["체크아웃 몇 시예요?","chekeu-aut myeot siyeyo?","切ㄎ阿悟 謬 西耶唷","幾點退房？"]]},
-   {n:"緊急",c:"var(--l6)",tip:"警察 112、消防與救護 119、韓國旅遊諮詢熱線 1330（有中文服務）。出發前再確認一次。",it:[
+   {id:"sos",n:"緊急",ko:"긴급",c:"var(--l6)",tip:"警察 112、消防與救護 119、韓國旅遊諮詢熱線 1330（有中文服務）。出發前再確認一次。",it:[
     ["도와주세요!","dowajuseyo","都哇組誰唷","請幫幫我！"],
     ["아파요","apayo","阿趴唷","我不舒服／會痛"],
     ["병원 어디예요?","byeongwon eodiyeyo?","秉窩恩 喔迪耶唷","醫院在哪裡？"],
@@ -370,34 +300,25 @@ ul.plain li{margin:0 0 4px}
     ["경찰 불러 주세요","gyeongchal bulleo juseyo","恐察 布囉 組誰唷","請幫我叫警察"]]}
   ];
 
-  /* 依優先順序分層；出發前時間越少，只學越前面的層 */
-  var DUR=["1–3 天","1–2 週","3 週以上"];
-  var PLAN=[
-   {id:"a",c:"var(--l6)",w:"必學",t:"保命句：開口就能用",it:[
-     "背熟最上面的「先記住這三句」",
-     "打招呼 5 句：안녕하세요、감사합니다、죄송합니다、네、아니요",
-     "緊急 5 句，並把緊急電話存進手機",
-     "漢字數字 1 到 10，加上百、千、萬，聽得懂價錢",
-     "整理出你的「必說清單」，存進手機備忘錄"]},
-   {id:"b",c:"var(--l2)",w:"建議",t:"點餐與移動",it:[
-     "餐廳 14 句：이거 주세요、물 주세요、계산해 주세요…",
-     "交通 8 句，並知道 T-money 怎麼儲值",
-     "固有數字 1 到 10，搭配 개、명、잔、병",
-     "認得常見菜名和飲料",
-     "用 Claude 語音模式演練一次「點餐到結帳」"]},
-   {id:"c",c:"var(--l1)",w:"進階",t:"讀得懂韓文",it:[
-     "背完 10 個母音和 14 個子音",
-     "學會 7 種尾音的發音",
-     "唸出 15 個常見招牌字（出口、廁所、藥局…）",
-     "購物 8 句、住宿 5 句",
-     "抽考自己：遮住中文，看韓文說出意思"]}
-  ];
+  /* 每個情境附帶的單字與補充（招牌字依用途分到各情境） */
+  var EXTRA={
+    food:[{h:"菜名與飲料",chips:FOODS,note:"辣不辣：<b>매워요</b>（maewoyo）是「很辣」，<b>안 매워요</b> 是「不辣」。"},
+          {h:"點幾個、幾位",rows:COUNTERS,note:"數東西用固有數字：하나→<b>한</b>、둘→<b>두</b>、셋→<b>세</b>、넷→<b>네</b>。<b>인분</b>（人份）例外，要配漢字數字：이 인분。"}],
+    move:[{h:"路上會看到的字",chips:pick(["출구","입구","지하철","역","버스 정류장","공항"])}],
+    shop:[{h:"聽懂價錢",rows:PRICES,note:"價錢用漢字數字。一萬直接說 <b>만</b>，不說 일만。"},
+          {h:"店家招牌",chips:pick(["편의점","환전","은행","무료","영업 중","휴무"])}],
+    sos:[{h:"找得到這些地方",chips:pick(["화장실","약국","병원"])}]
+  };
+  function pick(keys){return SIGNS.filter(function(a){return keys.indexOf(a[0])>=0;});}
+
+  /* 首頁「先從這幾句開始」的優先順序 */
+  var PRIORITY=["이거 주세요","화장실 어디예요","얼마예요","안녕하세요","감사합니다","여기요","계산해 주세요","도와주세요","죄송합니다","네","아니요","카드 돼요","물 주세요","아파요","잠시만요"];
 
   var PROMPTS=[
    ["字母發音教練","我是韓文零基礎的台灣人。請帶我練韓文字母：每次給我 3 個簡單的音節（例如 가、나、마），我唸給你聽，你告訴我哪裡不準，再換下一組。用簡單的韓文和中文說明都可以。"],
    ["餐廳角色扮演","你是首爾一家餐廳的店員。請只用簡單、慢速的韓文，一次說一兩句。我是剛開始學韓文的台灣觀光客。我說錯時，先用簡單的韓文示範正確說法，再繼續劇情。從我走進店裡開始。"],
    ["計程車與問路","你是首爾的計程車司機，也是路邊的路人。請用簡單、慢速的韓文和我對話，我會練習說目的地、問路、問要花多久。我說得不對就示範一次正確說法。"],
-   ["每日錯誤整理（用文字）","請整理我今天在對話裡說錯或不自然的地方，列出正確說法和簡短原因，再挑出最重要的 5 句，明天我要複習。"]
+   ["錯誤整理（用文字）","請整理我在這次對話裡說錯或不自然的地方，列出正確說法和簡短原因，再挑出最重要的 5 句讓我複習。"]
   ];
 
   var PRE=[
@@ -405,167 +326,318 @@ ul.plain li{margin:0 0 4px}
    "安裝 Papago 翻譯，可以拍照翻譯菜單",
    "準備 T-money 交通卡，便利商店可購買和儲值",
    "準備網路：eSIM 或 Wi-Fi 分享器",
-   "把「必說清單」存進手機備忘錄",
+   "在「清單」收藏你最常用的句子",
    "存好緊急電話：112 警察、119 消防與救護、1330 旅遊諮詢熱線",
    "到官方管道確認最新的入境規定"
   ];
 
-  /* ---------- speech ---------- */
-  var slow=true,voices=[],warned=false;
+  /* ---------- phrase index ---------- */
+  var norm=function(s){return s.replace(/[?？!！]/g,'').trim();};
+  var PH={};
+  function addPh(a,zhIdx,scene){
+    var k=norm(a[0]);
+    if(PH[k])return k;
+    PH[k]={ko:a[0],rm:a[1],zy:zhIdx===3?a[2]:'',zh:a[zhIdx],sc:scene};
+    return k;
+  }
+  TRIO.forEach(function(a){addPh(a,3,null);});
+  SC.forEach(function(s){s.keys=s.it.map(function(a){return addPh(a,3,s.id);});});
+  [PRICES,COUNTERS].forEach(function(L){L.forEach(function(a){addPh(a,3,null);});});
+  [SIGNS,LOANS,FOODS,SINO,NATIVE].forEach(function(L){L.forEach(function(a){addPh(a,2,null);});});
+
+  /* ---------- state ---------- */
+  var state={h:{},s:{},k:{},p:{},slow:false};
+  try{var sv=JSON.parse(localStorage.getItem('krtrip-v2')||'null');if(sv)for(var x in state)if(sv[x]!=null)state[x]=sv[x];}catch(e){}
+  function save(){try{localStorage.setItem('krtrip-v2',JSON.stringify(state));}catch(e){}}
+
+  /* ---------- audio ---------- */
+  var voices=[],warned=false,player=null,tt;
   function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
   if('speechSynthesis' in window){loadVoices();try{window.speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
-  var tt;
   function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show');},2600);}
   /* 預錄音檔（MeloTTS 產生），找不到或播放失敗時改用瀏覽器語音 */
-  var player=null;
-  function audioSrc(id){return 'audio/'+(slow?'s':'n')+'/'+id+'.mp3';}
-  function speak(text){
-    var id=(window.KO_AUDIO||{})[text.replace(/[?？!！]/g,'').trim()];
-    var src=id&&audioSrc(id);
+  function speak(text,slow){
+    var id=(window.KO_AUDIO||{})[norm(text)];
     if(player){player.pause();player=null;}
     if('speechSynthesis' in window){try{window.speechSynthesis.cancel();}catch(e){}}
-    if(src){
-      var a=player=new Audio(src);
-      a.play().catch(function(err){if(player===a&&err.name!=='AbortError')synth(text);});
+    if(id){
+      var a=player=new Audio('audio/'+(slow?'s':'n')+'/'+id+'.mp3');
+      a.play().catch(function(err){if(player===a&&err.name!=='AbortError')synth(text,slow);});
       return;
     }
-    synth(text);
+    synth(text,slow);
   }
-  function synth(text){
+  function synth(text,slow){
     if(!('speechSynthesis' in window)){toast('這個瀏覽器不支援語音播放');return;}
+    if(!voices.length)loadVoices();
     try{
-      window.speechSynthesis.cancel();
-      var u=new SpeechSynthesisUtterance(text.replace(/[?？!！]/g,''));
+      var u=new SpeechSynthesisUtterance(norm(text));
       u.lang='ko-KR';u.rate=slow?0.7:0.95;
-      var v=null;
-      for(var i=0;i<voices.length;i++){var l=(voices[i].lang||'').toLowerCase().replace('_','-');if(l.indexOf('ko')===0){v=voices[i];break;}}
-      if(v){u.voice=v;}
-      else if(!warned){warned=true;toast('找不到韓文語音，請到手機設定安裝韓文文字轉語音');}
+      for(var i=0;i<voices.length;i++){if((voices[i].lang||'').toLowerCase().replace('_','-').indexOf('ko')===0){u.voice=voices[i];break;}}
+      if(!u.voice&&voices.length&&!warned){warned=true;toast('找不到韓文語音，請到手機設定安裝韓文文字轉語音');}
       window.speechSynthesis.speak(u);
     }catch(e){toast('語音播放失敗');}
   }
 
+  /* ---------- hangul spelling ---------- */
+  var JL="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ".split(''),
+      JV="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ".split(''),
+      JT=[''].concat("ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ".split(''));
+  function spell(word){
+    var out=[],seen={};
+    for(var i=0;i<word.length;i++){
+      var c=word.charCodeAt(i)-0xAC00;
+      if(c<0||c>11171||seen[word[i]])continue;
+      seen[word[i]]=1;
+      var parts=[JL[Math.floor(c/588)],JV[Math.floor(c%588/28)]];
+      if(c%28)parts.push(JT[c%28]);
+      out.push(word[i]+' = '+parts.join('+'));
+    }
+    return out;
+  }
+
   /* ---------- render helpers ---------- */
-  function ph(ko,rm,zy,zh){
-    return '<button class="ph" type="button" data-say="'+ko+'">'+
-      '<span class="ko">'+ko+'</span>'+
-      '<span class="zh">'+zh+'</span>'+
-      '<span class="rm">'+rm+'</span>'+
-      (zy?'<span class="zy">≈ '+zy+'</span>':'')+
-      '<span class="pl">'+SPK+'</span></button>';
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function row(k){
+    var p=PH[k];
+    return '<button class="ph" type="button" data-open="'+esc(k)+'"><span class="dt'+(state.h[k]?' on':'')+'" aria-hidden="true"></span>'+
+      '<span class="ko">'+esc(p.ko)+'</span><span class="zh">'+esc(p.zh)+'</span><span class="rm">'+esc(p.rm)+'</span></button>';
   }
-  function chip(ko,rm,zh){
-    return '<button class="chip" type="button" data-say="'+ko+'"><span class="ko">'+ko+'</span><span class="rm">'+rm+'</span><span class="zh">'+zh+'</span></button>';
+  function chip(a){
+    return '<button class="chip" type="button" data-open="'+esc(norm(a[0]))+'"><span class="ko">'+esc(a[0])+'</span><span class="rm">'+esc(a[1])+'</span><span class="zh">'+esc(a[2])+'</span></button>';
   }
-  /* 單獨一個音節 TTS 唸不穩，所以連同例字一起唸：「카, 커피」 */
+  function rows(list){return '<div class="stack">'+list.map(function(a){return row(norm(a[0]));}).join('')+'</div>';}
+  function chips(list){return '<div class="grid">'+list.map(chip).join('')+'</div>';}
+  /* 字母卡：唸「音節, 例字」 */
   function hc(a){
     return '<button class="hc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span class="s">'+a[1]+'</span><span class="r">'+a[2]+'</span><small>≈ '+a[3]+'</small>'+
       '<span class="ex"><span class="exk">'+a[4]+'</span> '+a[5]+'</span></button>';
   }
-  function put(id,html){document.getElementById(id).innerHTML=html;}
+  function heardIn(keys){return keys.filter(function(k){return state.h[k];}).length;}
 
-  put('trio',TRIO.map(function(a){return ph(a[0],a[1],a[2],a[3]);}).join(''));
-  put('vowels',VOW.map(hc).join(''));
-  put('cons',CON.map(hc).join(''));
-  put('signs',SIGNS.map(function(a){return chip(a[0],a[1],a[2]);}).join(''));
-  put('loans',LOANS.map(function(a){return chip(a[0],a[1],a[2]);}).join(''));
-  put('sino',SINO.map(function(a){return chip(a[0],a[1],a[2]);}).join(''));
-  put('native',NATIVE.map(function(a){return chip(a[0],a[1],a[2]);}).join(''));
-  put('prices',PRICES.map(function(a){return ph(a[0],a[1],a[2],a[3]);}).join(''));
-  put('counters',COUNTERS.map(function(a){return ph(a[0],a[1],a[2],a[3]);}).join(''));
-  put('foods',FOODS.map(function(a){return chip(a[0],a[1],a[2]);}).join(''));
-
-  /* tabs */
-  var cur=0;
-  function renderTabs(){
-    put('tabs',SC.map(function(s,i){
-      return '<button class="tab" type="button" role="tab" aria-selected="'+(i===cur)+'" data-tab="'+i+'" style="--tc:'+s.c+'">'+s.n+'</button>';
-    }).join(''));
-    var s=SC[cur];
-    var p=document.getElementById('panel');
-    p.style.setProperty('--c',s.c);
-    p.innerHTML='<p class="note">'+s.tip+'</p>'+s.it.map(function(a){return ph(a[0],a[1],a[2],a[3]);}).join('');
-  }
-  renderTabs();
-
-  /* prompts */
-  put('prompts',PROMPTS.map(function(p,i){
-    return '<div class="pr"><p class="pt">'+p[0]+'</p><p class="tx" id="pt'+i+'">'+p[1]+'</p><button class="cp" type="button" data-copy="'+i+'">複製提示詞</button></div>';
-  }).join(''));
-
-  /* checklists with saved state */
-  var state={};
-  try{state=JSON.parse(localStorage.getItem('krtrip-v1')||'{}')||{};}catch(e){state={};}
-  function save(){try{localStorage.setItem('krtrip-v1',JSON.stringify(state));}catch(e){}}
-  function chk(id,text){return '<label class="chk"><input type="checkbox" data-k="'+id+'"'+(state[id]?' checked':'')+'><span>'+text+'</span></label>';}
-  var dur=typeof state._dur==='number'?state._dur:1;
-
-  function renderPlan(){
-    put('dur','<span>出發前還有</span>'+DUR.map(function(d,i){
-      return '<button type="button" data-dur="'+i+'" aria-pressed="'+(i===dur)+'">'+d+'</button>';
-    }).join(''));
-    put('plan',PLAN.map(function(w,wi){
-      var later=wi>dur;
-      return '<details class="wk'+(later?' later':'')+'"'+(wi===0?' open':'')+' style="--wc:'+w.c+'"><summary><span class="w">'+w.w+'</span>'+w.t+
-        (later?'<span class="tag">時間夠再學</span>':'')+'<span class="cnt" data-cnt="'+wi+'"></span></summary><div class="body">'+
-        w.it.map(function(t,i){return chk(w.id+i,t);}).join('')+'</div></details>';
-    }).join(''));
-    updateProgress();
-  }
-  put('pre',PRE.map(function(t,i){return chk('p'+i,t);}).join(''));
-
-  /* 進度只算這次要學的層 */
-  function updateProgress(){
-    var tot=0,done=0;
-    PLAN.forEach(function(w,wi){
-      var d=0;
-      w.it.forEach(function(t,i){if(state[w.id+i])d++;});
-      if(wi<=dur){tot+=w.it.length;done+=d;}
-      var el=document.querySelector('[data-cnt="'+wi+'"]');
-      if(el)el.textContent=d+' / '+w.it.length;
+  /* ---------- views ---------- */
+  var V={};
+  V.home=function(){
+    var next=PRIORITY.filter(function(k){return !state.h[k];}).slice(0,3);
+    return {t:'旅遊韓語',html:
+      '<div class="sign"><div class="nb">◀ 零基礎<br>從這裡開始</div><div class="mid"><div class="k">여행 한국어</div><div class="t">韓國旅遊速成教材</div></div><div class="nb r">出發 ▶<br>韓國</div></div><div class="track" aria-hidden="true"></div>'+
+      '<label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="q" type="search" placeholder="找句子：廁所、結帳、多少錢…" autocomplete="off" aria-label="搜尋句子"></label>'+
+      '<div id="results"></div>'+
+      '<div id="homebody">'+
+        (next.length?'<h2>先從這幾句開始</h2><div class="stack">'+next.map(row).join('')+'</div>'
+          :'<h2>常用句都聽過了</h2><p class="lead">到「練習」遮住韓文考考自己，或到「清單」收藏你最常用的句子。</p>')+
+        '<h2>選一個情境</h2><div class="tiles">'+SC.map(function(s){
+          return '<a class="tile" href="#/scene/'+s.id+'" style="--c:'+s.c+'"><b>'+s.n+'</b><span class="ko">'+s.ko+'</span><span class="cnt">聽過 '+heardIn(s.keys)+' / '+s.keys.length+'</span></a>';
+        }).join('')+'</div>'+
+        '<h2>想看懂招牌？</h2><a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>24 個字母，每個搭一個例字</span></span></a>'+
+      '</div>'};
+  };
+  V.scene=function(id){
+    var s=SC.filter(function(x){return x.id===id;})[0];
+    if(!s)return V.home();
+    var h='<p class="note">'+s.tip+'</p><div class="stack" style="--c:'+s.c+'">'+s.keys.map(row).join('')+'</div>';
+    (EXTRA[id]||[]).forEach(function(b){
+      h+='<h2>'+b.h+'</h2>'+(b.chips?chips(b.chips):rows(b.rows))+(b.note?'<p class="note" style="margin-top:10px">'+b.note+'</p>':'');
     });
-    document.getElementById('progtxt').textContent='已完成 '+done+' / '+tot;
-    document.getElementById('progbar').style.width=(tot?Math.round(done/tot*100):0)+'%';
+    return {t:s.n,back:'#/',html:'<div style="--c:'+s.c+'">'+h+'</div>'};
+  };
+  V.practice=function(){
+    return {t:'練習',html:
+      '<h2>遮住韓文，考考自己</h2><p class="lead">看中文，先試著說出韓文，再翻開對答案。題目從你聽過的句子裡出。</p><div id="quiz"></div>'+
+      '<h2>用 Claude 語音對話</h2><p class="note">在 Claude App 打開「設定 &gt; 一般 &gt; 語音 &gt; 語言」，手動選「한국어」。先用文字貼上提示詞，再點輸入框旁的音波圖示切換成語音。</p>'+
+      '<div class="stack">'+PROMPTS.map(function(p,i){
+        return '<div class="pr"><p class="pt">'+p[0]+'</p><p class="tx">'+p[1]+'</p><button class="cp" type="button" data-copy="'+i+'">複製提示詞</button></div>';
+      }).join('')+'</div>'};
+  };
+  V.tools=function(){
+    return {t:'工具',html:'<div class="stack">'+
+      '<a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>字母、拼字、尾音、招牌</span></span></a>'+
+      '<a class="wide-link" href="#/tools/numbers" style="--c:var(--l4)"><span class="g" aria-hidden="true">₩</span><span><b>數字與價錢</b><span>兩套數字、量詞、聽懂價錢</span></span></a>'+
+      '<a class="wide-link" href="#/tools/prep" style="--c:var(--l3)"><span class="g" aria-hidden="true">✓</span><span><b>出發前準備</b><span>App、交通卡、網路、文化提醒</span></span></a>'+
+      '</div><p class="foot">近似音與語音都只是輔助，發音以真人為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'};
+  };
+  V.hangul=function(){
+    return {t:'認字入門',back:'#/tools',html:
+      '<p class="lead">韓文只有 24 個基本字母。點卡片會先唸音節，再唸一個以它開頭的例字。</p>'+
+      '<p class="note">「≈」後面是用中文寫的近似音，只能幫你起步，實際發音以語音為準。</p>'+
+      '<h2>母音（10 個）</h2><div class="hgrid">'+VOW.map(hc).join('')+'</div>'+
+      '<h2>子音（14 個）</h2><div class="hgrid">'+CON.map(hc).join('')+'</div>'+
+      '<h2>字母怎麼組成字</h2><ul class="plain">'+
+        '<li>韓文像拼積木：子音 + 母音，有時再加一個尾音。<b>한</b> = ㅎ + ㅏ + ㄴ。</li>'+
+        '<li>母音在右邊（ㅏ ㅣ）就左右排，在下面（ㅗ ㅜ ㅡ）就上下排。</li>'+
+        '<li>ㅇ 放在開頭時不發音，只是佔位，所以 아 就是單純的「阿」。</li>'+
+        '<li>ㄲ ㄸ ㅃ ㅆ ㅉ 是加重的音，旅遊階段先當成一般的 ㄱ ㄷ ㅂ ㅅ ㅈ 也能被聽懂。</li>'+
+        '<li>任何句子打開後按「看拼法」，都能看到每個字是怎麼拼的。</li></ul>'+
+      '<h2>尾音只有 7 種發音</h2><div class="scroll"><table class="tbl">'+
+        '<tr><th>尾音字母</th><th>唸成</th><th>例子</th></tr>'+
+        '<tr><td>ㄱ ㄲ ㅋ</td><td>k</td><td>학교、부엌</td></tr><tr><td>ㄴ</td><td>n</td><td>안녕</td></tr>'+
+        '<tr><td>ㄷ ㅅ ㅈ ㅊ ㅌ ㅎ</td><td>t</td><td>옷、꽃</td></tr><tr><td>ㄹ</td><td>l</td><td>물</td></tr>'+
+        '<tr><td>ㅁ</td><td>m</td><td>감사</td></tr><tr><td>ㅂ ㅍ</td><td>p</td><td>밥、앞</td></tr><tr><td>ㅇ</td><td>ng</td><td>공항</td></tr></table></div>'+
+      '<p class="note" style="margin-top:10px"><b>台灣人的優勢：</b>如果你會閩南語或客語，k、t、p 收尾的音你本來就會（像「六」「食」「十」），n、m、ng 收尾則跟華語的 -n、-ng 很像。</p>'+
+      '<h2>練習讀招牌</h2><p class="lead">先試著拼出來，再點卡片核對。</p>'+chips(SIGNS)+
+      '<h2>外來語：其實你早就會了</h2><p class="lead">很多韓文是英文的音譯，唸出來你就懂。</p>'+chips(LOANS)};
+  };
+  V.numbers=function(){
+    return {t:'數字與價錢',back:'#/tools',html:
+      '<p class="note"><b>漢字數字</b>用在價錢、樓層、號碼、日期。<b>固有數字</b>用在數量、人數、幾點。</p>'+
+      '<h2>漢字數字（價錢用）</h2>'+chips(SINO)+
+      '<h2>聽懂價錢</h2><p class="note">一萬直接說 <b>만</b>，不說 일만。所以 12,000 是 만 이천，50,000 是 오만。</p>'+rows(PRICES)+
+      '<h2>固有數字（數東西用）</h2>'+chips(NATIVE)+
+      '<p class="note" style="margin-top:10px">後面接量詞時，하나 → <b>한</b>、둘 → <b>두</b>、셋 → <b>세</b>、넷 → <b>네</b>。常用量詞：개（個）、명（人）、잔（杯）、병（瓶）。例外：<b>인분</b>（人份）要配漢字數字，兩人份是 이 인분。</p>'+rows(COUNTERS)};
+  };
+  V.prep=function(){
+    return {t:'出發前準備',back:'#/tools',html:
+      '<p class="lead">以下是一般性資訊，出發前請再到官方管道確認。</p>'+
+      PRE.map(function(t,i){return '<label class="chk"><input type="checkbox" id="pre'+i+'" data-pre="p'+i+'"'+(state.p['p'+i]?' checked':'')+'><span>'+t+'</span></label>';}).join('')+
+      '<h2>小小文化提醒</h2><ul class="plain">'+
+        '<li>韓國一般沒有給小費的習慣。</li><li>遞東西或接東西時用雙手，比較有禮貌。</li>'+
+        '<li>很多餐廳桌上有呼叫鈴，沒有的話就舉手喊 여기요。</li><li>部分烤肉店是 2 人份起點，一個人吃前先問一下。</li></ul>'};
+  };
+  V.list=function(){
+    var keys=Object.keys(state.s).filter(function(k){return state.s[k]&&PH[k];});
+    return {t:'清單',html:keys.length
+      ?'<p class="lead">你收藏的句子。旅途中打開這裡最快，點開後可以按「出示」給對方看。</p><div class="stack">'+keys.map(row).join('')+'</div>'
+      :'<div class="empty"><p>在句子卡上按「收藏」，常用的句子就會集中在這裡，旅途中一打開就找得到。</p><button class="btn pri" type="button" id="seed">先收藏三句必學</button></div>'};
+  };
+
+  /* ---------- router ---------- */
+  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/hangul':'hangul','tools/numbers':'numbers','tools/prep':'prep','list':'list'};
+  function render(){
+    var path=location.hash.replace(/^#\/?/,''),v,tab;
+    if(path.indexOf('scene/')===0){v=V.scene(path.slice(6));tab='home';}
+    else{var n=ROUTES[path]||'home';v=V[n]();tab=n==='home'?'home':(path.split('/')[0]);}
+    $('view').innerHTML=v.html;
+    $('ttl').textContent=v.t;
+    document.title=v.t==='旅遊韓語'?'韓國旅遊速成教材':v.t+'｜韓國旅遊速成教材';
+    $('back').hidden=!v.back;$('back').dataset.to=v.back||'';
+    [].forEach.call(document.querySelectorAll('.tabbar a'),function(a){
+      if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+    });
+    if($('quiz'))nextQuiz();
+    window.scrollTo(0,0);
   }
-  renderPlan();
+  window.addEventListener('hashchange',render);
+
+  /* ---------- search ---------- */
+  function search(q){
+    var box=$('results'),body=$('homebody');
+    q=q.trim().toLowerCase().replace(/\s+/g,'');
+    if(!q){box.innerHTML='';body.hidden=false;return;}
+    var hit=Object.keys(PH).filter(function(k){
+      var p=PH[k];return (p.ko+p.zh+p.rm).toLowerCase().replace(/\s+/g,'').indexOf(q)>=0;
+    }).slice(0,30);
+    body.hidden=true;
+    box.innerHTML=hit.length?'<h2>找到 '+hit.length+' 句</h2><div class="stack">'+hit.map(row).join('')+'</div>'
+      :'<p class="lead" style="margin-top:14px">找不到符合的句子。試試中文關鍵字，例如「廁所」「刷卡」。</p>';
+  }
+
+  /* ---------- phrase sheet ---------- */
+  var cur=null,lastFocus=null;
+  function markHeard(k){
+    state.h[k]=(state.h[k]||0)+1;save();
+    [].forEach.call(document.querySelectorAll('[data-open="'+k+'"] .dt'),function(d){d.classList.add('on');});
+  }
+  function openSheet(k){
+    var p=PH[k];if(!p)return;
+    cur=k;lastFocus=document.activeElement;
+    $('sk').textContent=p.ko;$('sz').textContent=p.zh;
+    $('sr').textContent=p.rm+(p.zy?'　≈ '+p.zy:'');
+    $('sy').innerHTML=spell(p.ko).map(function(s){return '<span>'+s+'</span>';}).join('');
+    $('spell').open=false;
+    document.querySelector('[data-act="star"]').setAttribute('aria-pressed',String(!!state.s[k]));
+    $('sheet').hidden=false;document.body.classList.add('lock');
+    $('panel').focus();
+    speak(p.ko,state.slow);markHeard(k);
+  }
+  function closeSheet(){
+    $('sheet').hidden=true;document.body.classList.remove('lock');
+    if(lastFocus&&document.contains(lastFocus))lastFocus.focus();
+    if(location.hash.replace(/^#\/?/,'')==='list')render();
+  }
+  var wake=null;
+  function showBig(){
+    var p=PH[cur];
+    $('showk').textContent=p.ko;$('showz').textContent=p.zh;
+    $('show').hidden=false;$('show').focus();
+    try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(function(w){wake=w;}).catch(function(){});}catch(e){}
+  }
+  function hideBig(){
+    $('show').hidden=true;$('panel').focus();
+    try{wake&&wake.release();}catch(e){}wake=null;
+  }
+
+  /* ---------- quiz ---------- */
+  var qk=null;
+  function nextQuiz(){
+    var pool=Object.keys(state.h).filter(function(k){return PH[k]&&PH[k].zy;});
+    if(pool.length<5)PRIORITY.forEach(function(k){if(pool.indexOf(k)<0)pool.push(k);});
+    var bag=[];
+    pool.forEach(function(k){if(k===qk&&pool.length>1)return;var w=state.k[k]==='ok'?1:3;for(var i=0;i<w;i++)bag.push(k);});
+    qk=bag[Math.floor(Math.random()*bag.length)];
+    var p=PH[qk],q=$('quiz');
+    q.innerHTML='<div class="quiz"><div class="hint">用韓文怎麼說？</div><div class="q">'+esc(p.zh)+'</div>'+
+      '<div class="btns"><button class="btn pri" type="button" data-q="reveal">翻開答案</button></div></div>';
+  }
+  function revealQuiz(){
+    var p=PH[qk];
+    document.querySelector('.quiz .btns').outerHTML='<div class="a"><div class="ko">'+esc(p.ko)+'</div><div class="hint">'+esc(p.rm)+'　≈ '+esc(p.zy)+'</div>'+
+      '<div class="btns"><button class="btn" type="button" data-q="again">還不熟</button><button class="btn pri" type="button" data-q="ok">說對了</button></div></div>';
+    speak(p.ko,state.slow);markHeard(qk);
+  }
 
   /* ---------- events ---------- */
+  function syncSpeed(){var b=$('speed');b.textContent='語速：'+(state.slow?'慢':'正常');b.setAttribute('aria-pressed',String(state.slow));}
+  syncSpeed();
+  document.addEventListener('input',function(e){if(e.target.id==='q')search(e.target.value);});
   document.addEventListener('change',function(e){
-    var k=e.target&&e.target.getAttribute&&e.target.getAttribute('data-k');
-    if(k){state[k]=e.target.checked;save();updateProgress();}
+    var k=e.target.getAttribute&&e.target.getAttribute('data-pre');
+    if(k){state.p[k]=e.target.checked;save();}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    if(!$('show').hidden)hideBig();else if(!$('sheet').hidden)closeSheet();
   });
   document.addEventListener('click',function(e){
-    var t=e.target.closest('[data-say],[data-tab],[data-copy],[data-dur],#speed');
+    if(e.target.closest('#show')){hideBig();return;}
+    if(e.target.id==='sheet'){closeSheet();return;}
+    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],#speed,#back,#seed');
     if(!t)return;
-    if(t.hasAttribute('data-dur')){
-      dur=parseInt(t.getAttribute('data-dur'),10);state._dur=dur;save();renderPlan();
-      var b=document.querySelector('[data-dur="'+dur+'"]');if(b)b.focus();
+    if(t.id==='speed'){state.slow=!state.slow;save();syncSpeed();return;}
+    if(t.id==='back'){location.hash=t.dataset.to;return;}
+    if(t.id==='seed'){TRIO.forEach(function(a){state.s[norm(a[0])]=1;});save();render();return;}
+    if(t.hasAttribute('data-open')){openSheet(t.getAttribute('data-open'));return;}
+    if(t.hasAttribute('data-say')){speak(t.getAttribute('data-say'),state.slow);return;}
+    if(t.hasAttribute('data-q')){
+      var a=t.getAttribute('data-q');
+      if(a==='reveal')revealQuiz();else{state.k[qk]=a;save();nextQuiz();}
       return;
     }
-    if(t.id==='speed'){
-      slow=!slow;t.textContent='語速：'+(slow?'慢':'正常');t.setAttribute('aria-pressed',String(slow));return;
+    if(t.hasAttribute('data-act')){
+      var act=t.getAttribute('data-act');
+      if(act==='play')speak(PH[cur].ko,false);
+      else if(act==='slow')speak(PH[cur].ko,true);
+      else if(act==='star'){if(state.s[cur])delete state.s[cur];else state.s[cur]=1;save();t.setAttribute('aria-pressed',String(!!state.s[cur]));toast(state.s[cur]?'已加入清單':'已從清單移除');}
+      else if(act==='show')showBig();
+      else if(act==='close')closeSheet();
+      return;
     }
-    if(t.hasAttribute('data-tab')){cur=parseInt(t.getAttribute('data-tab'),10);renderTabs();return;}
     if(t.hasAttribute('data-copy')){
       var txt=PROMPTS[parseInt(t.getAttribute('data-copy'),10)][1];
-      var ok=false;
-      function fallback(){
+      var fallback=function(){
+        var ok=false;
         try{
           var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
           document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');document.body.removeChild(ta);
         }catch(err){ok=false;}
         toast(ok?'已複製':'複製失敗，請長按文字手動複製');
-      }
-      if(navigator.clipboard&&navigator.clipboard.writeText){
-        navigator.clipboard.writeText(txt).then(function(){toast('已複製');},fallback);
-      }else{fallback();}
-      return;
-    }
-    if(t.hasAttribute('data-say')){
-      speak(t.getAttribute('data-say'));
-      if(t.classList.contains('ph')){t.classList.add('on');setTimeout(function(){t.classList.remove('on');},900);}
+      };
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(function(){toast('已複製');},fallback);
+      else fallback();
     }
   });
+
+  render();
 })();
 </script>
 </body>

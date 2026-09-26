@@ -3,7 +3,8 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
-const script = html.slice(html.lastIndexOf('<script>'), html.lastIndexOf('</script>'));
+// 只掃資料區，避免把介面用的 HTML 字串當成句子
+const script = html.slice(html.indexOf('/* ---------- data ---------- */'), html.indexOf('/* ---------- phrase index ---------- */'));
 const HANGUL = /[\uAC00-\uD7A3]/;
 const HAN = /[\u4E00-\u9FFF]/;
 
