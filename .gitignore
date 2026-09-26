@@ -1,0 +1,6 @@
+.venv/
+dist/
+samples/
+__pycache__/
+.DS_Store
+asr_report.json
