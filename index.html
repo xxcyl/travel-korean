@@ -129,10 +129,10 @@ ul.plain li{margin:0 0 4px}
 .btns{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:500;cursor:pointer}
 .btn.pri{background:var(--l1);border-color:var(--l1);color:var(--on-c)}
-.pr{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-.pr .pt{margin:0 0 4px;font-weight:700}
-.pr .tx{margin:0 0 8px;font-size:15px}
-.cp{border:1px solid var(--l6);background:transparent;color:var(--l6);border-radius:999px;padding:4px 14px;font-size:14px;font-weight:500;cursor:pointer}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.seg button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font-size:14px;font-weight:500;cursor:pointer}
+.seg button[aria-checked="true"]{background:var(--l6);border-color:var(--l6);color:var(--on-c)}
+#aip{width:100%;font:inherit;font-size:14px;line-height:1.55;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);resize:vertical}
 
 /* empty state */
 .empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:20px 16px;text-align:center}
@@ -314,12 +314,17 @@ ul.plain li{margin:0 0 4px}
   /* 首頁「先從這幾句開始」的優先順序 */
   var PRIORITY=["이거 주세요","화장실 어디예요","얼마예요","안녕하세요","감사합니다","여기요","계산해 주세요","도와주세요","죄송합니다","네","아니요","카드 돼요","물 주세요","아파요","잠시만요"];
 
-  var PROMPTS=[
-   ["字母發音教練","我是韓文零基礎的台灣人。請帶我練韓文字母：每次給我 3 個簡單的音節（例如 가、나、마），我唸給你聽，你告訴我哪裡不準，再換下一組。用簡單的韓文和中文說明都可以。"],
-   ["餐廳角色扮演","你是首爾一家餐廳的店員。請只用簡單、慢速的韓文，一次說一兩句。我是剛開始學韓文的台灣觀光客。我說錯時，先用簡單的韓文示範正確說法，再繼續劇情。從我走進店裡開始。"],
-   ["計程車與問路","你是首爾的計程車司機，也是路邊的路人。請用簡單、慢速的韓文和我對話，我會練習說目的地、問路、問要花多久。我說得不對就示範一次正確說法。"],
-   ["錯誤整理（用文字）","請整理我在這次對話裡說錯或不自然的地方，列出正確說法和簡短原因，再挑出最重要的 5 句讓我複習。"]
-  ];
+  /* 和 AI 對話練習：各情境 AI 扮演的角色 */
+  var AI_ROLE={
+    greet:"在首爾街上遇到的親切韓國人，會跟我打招呼、問我從哪裡來",
+    food:"首爾一家小餐廳的店員，從我走進店裡開始，到點餐、用餐、結帳",
+    move:"計程車司機，以及我在路上問路的路人；我要去江南站或我的飯店",
+    shop:"服飾店店員和傳統市場的老闆；我會看看、問價錢、試穿、問退稅",
+    stay:"飯店櫃台人員；從入住、寄放行李、問 Wi-Fi 密碼到退房",
+    sos:"路人、藥局藥師和警察；我身體不舒服，護照也弄丟了",
+    all:"我這趟旅程依序會遇到的人：飯店櫃台、餐廳店員、計程車司機、商店店員，每個人物大約 3 回合，換人時先用中文告訴我"
+  };
+  var AI_MODE=[["role","角色扮演"],["quiz","口說抽考"]];
 
   var PRE=[
    "安裝 Naver Map 或 Kakao Map（Google Maps 在韓國的導航功能有限）",
@@ -346,7 +351,7 @@ ul.plain li{margin:0 0 4px}
   [SIGNS,LOANS,FOODS,SINO,NATIVE].forEach(function(L){L.forEach(function(a){addPh(a,2,null);});});
 
   /* ---------- state ---------- */
-  var state={h:{},s:{},k:{},p:{},slow:false};
+  var state={h:{},s:{},k:{},p:{},slow:false,ai:{sc:"food",m:"role"}};
   try{var sv=JSON.parse(localStorage.getItem('krtrip-v2')||'null');if(sv)for(var x in state)if(sv[x]!=null)state[x]=sv[x];}catch(e){}
   function save(){try{localStorage.setItem('krtrip-v2',JSON.stringify(state));}catch(e){}}
 
@@ -445,11 +450,49 @@ ul.plain li{margin:0 0 4px}
   V.practice=function(){
     return {t:'練習',html:
       '<h2>遮住韓文，考考自己</h2><p class="lead">看中文，先試著說出韓文，再翻開對答案。題目從你聽過的句子裡出。</p><div id="quiz"></div>'+
-      '<h2>用 Claude 語音對話</h2><p class="note">在 Claude App 打開「設定 &gt; 一般 &gt; 語音 &gt; 語言」，手動選「한국어」。先用文字貼上提示詞，再點輸入框旁的音波圖示切換成語音。</p>'+
-      '<div class="stack">'+PROMPTS.map(function(p,i){
-        return '<div class="pr"><p class="pt">'+p[0]+'</p><p class="tx">'+p[1]+'</p><button class="cp" type="button" data-copy="'+i+'">複製提示詞</button></div>';
-      }).join('')+'</div>'};
+      '<h2>和 AI 對話練習</h2><p class="lead">選好情境和練習方式，複製提示詞貼到 Gemini、ChatGPT 或 Claude 的對話裡，再切換成語音模式。能中韓文混著說的語音模式（例如 Gemini Live）最適合，AI 會照這份教材的句子陪你練。</p>'+
+      '<div id="ai"></div>'};
   };
+  /* 依情境與練習方式組出提示詞，教材範圍直接列在裡面 */
+  var AI_SC=SC.concat([{id:"all",n:"綜合"}]);
+  function aiPrompt(sc,mode){
+    var s=AI_SC.filter(function(x){return x.id===sc;})[0],lines=[],words=[];
+    var scenes=sc==='all'?SC:[s];
+    scenes.forEach(function(x){x.it.forEach(function(a){lines.push('- '+a[0]+'（'+a[3]+'）');});});
+    (sc==='all'?[{chips:FOODS}]:(EXTRA[sc]||[])).forEach(function(b){
+      (b.chips||[]).forEach(function(a){words.push(a[0]+'（'+a[2]+'）');});
+      (b.rows||[]).forEach(function(a){lines.push('- '+a[0]+'（'+a[3]+'）');});
+    });
+    var head='請你當我的韓語口說練習夥伴，用語音和我對話。\n\n'+
+      '關於我：台灣人，剛開始學韓文，準備去韓國旅遊。我只學過下面「教材範圍」裡的句子和單字。\n\n';
+    var how=mode==='quiz'
+      ?'練習方式：口說抽考\n'+
+       '- 每次從教材範圍挑一句，用中文告訴我意思，請我用韓文說出來。一次只出一題，等我回答再繼續。\n'+
+       '- 我說完後，用中文告訴我對不對；不對的話，用韓文慢慢示範正確說法，請我再說一次。\n'+
+       '- 說錯的句子，過幾題後再考一次。\n'+
+       '- 大約 10 題後結束，用中文總結我最需要加強的 3 句（附韓文）。\n'+
+       '- 現在出第一題。\n\n'
+      :'練習方式：角色扮演\n'+
+       '- 你扮演'+AI_ROLE[sc]+'；我是觀光客。\n'+
+       '- 你說韓文時要簡單、慢一點，一次只說一兩句，盡量使用教材範圍內的說法。\n'+
+       '- 你每說完一段韓文，接著用中文簡短翻譯。\n'+
+       '- 我說錯或不自然時，先用中文告訴我問題在哪，再用韓文慢慢示範正確說法，請我再說一次，然後繼續劇情。\n'+
+       '- 我卡住或改說中文時，提示我可以用教材裡的哪一句。\n'+
+       '- 大約 10 回合後結束，用中文總結：我說得好的地方，以及最需要加強的 3 句（附韓文）。\n'+
+       '- 由你先開始。\n\n';
+    return head+how+'教材範圍（'+s.n+'）\n句子：\n'+lines.join('\n')+(words.length?'\n單字：'+words.join('、'):'');
+  }
+  function renderAI(){
+    var box=$('ai');if(!box)return;
+    var a=state.ai;
+    box.innerHTML=
+      '<div class="seg" role="radiogroup" aria-label="情境">'+AI_SC.map(function(s){
+        return '<button type="button" role="radio" data-ai-sc="'+s.id+'" aria-checked="'+(s.id===a.sc)+'">'+s.n+'</button>';}).join('')+'</div>'+
+      '<div class="seg" role="radiogroup" aria-label="練習方式">'+AI_MODE.map(function(m){
+        return '<button type="button" role="radio" data-ai-m="'+m[0]+'" aria-checked="'+(m[0]===a.m)+'">'+m[1]+'</button>';}).join('')+'</div>'+
+      '<textarea id="aip" readonly rows="9" aria-label="提示詞">'+esc(aiPrompt(a.sc,a.m))+'</textarea>'+
+      '<div class="btns" style="justify-content:flex-start"><button class="btn pri" type="button" data-copy>複製提示詞</button></div>';
+  }
   V.tools=function(){
     return {t:'工具',html:'<div class="stack">'+
       '<a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>字母、拼字、尾音、招牌</span></span></a>'+
@@ -515,6 +558,7 @@ ul.plain li{margin:0 0 4px}
       if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
     });
     if($('quiz'))nextQuiz();
+    renderAI();
     window.scrollTo(0,0);
   }
   window.addEventListener('hashchange',render);
@@ -601,7 +645,7 @@ ul.plain li{margin:0 0 4px}
   document.addEventListener('click',function(e){
     if(e.target.closest('#show')){hideBig();return;}
     if(e.target.id==='sheet'){closeSheet();return;}
-    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],#speed,#back,#seed');
+    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],#speed,#back,#seed');
     if(!t)return;
     if(t.id==='speed'){state.slow=!state.slow;save();syncSpeed();return;}
     if(t.id==='back'){location.hash=t.dataset.to;return;}
@@ -622,15 +666,14 @@ ul.plain li{margin:0 0 4px}
       else if(act==='close')closeSheet();
       return;
     }
+    if(t.hasAttribute('data-ai-sc')){state.ai.sc=t.getAttribute('data-ai-sc');save();renderAI();document.querySelector('[data-ai-sc="'+state.ai.sc+'"]').focus();return;}
+    if(t.hasAttribute('data-ai-m')){state.ai.m=t.getAttribute('data-ai-m');save();renderAI();document.querySelector('[data-ai-m="'+state.ai.m+'"]').focus();return;}
     if(t.hasAttribute('data-copy')){
-      var txt=PROMPTS[parseInt(t.getAttribute('data-copy'),10)][1];
+      var txt=$('aip').value;
       var fallback=function(){
         var ok=false;
-        try{
-          var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
-          document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');document.body.removeChild(ta);
-        }catch(err){ok=false;}
-        toast(ok?'已複製':'複製失敗，請長按文字手動複製');
+        try{$('aip').select();ok=document.execCommand('copy');}catch(err){ok=false;}
+        toast(ok?'已複製':'請長按上面的文字手動複製');
       };
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(function(){toast('已複製');},fallback);
       else fallback();
