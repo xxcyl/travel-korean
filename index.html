@@ -169,6 +169,48 @@ ul.plain li{margin:0 0 4px}
 .show .zh{font-size:18px;color:var(--muted)}
 .show .x{font-size:13px;color:var(--muted)}
 
+/* 認字入門 */
+.steps{display:flex;gap:6px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px;scrollbar-width:none}
+.steps a{flex:0 0 auto;display:flex;align-items:center;gap:6px;text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 6px;font-size:14px;font-weight:500}
+.steps a i{font-style:normal;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:var(--soft)}
+.steps a[aria-current="step"]{border-color:var(--l7);background:var(--l7);color:var(--on-c)}
+.steps a[aria-current="step"] i{background:var(--surface);color:var(--l7)}
+.pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
+.pair .arr{color:var(--muted);font-size:18px}
+.fam{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fh{font-size:12px;color:var(--muted);text-align:center}
+.fc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 4px;text-align:center;line-height:1.3;cursor:pointer}
+.fc:hover{border-color:var(--l7)}
+.fc b{display:block;font:400 32px/1.15 var(--f-disp)}
+.fc span{display:block;font-size:12px;color:var(--muted)}
+.fc small{display:block;font:700 12px/1.3 var(--f-ko);margin-top:3px}
+.fc.tense{cursor:default;background:var(--soft);border-style:dashed}
+.fc.tense:hover{border-color:var(--line)}
+.fc.none{cursor:default;background:none;border:1px dashed var(--line);color:var(--muted);display:grid;place-items:center}
+.fin{display:grid;grid-template-columns:minmax(0,1.3fr) auto minmax(96px,1fr);align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.fin .fl b{display:block;font:400 18px/1.3 var(--f-disp)}
+.fin .fl span{font-size:13px;color:var(--muted)}
+.fin .fx{font:700 16px/1 var(--f-ko);color:var(--muted);white-space:nowrap}
+.fin .chip{padding:6px}
+.picks{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:0 0 8px}
+.picks span{font-size:13px;color:var(--muted);width:100%}
+.picks button{min-width:38px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 6px;font:500 17px/1.2 var(--f-ko);cursor:pointer}
+.picks button[aria-checked="true"]{background:var(--l7);border-color:var(--l7);color:var(--on-c)}
+.blk{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:6px}
+.blk .big{font:400 64px/1 var(--f-disp);min-width:76px;text-align:center}
+.blk .eq{font-size:14px;color:var(--muted);line-height:1.7}
+.blk .eq b{color:var(--ink)}
+.sign-w{display:inline-block;margin:10px 0 6px;padding:8px 18px;border-radius:8px;background:var(--sign);color:#fff;font:400 34px/1.2 var(--f-disp)}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.opt.ok{border-color:var(--heard);color:var(--heard);font-weight:700}
+.opt.dim{opacity:.55}
+.ref{margin-top:28px;font-size:14px}
+.ref summary{cursor:pointer;color:var(--muted)}
+.refg{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-top:8px}
+.refg div{background:var(--surface);border:1px solid var(--line);border-radius:8px;text-align:center;padding:4px 2px}
+.refg b{display:block;font:400 20px/1.2 var(--f-disp)}
+.refg span{font-size:11px;color:var(--muted)}
 /* shadowing */
 .sh-ko{font:700 26px/1.35 var(--f-ko);margin:0}
 .sh-zh{font-size:17px;font-weight:500;margin:2px 0 4px}
@@ -243,6 +285,8 @@ a.btn{text-decoration:none;display:inline-block}
   /* 字母, 音節, 羅馬拼音, 近似音, 例字, 例字中文 */
   var VOW=[["ㅏ","아","a","阿","아이","小孩"],["ㅑ","야","ya","呀","약국","藥局"],["ㅓ","어","eo","喔（嘴張大）","어디","哪裡"],["ㅕ","여","yeo","約（嘴張大）","여기","這裡"],["ㅗ","오","o","歐","오늘","今天"],["ㅛ","요","yo","喲（嘴圓）","요금","費用"],["ㅜ","우","u","烏","우유","牛奶"],["ㅠ","유","yu","尤","유자차","柚子茶"],["ㅡ","으","eu","嘴扁平發ㄜ","은행","銀行"],["ㅣ","이","i","衣","이거","這個"]];
   var CON=[["ㄱ","가","g / k","ㄍ","가방","包包"],["ㄴ","나","n","ㄋ","나무","樹"],["ㄷ","다","d / t","ㄉ","다리","橋"],["ㄹ","라","r / l","ㄌ","라면","泡麵"],["ㅁ","마","m","ㄇ","만두","餃子"],["ㅂ","바","b / p","ㄅ","버스","公車"],["ㅅ","사","s","ㄙ","사과","蘋果"],["ㅇ","아","（不發音）/ ng","開頭不發音","공항","機場（尾音 ng）"],["ㅈ","자","j","ㄗ / ㄐ","자리","座位"],["ㅊ","차","ch","ㄘ / ㄑ（送氣）","치킨","炸雞"],["ㅋ","카","k","ㄎ（送氣）","커피","咖啡"],["ㅌ","타","t","ㄊ（送氣）","택시","計程車"],["ㅍ","파","p","ㄆ（送氣）","피자","披薩"],["ㅎ","하","h","ㄏ","하나","一"]];
+  /* 尾音, 唸成, 尾音在 Unicode 的序號（組出「아+尾音」對比用）, 例字, 例字中文 */
+  var FINALS=[["ㄱ ㄲ ㅋ","k",1,"약국","藥局"],["ㄴ","n",4,"환전","換錢"],["ㄷ ㅅ ㅈ ㅊ ㅌ ㅎ","t",19,"옷","衣服"],["ㄹ","l",8,"물","水"],["ㅁ","m",16,"삼","三"],["ㅂ ㅍ","p",17,"십","十"],["ㅇ","ng",21,"공항","機場"]];
   var SIGNS=[["출구","chulgu","出口"],["입구","ipgu","入口"],["지하철","jihacheol","地鐵"],["역","yeok","車站"],["버스 정류장","beoseu jeongnyujang","公車站"],["화장실","hwajangsil","廁所"],["편의점","pyeonuijeom","便利商店"],["약국","yakguk","藥局"],["병원","byeongwon","醫院"],["공항","gonghang","機場"],["은행","eunhaeng","銀行"],["환전","hwanjeon","換錢"],["무료","muryo","免費"],["영업 중","yeongeop jung","營業中"],["휴무","hyumu","公休"]];
   var LOANS=[["커피","keopi","咖啡"],["택시","taeksi","計程車"],["버스","beoseu","公車"],["호텔","hotel","飯店"],["카페","kape","咖啡廳"],["아이스크림","aiseukeurim","冰淇淋"],["마트","mateu","超市"],["콜라","kolla","可樂"],["피자","pija","披薩"],["햄버거","haembeogeo","漢堡"],["와이파이","waipai","Wi-Fi"],["카메라","kamera","相機"]];
   var SINO=[["일","il","1"],["이","i","2"],["삼","sam","3"],["사","sa","4"],["오","o","5"],["육","yuk","6"],["칠","chil","7"],["팔","pal","8"],["구","gu","9"],["십","sip","10"],["백","baek","100"],["천","cheon","1,000"],["만","man","10,000"]];
@@ -451,7 +495,7 @@ a.btn{text-decoration:none;display:inline-block}
         '<h2>選一個情境</h2><div class="tiles">'+SC.map(function(s){
           return '<a class="tile" href="#/scene/'+s.id+'" style="--c:'+s.c+'"><b>'+s.n+'</b><span class="ko">'+s.ko+'</span><span class="cnt">聽過 '+heardIn(s.keys)+' / '+s.keys.length+'</span></a>';
         }).join('')+'</div>'+
-        '<h2>想看懂招牌？</h2><a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>24 個字母，每個搭一個例字</span></span></a>'+
+        '<h2>想看懂招牌？</h2><a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>3 條規則看懂韓文字母</span></span></a>'+
       '</div>'};
   };
   V.scene=function(id){
@@ -521,27 +565,102 @@ a.btn{text-decoration:none;display:inline-block}
       '<a class="wide-link" href="#/tools/prep" style="--c:var(--l3)"><span class="g" aria-hidden="true">✓</span><span><b>出發前準備</b><span>App、交通卡、網路、文化提醒</span></span></a>'+
       '</div><p class="foot">近似音與語音都只是輔助，發音以真人為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'};
   };
-  V.hangul=function(){
-    return {t:'認字入門',back:'#/tools',html:
-      '<p class="lead">韓文只有 24 個基本字母。點卡片會先唸音節，再唸一個以它開頭的例字。</p>'+
-      '<p class="note">「≈」後面是用中文寫的近似音，只能幫你起步，實際發音以語音為準。</p>'+
-      '<h2>母音（10 個）</h2><div class="hgrid">'+VOW.map(hc).join('')+'</div>'+
-      '<h2>子音（14 個）</h2><div class="hgrid">'+CON.map(hc).join('')+'</div>'+
-      '<h2>字母怎麼組成字</h2><ul class="plain">'+
-        '<li>韓文像拼積木：子音 + 母音，有時再加一個尾音。<b>한</b> = ㅎ + ㅏ + ㄴ。</li>'+
-        '<li>母音在右邊（ㅏ ㅣ）就左右排，在下面（ㅗ ㅜ ㅡ）就上下排。</li>'+
-        '<li>ㅇ 放在開頭時不發音，只是佔位，所以 아 就是單純的「阿」。</li>'+
-        '<li>ㄲ ㄸ ㅃ ㅆ ㅉ 是加重的音，旅遊階段先當成一般的 ㄱ ㄷ ㅂ ㅅ ㅈ 也能被聽懂。</li>'+
-        '<li>任何句子打開後按「看拼法」，都能看到每個字是怎麼拼的。</li></ul>'+
-      '<h2>尾音只有 7 種發音</h2><div class="scroll"><table class="tbl">'+
-        '<tr><th>尾音字母</th><th>唸成</th><th>例子</th></tr>'+
-        '<tr><td>ㄱ ㄲ ㅋ</td><td>k</td><td>학교、부엌</td></tr><tr><td>ㄴ</td><td>n</td><td>안녕</td></tr>'+
-        '<tr><td>ㄷ ㅅ ㅈ ㅊ ㅌ ㅎ</td><td>t</td><td>옷、꽃</td></tr><tr><td>ㄹ</td><td>l</td><td>물</td></tr>'+
-        '<tr><td>ㅁ</td><td>m</td><td>감사</td></tr><tr><td>ㅂ ㅍ</td><td>p</td><td>밥、앞</td></tr><tr><td>ㅇ</td><td>ng</td><td>공항</td></tr></table></div>'+
-      '<p class="note" style="margin-top:10px"><b>台灣人的優勢：</b>如果你會閩南語或客語，k、t、p 收尾的音你本來就會（像「六」「食」「十」），n、m、ng 收尾則跟華語的 -n、-ng 很像。</p>'+
-      '<h2>練習讀招牌</h2><p class="lead">先試著拼出來，再點卡片核對。</p>'+chips(SIGNS)+
-      '<h2>外來語：其實你早就會了</h2><p class="lead">很多韓文是英文的音譯，唸出來你就懂。</p>'+chips(LOANS)};
+  /* ---------- 認字入門：母音 → 子音家族 → 拼字積木 → 解碼招牌 ---------- */
+  var HSTEPS=['母音','子音','拼字','解碼招牌'];
+  function vowel(ch){return VOW.filter(function(a){return a[0]===ch;})[0];}
+  function cons(ch){return CON.filter(function(a){return a[0]===ch;})[0];}
+  /* 子音家族：基本、加一劃（送氣）、雙寫（緊音）；緊音只列形狀與拼音 */
+  var FAM=[["ㄱ","ㅋ",["ㄲ","kk"]],["ㄷ","ㅌ",["ㄸ","tt"]],["ㅂ","ㅍ",["ㅃ","pp"]],["ㅈ","ㅊ",["ㅉ","jj"]],["ㅅ",null,["ㅆ","ss"]]];
+  function famCell(ch){
+    if(!ch)return '<div class="fc none" aria-hidden="true">—</div>';
+    var a=cons(ch);
+    return '<button class="fc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span>'+a[2]+' · '+a[3].replace(/（.*?）/,'')+'</span><small>'+a[4]+' '+a[5]+'</small></button>';
+  }
+  function hangulRef(){
+    var cell=function(a){return '<div><b>'+a[0]+'</b><span>'+a[2]+'</span></div>';};
+    return '<details class="ref"><summary>字母總表</summary><div class="refg">'+VOW.map(cell).join('')+'</div><div class="refg">'+CON.map(cell).join('')+'</div></details>';
+  }
+  V.hangul=function(step){
+    step=Math.min(Math.max(parseInt(step,10)||1,1),4);
+    var nav='<nav class="steps" aria-label="認字入門步驟">'+HSTEPS.map(function(n,i){
+      return '<a href="#/tools/hangul/'+(i+1)+'"'+(i+1===step?' aria-current="step"':'')+'><i>'+(i+1)+'</i>'+n+'</a>';}).join('')+'</nav>';
+    var body;
+    if(step===1){
+      var pair=function(a,b){var x=vowel(a),y=vowel(b);
+        return '<div class="pair">'+hc(x)+'<span class="arr" aria-hidden="true">→</span>'+hc(y)+'</div>';};
+      body='<p class="lead">母音都是「一條長線加短橫」。短橫往哪邊，音就跟著變，先認這 6 個。</p>'+
+        '<div class="hgrid">'+["ㅏ","ㅓ","ㅗ","ㅜ","ㅡ","ㅣ"].map(function(c){return hc(vowel(c));}).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px">短橫在右 ㅏ 是 a、在左 ㅓ 是 eo；在上 ㅗ 是 o、在下 ㅜ 是 u。沒有短橫的 ㅡ、ㅣ 分別是 eu、i。</p>'+
+        '<h2>多一劃，就是加 y</h2><p class="lead">短橫變兩條，前面就多一個 y 的音，這 4 個不用另外背。</p>'+
+        '<div class="pairs">'+pair("ㅏ","ㅑ")+pair("ㅓ","ㅕ")+pair("ㅗ","ㅛ")+pair("ㅜ","ㅠ")+'</div>'+
+        '<p class="note" style="margin-top:10px">常見的 ㅐ、ㅔ 都唸 e，像「주세요」的 세 就是 ㅅ+ㅔ。</p>';
+    }else if(step===2){
+      body='<p class="lead">子音像家族：基本形<b>加一劃</b>變成送氣音（氣比較強），<b>寫兩次</b>變成緊音。先認基本形和送氣音就夠旅遊用。</p>'+
+        '<div class="fam"><div class="fh">基本</div><div class="fh">加一劃・送氣</div><div class="fh">雙寫・緊音</div>'+
+        FAM.map(function(f){
+          return famCell(f[0])+famCell(f[1])+'<div class="fc tense"><b>'+f[2][0]+'</b><span>'+f[2][1]+'</span></div>';
+        }).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px">緊音在旅遊時先當成基本音，對方通常也聽得懂。點卡片會唸出音節和例字。</p>'+
+        '<h2>其他 5 個</h2><div class="hgrid">'+["ㄴ","ㄹ","ㅁ","ㅇ","ㅎ"].map(function(c){return hc(cons(c));}).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px">ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。</p>';
+    }else if(step===3){
+      body='<p class="lead">韓文像拼積木：子音＋母音，有時再加一個尾音，組成一個方塊字。選選看：</p><div id="builder"></div>'+
+        '<h2>尾音只有 7 種唸法</h2><p class="lead">尾音不會單獨發音，一定黏在前面的音後面。k、t、p 收尾時嘴巴做好動作，但不把氣放出來。</p>'+
+        '<div class="stack">'+FINALS.map(function(f){
+          return '<div class="fin"><div class="fl"><b>'+f[0]+'</b><span>收 '+f[1]+'</span></div><div class="fx" lang="ko">아 → '+String.fromCharCode(0xC544+f[2])+'</div>'+
+            '<button class="chip" type="button" data-say="'+f[3]+'"><span class="ko">'+f[3]+'</span><span class="zh">'+f[4]+'</span></button></div>';
+        }).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px"><b>台灣人的優勢：</b>如果你會閩南語或客語，k、t、p 收尾的音你本來就會（像「六」「食」「十」），n、m、ng 收尾則跟華語的 -n、-ng 很像。</p>';
+    }else{
+      body='<p class="lead">看招牌上的字，先試著拼出讀音，再猜是什麼意思。很多是英文外來語，唸出來就懂。</p><div id="decode"></div>';
+    }
+    var next=step<4?'<div class="pager"><a aria-disabled="true">.</a><span></span><a href="#/tools/hangul/'+(step+1)+'">下一步：'+HSTEPS[step]+' ›</a></div>':'';
+    return {t:'認字入門',back:'#/tools',html:nav+body+next+hangulRef()};
   };
+
+  /* 拼字積木：用 Unicode 規則即時組字 */
+  var BC=[["ㄱ",0,"g"],["ㄴ",2,"n"],["ㄷ",3,"d"],["ㄹ",5,"r"],["ㅁ",6,"m"],["ㅂ",7,"b"],["ㅅ",9,"s"],["ㅇ",11,""],["ㅈ",12,"j"],["ㅊ",14,"ch"],["ㅋ",15,"k"],["ㅌ",16,"t"],["ㅍ",17,"p"],["ㅎ",18,"h"]];
+  var BV=[["ㅏ",0,"a",1],["ㅐ",1,"ae",1],["ㅑ",2,"ya",1],["ㅓ",4,"eo",1],["ㅔ",5,"e",1],["ㅕ",6,"yeo",1],["ㅗ",8,"o",0],["ㅛ",12,"yo",0],["ㅜ",13,"u",0],["ㅠ",17,"yu",0],["ㅡ",18,"eu",0],["ㅣ",20,"i",1]];
+  var BT=[["無",0,""],["ㄱ",1,"k"],["ㄴ",4,"n"],["ㄷ",7,"t"],["ㄹ",8,"l"],["ㅁ",16,"m"],["ㅂ",17,"p"],["ㅅ",19,"t"],["ㅇ",21,"ng"]];
+  var hb={c:10,v:3,t:0};
+  function renderBuilder(){
+    var box=$('builder');if(!box)return;
+    var pick=function(list,key,label){
+      return '<div class="picks" role="radiogroup" aria-label="'+label+'"><span>'+label+'</span>'+list.map(function(x,i){
+        return '<button type="button" role="radio" data-hb="'+key+':'+i+'" aria-checked="'+(hb[key]===i)+'">'+x[0]+'</button>';}).join('')+'</div>';};
+    var c=BC[hb.c],v=BV[hb.v],t=BT[hb.t];
+    var syl=String.fromCharCode(0xAC00+c[1]*588+v[1]*28+t[1]);
+    var words=Object.keys(PH).filter(function(k){return k.indexOf(syl)>=0;})
+      .sort(function(a,b){return (b.indexOf(syl)===0)-(a.indexOf(syl)===0)||a.length-b.length;}).slice(0,6);
+    box.innerHTML=pick(BC,'c','子音')+pick(BV,'v','母音')+pick(BT,'t','尾音')+
+      '<div class="blk"><div class="big" lang="ko">'+syl+'</div><div class="eq">'+c[0]+' + '+v[0]+(t[1]?' + '+t[0]:'')+
+        '<br>讀作 <b>'+(c[2]+v[2]+t[2])+'</b><br>'+(v[3]?'母音在右 → 左右排':'母音在下 → 上下排')+(t[1]?'，尾音放最下面':'')+'</div></div>'+
+      (words.length?'<p class="lead" style="margin:12px 0 8px;font-size:14px">教材裡有「'+syl+'」的字，點來聽：</p><div class="grid">'+words.map(function(k){
+          return '<button class="chip" type="button" data-open="'+esc(k)+'"><span class="ko">'+esc(PH[k].ko)+'</span><span class="zh">'+esc(PH[k].zh)+'</span></button>';}).join('')+'</div>'
+        :'<p class="lead" style="margin:12px 0 0;font-size:14px">教材裡還沒有含「'+syl+'」的字，換個組合試試。</p>');
+  }
+
+  /* 解碼招牌：看字 → 看拆解 → 猜意思 */
+  var dq={k:null,opts:[],done:false,right:0,total:0};
+  function decodePool(){return SIGNS.concat(LOANS).map(function(a){return norm(a[0]);});}
+  function nextDecode(){
+    var pool=decodePool(),k;
+    do{k=pool[Math.floor(Math.random()*pool.length)];}while(k===dq.k&&pool.length>1);
+    var others=pool.filter(function(x){return x!==k&&PH[x].zh!==PH[k].zh;}).sort(function(){return Math.random()-.5;}).slice(0,3);
+    dq.k=k;dq.done=false;dq.opts=others.concat([k]).sort(function(){return Math.random()-.5;});
+    renderDecode();
+  }
+  function renderDecode(){
+    var box=$('decode');if(!box)return;
+    var p=PH[dq.k];
+    box.innerHTML='<div class="quiz"><div class="hint">這個招牌寫什麼？</div><div class="sign-w" lang="ko">'+esc(p.ko)+'</div>'+
+      '<details class="spell"><summary>看拆解</summary><div class="sy">'+spell(p.ko).map(function(s){return '<span>'+s+'</span>';}).join('')+'</div></details>'+
+      '<div class="opts">'+dq.opts.map(function(k,i){
+        var cls=dq.done?(k===dq.k?' ok':' dim'):'';
+        return '<button class="btn opt'+cls+'" type="button" data-dq="'+i+'"'+(dq.done?' aria-disabled="true"':'')+'>'+esc(PH[k].zh)+'</button>';}).join('')+'</div>'+
+      (dq.done?'<div class="a"><div class="hint">讀作 <b>'+esc(p.rm)+'</b></div><div class="btns"><button class="btn" type="button" data-say="'+esc(p.ko)+'">再聽一次</button><button class="btn pri" type="button" data-dq="next">下一題</button></div></div>':'')+
+      '</div>'+(dq.total?'<p class="lead" style="text-align:center;margin-top:8px;font-size:13px">這次答對 '+dq.right+' / '+dq.total+'</p>':'');
+  }
   V.numbers=function(){
     return {t:'數字與價錢',back:'#/tools',html:
       '<p class="note"><b>漢字數字</b>用在價錢、樓層、號碼、日期。<b>固有數字</b>用在數量、人數、幾點。</p>'+
@@ -637,11 +756,12 @@ a.btn{text-decoration:none;display:inline-block}
   function stopAudio(){if(player){player.pause();}}
 
   /* ---------- router ---------- */
-  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/hangul':'hangul','tools/numbers':'numbers','tools/prep':'prep','list':'list'};
+  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/prep':'prep','list':'list'};
   function render(){
     var path=location.hash.replace(/^#\/?/,''),v,tab;
     stopYG();
-    if(path.indexOf('shadow/')===0){var ps=path.split('/');v=V.shadow(ps[1],decodeURIComponent(ps.slice(2).join('/')));tab='practice';}
+    if(path.indexOf('tools/hangul')===0){v=V.hangul(path.split('/')[2]);tab='tools';}
+    else if(path.indexOf('shadow/')===0){var ps=path.split('/');v=V.shadow(ps[1],decodeURIComponent(ps.slice(2).join('/')));tab='practice';}
     else if(path.indexOf('scene/')===0){v=V.scene(path.slice(6));tab='home';}
     else{var n=ROUTES[path]||'home';v=V[n]();tab=n==='home'?'home':(path.split('/')[0]);}
     $('view').innerHTML=v.html;
@@ -652,6 +772,8 @@ a.btn{text-decoration:none;display:inline-block}
       if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
     });
     if($('quiz'))nextQuiz();
+    renderBuilder();
+    if($('decode'))nextDecode();
     renderAI();
     window.scrollTo(0,0);
   }
@@ -739,7 +861,7 @@ a.btn{text-decoration:none;display:inline-block}
   document.addEventListener('click',function(e){
     if(e.target.closest('#show')){hideBig();return;}
     if(e.target.id==='sheet'){closeSheet();return;}
-    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],#speed,#back,#seed');
+    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-dq],#speed,#back,#seed');
     if(!t)return;
     if(t.id==='speed'){state.slow=!state.slow;save();syncSpeed();return;}
     if(t.id==='back'){location.hash=t.dataset.to;return;}
@@ -760,6 +882,18 @@ a.btn{text-decoration:none;display:inline-block}
       else if(act==='shadow'){var k=cur,ls=PH[k].sc||(PRIORITY.indexOf(k)>=0?'common':'one');closeSheet();location.hash='#/shadow/'+ls+'/'+encodeURIComponent(k);}
       else if(act==='close')closeSheet();
       return;
+    }
+    if(t.hasAttribute('data-hb')){
+      var hp=t.getAttribute('data-hb').split(':');hb[hp[0]]=+hp[1];renderBuilder();
+      var fb=document.querySelector('[data-hb="'+hp[0]+':'+hp[1]+'"]');if(fb)fb.focus();return;
+    }
+    if(t.hasAttribute('data-dq')){
+      var d=t.getAttribute('data-dq');
+      if(d==='next'){nextDecode();var fo=document.querySelector('[data-dq="0"]');if(fo)fo.focus();return;}
+      if(dq.done)return;
+      var pk=dq.opts[+d];dq.done=true;dq.total++;if(pk===dq.k)dq.right++;
+      renderDecode();speak(PH[dq.k].ko,state.slow);
+      var fn=document.querySelector('[data-dq="next"]');if(fn)fn.focus();return;
     }
     if(t.hasAttribute('data-sh')){
       var s=t.getAttribute('data-sh');
