@@ -566,19 +566,6 @@ a.btn{text-decoration:none;display:inline-block}
   };
 
   /* ---------- shadowing ---------- */
-  /* YouGlish 搜整句常常沒有結果，這些句子改搜較常見的關鍵片段 */
-  var YGQ={
-    "화장실 어디예요":"화장실 어디","안 맵게 해 주세요":"맵게","땅콩 알레르기가 있어요":"알레르기가 있어요",
-    "메뉴판 주세요":"메뉴판","포장해 주세요":"포장","티머니 충전해 주세요":"충전해 주세요",
-    "강남역 가 주세요":"가 주세요","이 주소로 가 주세요":"주소로","여기서 내려 주세요":"여기서 내려",
-    "지하철역 어디예요":"지하철역","몇 번 출구예요":"몇 번 출구","이 버스 강남에 가요":"이 버스",
-    "그냥 구경하는 거예요":"그냥 구경","입어 봐도 돼요":"입어 봐도","다른 색 있어요":"다른 색",
-    "더 큰 거 있어요":"더 큰 거","세금 환급 돼요":"환급","짐 좀 맡길 수 있어요":"맡길 수 있어요",
-    "와이파이 비밀번호가 뭐예요":"비밀번호가 뭐예요","수건 좀 더 주세요":"수건","체크아웃 몇 시예요":"체크아웃",
-    "여권을 잃어버렸어요":"잃어버렸어요","경찰 불러 주세요":"경찰 불러","저는 대만 사람이에요":"대만 사람",
-    "한국어 잘 못해요":"한국어 잘 못","다시 한번 말씀해 주세요":"다시 한번 말씀해"
-  };
-  function ygQuery(k){return YGQ[k]||k;}
   function ygLink(q){return 'https://youglish.com/pronounce/'+encodeURIComponent(q)+'/korean';}
 
   function shadowLists(){
@@ -592,7 +579,7 @@ a.btn{text-decoration:none;display:inline-block}
     var L=shadowLists(),list=L[listId];
     if(!PH[key])return V.practice();
     if(!list||list.keys.indexOf(key)<0)list={n:'跟讀',keys:[key]};
-    var i=list.keys.indexOf(key),p=PH[key],q=ygQuery(key);
+    var i=list.keys.indexOf(key),p=PH[key];
     sh.list=listId;sh.key=key;
     var link=function(j){return j<0||j>=list.keys.length?'<a aria-disabled="true">.</a>'
       :'<a href="#/shadow/'+listId+'/'+encodeURIComponent(list.keys[j])+'">'+(j<i?'‹ 上一句':'下一句 ›')+'</a>';};
@@ -602,12 +589,11 @@ a.btn{text-decoration:none;display:inline-block}
         '<button class="btn" type="button" data-sh="tts">播放</button><button class="btn" type="button" data-sh="tts-slow">慢速</button></div>'+
       '</section>'+
       '<section class="step"><h3>看韓國人怎麼說</h3>'+
-        '<p class="lead" style="font-size:14px;margin-bottom:10px">從 YouTube 影片裡找出說這句話的片段，有字幕，可以放慢、重播、換下一段。'+
-          (q!==key?'整句的片段太少，改看關鍵片段「<b lang="ko">'+esc(q)+'</b>」。':'')+'</p>'+
+        '<p class="lead" style="font-size:14px;margin-bottom:10px">從 YouTube 影片裡找出說這句話的片段，有字幕，可以放慢、重播、換下一段。</p>'+
         '<div id="ygw" class="yg"></div><p class="lead" id="ygmsg" style="font-size:14px;margin:8px 0 0" hidden></p>'+
         '<div class="row-btns" style="margin-top:10px">'+
           '<button class="btn pri" type="button" data-sh="yg" id="ygbtn">看真人片段</button>'+
-          '<a class="btn" href="'+ygLink(q)+'" target="_blank" rel="noopener">在 YouGlish 開啟</a></div>'+
+          '<a class="btn" href="'+ygLink(key)+'" target="_blank" rel="noopener">在 YouGlish 開啟</a></div>'+
       '</section>'+
       '<div class="pager">'+link(i-1)+'<span>'+(i+1)+' / '+list.keys.length+'</span>'+link(i+1)+'</div>'};
   };
@@ -626,7 +612,7 @@ a.btn{text-decoration:none;display:inline-block}
   }
   function ygMsg(t){var m=$('ygmsg');if(m){m.textContent=t;m.hidden=!t;}}
   function showYG(){
-    var box=$('ygw'),q=ygQuery(sh.key),seq=++ygSeq;
+    var box=$('ygw'),seq=++ygSeq;
     if(!box)return;
     $('ygbtn').hidden=true;
     ygMsg('載入中…');
@@ -639,11 +625,11 @@ a.btn{text-decoration:none;display:inline-block}
           onFetchDone:function(e){
             if(seq!==ygSeq)return;
             clearTimeout(ygTimer);
-            ygMsg(+e.totalResult?'':'YouGlish 找不到這句的片段，可以改按「在 YouGlish 開啟」自己搜尋相近的說法。');
+            ygMsg(+e.totalResult?'':'YouGlish 目前沒有這句的真人片段，先跟著語音練習就好。');
           },
           onError:function(){if(seq===ygSeq){clearTimeout(ygTimer);ygMsg('片段載入失敗，請改按「在 YouGlish 開啟」。');}}
         }});
-      w.fetch(q,'korean');
+      w.fetch(sh.key,'korean');
     }).catch(function(){if(seq===ygSeq){clearTimeout(ygTimer);ygMsg('無法連到 YouGlish，可能目前沒有網路。');}});
   }
   function stopYG(){ygSeq++;clearTimeout(ygTimer);}
