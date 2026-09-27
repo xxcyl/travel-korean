@@ -178,6 +178,30 @@ ul.plain li{margin:0 0 4px}
 .pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
 .pair{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
 .pair .arr{color:var(--muted);font-size:18px}
+.tdj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tdj div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+.tdj b{display:block;font-size:18px}
+.tdj span{font-size:12px;color:var(--muted)}
+.vs{width:56px;height:56px;display:block;margin:0 auto}
+.vs line{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+.vs .hi{fill:var(--l6);stroke:var(--l6)}
+.vcomp{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.vc{display:grid;grid-template-columns:auto auto auto;grid-template-rows:auto auto;align-items:center;justify-content:start;column-gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.vc .vs{width:44px;height:44px}
+.vc b{font:400 30px/1 var(--f-disp)}
+.vc .arr{color:var(--muted)}
+.vc .vt{grid-column:1 / -1;font-size:12px;color:var(--muted);margin-top:4px}
+.art{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.art-h{margin-bottom:10px}
+.art-h b{font-size:16px}
+.art-h .o{font-size:12px;color:var(--muted);margin-left:6px}
+.art-h p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.art-h .qt{color:var(--ink);font-weight:500;margin-right:6px}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.chain .fc{flex:1 1 76px;max-width:120px}
+.chain .plus{font-size:11px;color:var(--muted);white-space:nowrap}
+.chain.sub{margin-top:6px}
+.chain.sub .fc{flex:0 1 96px}
 .fam{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .fh{font-size:12px;color:var(--muted);text-align:center}
 .fc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 4px;text-align:center;line-height:1.3;cursor:pointer}
@@ -574,12 +598,33 @@ a.btn{text-decoration:none;display:inline-block}
   var HSTEPS=['母音','子音','拼字','解碼招牌'];
   function vowel(ch){return VOW.filter(function(a){return a[0]===ch;})[0];}
   function cons(ch){return CON.filter(function(a){return a[0]===ch;})[0];}
-  /* 子音家族：基本、加一劃（送氣）、雙寫（緊音）；緊音只列形狀與拼音 */
-  var FAM=[["ㄱ","ㅋ",["ㄲ","kk"]],["ㄷ","ㅌ",["ㄸ","tt"]],["ㅂ","ㅍ",["ㅃ","pp"]],["ㅈ","ㅊ",["ㅉ","jj"]],["ㅅ",null,["ㅆ","ss"]]];
-  function famCell(ch){
-    if(!ch)return '<div class="fc none" aria-hidden="true">—</div>';
+  /* 子音依《訓民正音解例本》的發音部位分組：基本字模仿發音器官，每加一劃聲音更強，雙寫為緊音 */
+  var ART=[
+    {n:"舌根音",o:"牙音",base:"ㄱ",q:"象舌根閉喉之形",why:"舌根往上擋住喉嚨的樣子",chain:["ㄱ","ㅋ"],tense:["ㄲ"]},
+    {n:"舌尖音",o:"舌音",base:"ㄴ",q:"象舌附上腭之形",why:"舌尖貼住上顎前方的樣子",chain:["ㄴ","ㄷ","ㅌ"],tense:["ㄸ"],alt:"ㄹ"},
+    {n:"雙唇音",o:"脣音",base:"ㅁ",q:"象口形",why:"嘴巴的形狀",chain:["ㅁ","ㅂ","ㅍ"],tense:["ㅃ"]},
+    {n:"齒音",o:"齒音",base:"ㅅ",q:"象齒形",why:"牙齒的形狀",chain:["ㅅ","ㅈ","ㅊ"],tense:["ㅆ","ㅉ"]},
+    {n:"喉音",o:"喉音",base:"ㅇ",q:"象喉形",why:"喉嚨的形狀",chain:["ㅇ","ㅎ"],tense:[]}
+  ];
+  var TENSE={"ㄲ":"kk","ㄸ":"tt","ㅃ":"pp","ㅆ":"ss","ㅉ":"jj"};
+  function famCell(ch,note){
     var a=cons(ch);
-    return '<button class="fc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span>'+a[2]+' · '+a[3].replace(/（.*?）/,'')+'</span><small>'+a[4]+' '+a[5]+'</small></button>';
+    return '<button class="fc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span>'+(ch==='ㅇ'?'開頭不發音・尾音 ng':a[2]+' · '+a[3].replace(/（.*?）/,''))+'</span><small>'+(note||a[4]+' '+a[5])+'</small></button>';
+  }
+  function artRow(g){
+    var cells=g.chain.map(function(ch,i){return (i?'<span class="plus" aria-hidden="true">＋1 劃</span>':'')+famCell(ch);}).join('');
+    var extra=g.tense.map(function(ch){return '<div class="fc tense"><b>'+ch+'</b><span>'+TENSE[ch]+'</span><small>雙寫・緊音</small></div>';}).join('')+
+      (g.alt?famCell(g.alt,'變體・'+cons(g.alt)[4]):'');
+    return '<section class="art"><div class="art-h"><b>'+g.n+'</b><span class="o">'+g.o+'</span>'+
+      '<p><span class="qt">'+g.base+'「'+g.q+'」</span>'+g.why+'</p></div>'+
+      '<div class="chain">'+cells+'</div>'+(extra?'<div class="chain sub">'+extra+'</div>':'')+'</section>';
+  }
+  /* 母音的天地人：· 天、ㅡ 地、ㅣ 人 */
+  function vsvg(kind){
+    var L=function(x1,y1,x2,y2){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>';},D=function(x,y){return '<circle class="hi" cx="'+x+'" cy="'+y+'" r="5"/>';};
+    var parts={dot:D(30,30),earth:L(8,30,52,30),man:L(30,8,30,52),
+      "ㅏ":L(24,8,24,52)+D(42,30),"ㅓ":D(18,30)+L(36,8,36,52),"ㅗ":D(30,18)+L(8,40,52,40),"ㅜ":L(8,20,52,20)+D(30,40)}[kind];
+    return '<svg class="vs" viewBox="0 0 60 60" aria-hidden="true">'+parts+'</svg>';
   }
   function hangulRef(){
     var cell=function(a){return '<div><b>'+a[0]+'</b><span>'+a[2]+'</span></div>';};
@@ -593,22 +638,23 @@ a.btn{text-decoration:none;display:inline-block}
     if(step===1){
       var pair=function(a,b){var x=vowel(a),y=vowel(b);
         return '<div class="pair">'+hc(x)+'<span class="arr" aria-hidden="true">→</span>'+hc(y)+'</div>';};
-      body='<p class="lead">母音都是「一條長線加短橫」。短橫往哪邊，音就跟著變，先認這 6 個。</p>'+
+      var comp=function(v,t){return '<div class="vc">'+vsvg(v)+'<span class="arr" aria-hidden="true">→</span><b lang="ko">'+v+'</b><span class="vt">'+t+'</span></div>';};
+      body='<p class="lead">母音由三個元素組成，這是《訓民正音》（1446）創字時的設計：</p>'+
+        '<div class="tdj"><div>'+vsvg('dot')+'<b>天</b><span>圓點・「形之圓，象乎天也」</span></div><div>'+vsvg('earth')+'<b>地</b><span>ㅡ・「形之平，象乎地也」</span></div><div>'+vsvg('man')+'<b>人</b><span>ㅣ・「形之立，象乎人也」</span></div></div>'+
+        '<p class="lead" style="margin-top:12px">把「天」的點放在「人」或「地」旁邊，就組成母音。點後來寫成了短橫，就是現在的樣子：</p>'+
+        '<div class="vcomp">'+comp('ㅏ','點在人的右邊，a')+comp('ㅓ','點在人的左邊，eo')+comp('ㅗ','點在地的上面，o')+comp('ㅜ','點在地的下面，u')+'</div>'+
+        '<p class="note" style="margin-top:10px">點在外側或上方（ㅏ ㅗ）聲音明亮，在內側或下方（ㅓ ㅜ）比較低沉，這是設計時的陰陽概念。</p>'+
+        '<h2>6 個基本母音</h2>'+
         '<div class="hgrid">'+["ㅏ","ㅓ","ㅗ","ㅜ","ㅡ","ㅣ"].map(function(c){return hc(vowel(c));}).join('')+'</div>'+
         '<p class="note" style="margin-top:10px">短橫在右 ㅏ 是 a、在左 ㅓ 是 eo；在上 ㅗ 是 o、在下 ㅜ 是 u。沒有短橫的 ㅡ、ㅣ 分別是 eu、i。</p>'+
-        '<h2>多一劃，就是加 y</h2><p class="lead">短橫變兩條，前面就多一個 y 的音，這 4 個不用另外背。</p>'+
+        '<h2>兩個點，就是加 y</h2><p class="lead">天的點變成兩個（現在寫成兩條短橫），前面就多一個 y 的音，這 4 個不用另外背。</p>'+
         '<div class="pairs">'+pair("ㅏ","ㅑ")+pair("ㅓ","ㅕ")+pair("ㅗ","ㅛ")+pair("ㅜ","ㅠ")+'</div>'+
         '<p class="note" style="margin-top:10px">常見的 ㅐ、ㅔ 都唸 e，像「주세요」的 세 就是 ㅅ+ㅔ。</p>'+
         '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="v"></div>';
     }else if(step===2){
-      body='<p class="lead">子音像家族：基本形<b>加一劃</b>變成送氣音（氣比較強），<b>寫兩次</b>變成緊音。先認基本形和送氣音就夠旅遊用。</p>'+
-        '<div class="fam"><div class="fh">基本</div><div class="fh">加一劃・送氣</div><div class="fh">雙寫・緊音</div>'+
-        FAM.map(function(f){
-          return famCell(f[0])+famCell(f[1])+'<div class="fc tense"><b>'+f[2][0]+'</b><span>'+f[2][1]+'</span></div>';
-        }).join('')+'</div>'+
-        '<p class="note" style="margin-top:10px">緊音在旅遊時先當成基本音，對方通常也聽得懂。點卡片會唸出音節和例字。</p>'+
-        '<h2>其他 5 個</h2><div class="hgrid">'+["ㄴ","ㄹ","ㅁ","ㅇ","ㅎ"].map(function(c){return hc(cons(c));}).join('')+'</div>'+
-        '<p class="note" style="margin-top:10px">ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。</p>'+
+      body='<p class="lead">14 個子音其實只有 5 個基本字，都是照著<b>發音時口腔的樣子</b>畫出來的。同一組的字發音部位相同，每<b>加一劃</b>聲音就更強；<b>寫兩次</b>是緊音。</p>'+
+        '<div class="stack">'+ART.map(artRow).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px">「」裡是《訓民正音解例本》（1446）的原文。緊音在旅遊時先當成基本音，對方通常也聽得懂。ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。點卡片會唸出音節和例字。</p>'+
         '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="c"></div>';
     }else if(step===3){
       body='<p class="lead">韓文像拼積木：子音＋母音，有時再加一個尾音，組成一個方塊字。選選看：</p><div id="builder"></div>'+
