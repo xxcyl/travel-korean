@@ -180,6 +180,8 @@ ul.plain li{margin:0 0 4px}
 .eq3 .i{color:var(--ci)} .eq3 .v{color:var(--vi)} .eq3 .f{color:var(--fi)}
 .syl .r{font-size:12px;color:var(--muted)}
 .pnote{font-size:12px;color:var(--muted);margin:6px 0 0}
+.pron{font-size:14px;color:var(--muted);margin-top:4px}
+.pron b{color:var(--ink);font-family:var(--f-ko)}
 .close{display:block;margin:14px auto 0;border:0;background:none;color:var(--muted);cursor:pointer;padding:6px 12px}
 
 /* show-to-staff */
@@ -337,6 +339,7 @@ a.btn{text-decoration:none;display:inline-block}
     <p class="ko" id="sk"></p>
     <p class="zh" id="sz"></p>
     <div class="rm" id="sr"></div>
+    <div class="pron" id="spr" hidden></div>
     <div class="acts">
       <button class="act" type="button" data-act="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>播放</button>
       <button class="act" type="button" data-act="slow"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>慢速</button>
@@ -358,14 +361,15 @@ a.btn{text-decoration:none;display:inline-block}
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script src="audio/manifest.js"></script>
+<script src="pron.js"></script>
 <script>
 (function(){
   /* ---------- data ---------- */
   /* 字母, 音節, 羅馬拼音, 近似音, 例字, 例字中文 */
-  var VOW=[["ㅏ","아","a","阿","아이","小孩"],["ㅑ","야","ya","呀","약국","藥局"],["ㅓ","어","eo","喔（嘴張大）","어디","哪裡"],["ㅕ","여","yeo","約（嘴張大）","여기","這裡"],["ㅗ","오","o","歐","오늘","今天"],["ㅛ","요","yo","喲（嘴圓）","요금","費用"],["ㅜ","우","u","烏","우유","牛奶"],["ㅠ","유","yu","尤","유자차","柚子茶"],["ㅡ","으","eu","嘴扁平發ㄜ","은행","銀行"],["ㅣ","이","i","衣","이거","這個"]];
-  var CON=[["ㄱ","가","g / k","ㄍ","가방","包包"],["ㄴ","나","n","ㄋ","나무","樹"],["ㄷ","다","d / t","ㄉ","다리","橋"],["ㄹ","라","r / l","ㄌ","라면","泡麵"],["ㅁ","마","m","ㄇ","만두","餃子"],["ㅂ","바","b / p","ㄅ","버스","公車"],["ㅅ","사","s","ㄙ","사과","蘋果"],["ㅇ","아","（不發音）/ ng","開頭不發音","공항","機場（尾音 ng）"],["ㅈ","자","j","ㄗ / ㄐ","자리","座位"],["ㅊ","차","ch","ㄘ / ㄑ（送氣）","치킨","炸雞"],["ㅋ","카","k","ㄎ（送氣）","커피","咖啡"],["ㅌ","타","t","ㄊ（送氣）","택시","計程車"],["ㅍ","파","p","ㄆ（送氣）","피자","披薩"],["ㅎ","하","h","ㄏ","하나","一"]];
-  var COMPV=[["ㅐ","애","ae","ㅏ+ㅣ","대만","台灣"],["ㅒ","얘","yae","ㅑ+ㅣ","얘기","聊天"],["ㅔ","에","e","ㅓ+ㅣ","카메라","相機"],["ㅖ","예","ye","ㅕ+ㅣ","예뻐요","漂亮"],["ㅚ","외","oe","ㅗ+ㅣ","죄송합니다","對不起"],["ㅟ","위","wi","ㅜ+ㅣ","위치","位置"],["ㅢ","의","ui","ㅡ+ㅣ","편의점","便利商店"],["ㅘ","와","wa","ㅗ+ㅏ","와이파이","Wi-Fi"],["ㅙ","왜","wae","ㅗ+ㅐ","괜찮아요","沒關係"],["ㅝ","워","wo","ㅜ+ㅓ","병원","醫院"],["ㅞ","웨","we","ㅜ+ㅔ","웨딩","婚禮"]];
-  var TENSEC=[["ㄲ","까","kk","ㄱ 寫兩次","깨끗해요","很乾淨"],["ㄸ","따","tt","ㄷ 寫兩次","떡볶이","辣炒年糕"],["ㅃ","빠","pp","ㅂ 寫兩次","오빠","哥哥（女生叫）"],["ㅆ","싸","ss","ㅅ 寫兩次","비싸요","很貴"],["ㅉ","짜","jj","ㅈ 寫兩次","짬뽕","炒碼麵"]];
+  var VOW=[["ㅏ","아","a","阿","아이","小孩"],["ㅑ","야","ya","呀","약국","藥局"],["ㅓ","어","eo","ㄜ～ㄛ之間（嘴張大、不圓）","어디","哪裡"],["ㅕ","여","yeo","ㄧ＋ㅓ（嘴張大）","여기","這裡"],["ㅗ","오","o","ㄛ（嘴巴圓、不滑動）","오늘","今天"],["ㅛ","요","yo","ㄧ＋ㅗ（嘴巴圓）","요금","費用"],["ㅜ","우","u","烏","우유","牛奶"],["ㅠ","유","yu","尤","유자차","柚子茶"],["ㅡ","으","eu","嘴扁平發ㄜ","은행","銀行"],["ㅣ","이","i","衣","이거","這個"]];
+  var CON=[["ㄱ","가","g / k","ㄍ～ㄎ之間","가방","包包"],["ㄴ","나","n","ㄋ","나무","樹"],["ㄷ","다","d / t","ㄉ～ㄊ之間","다리","橋"],["ㄹ","라","r / l","ㄌ","라면","泡麵"],["ㅁ","마","m","ㄇ","만두","餃子"],["ㅂ","바","b / p","ㄅ～ㄆ之間","버스","公車"],["ㅅ","사","s","ㄙ","사과","蘋果"],["ㅇ","아","（不發音）/ ng","開頭不發音","공항","機場（尾音 ng）"],["ㅈ","자","j","ㄐ～ㄑ之間","자리","座位"],["ㅊ","차","ch","ㄘ / ㄑ（送氣）","치킨","炸雞"],["ㅋ","카","k","ㄎ（送氣）","커피","咖啡"],["ㅌ","타","t","ㄊ（送氣）","택시","計程車"],["ㅍ","파","p","ㄆ（送氣）","피자","披薩"],["ㅎ","하","h","ㄏ","하나","一"]];
+  var COMPV=[["ㅐ","애","ae","ㅏ+ㅣ","대만","台灣"],["ㅒ","얘","yae","ㅑ+ㅣ","얘기","聊天"],["ㅔ","에","e","ㅓ+ㅣ","카메라","相機"],["ㅖ","예","ye","ㅕ+ㅣ","예뻐요","漂亮"],["ㅚ","외","oe","ㅗ+ㅣ","죄송합니다","對不起"],["ㅟ","위","wi","ㅜ+ㅣ","위치","位置"],["ㅢ","의","ui","ㅡ+ㅣ","의사","醫師"],["ㅘ","와","wa","ㅗ+ㅏ","와이파이","Wi-Fi"],["ㅙ","왜","wae","ㅗ+ㅐ","괜찮아요","沒關係"],["ㅝ","워","wo","ㅜ+ㅓ","병원","醫院"],["ㅞ","웨","we","ㅜ+ㅔ","웨딩","婚禮"]];
+  var TENSEC=[["ㄲ","까","kk","像 ㄍ，喉嚨用力","깨끗해요","很乾淨"],["ㄸ","따","tt","像 ㄉ，喉嚨用力","떡볶이","辣炒年糕"],["ㅃ","빠","pp","像 ㄅ，喉嚨用力","오빠","哥哥（女生叫）"],["ㅆ","싸","ss","像 ㄙ，喉嚨用力","비싸요","很貴"],["ㅉ","짜","jj","像 ㄐ，喉嚨用力","짬뽕","炒碼麵"]];
   /* 尾音, 唸成, 尾音在 Unicode 的序號（組出「아+尾音」對比用）, 例字, 例字中文 */
   var FINALS=[["ㄱ ㄲ ㅋ","k",1,"약국","藥局"],["ㄴ","n",4,"환전","換錢"],["ㄷ ㅅ ㅈ ㅊ ㅌ ㅎ","t",19,"옷","衣服"],["ㄹ","l",8,"물","水"],["ㅁ","m",16,"삼","三"],["ㅂ ㅍ","p",17,"십","十"],["ㅇ","ng",21,"공항","機場"]];
   var SIGNS=[["출구","chulgu","出口"],["입구","ipgu","入口"],["지하철","jihacheol","地鐵"],["역","yeok","車站"],["버스 정류장","beoseu jeongnyujang","公車站"],["화장실","hwajangsil","廁所"],["편의점","pyeonuijeom","便利商店"],["약국","yakguk","藥局"],["병원","byeongwon","醫院"],["공항","gonghang","機場"],["은행","eunhaeng","銀行"],["환전","hwanjeon","換錢"],["무료","muryo","免費"],["영업 중","yeongeop jung","營業中"],["휴무","hyumu","公休"]];
@@ -380,9 +384,10 @@ a.btn{text-decoration:none;display:inline-block}
   var SC=[
    {id:"greet",n:"打招呼",ko:"인사",c:"var(--l1)",tip:"안녕히 계세요 是你離開時對留下的人說；안녕히 가세요 是你留下、對離開的人說。",it:[
     ["안녕하세요","annyeonghaseyo","安妞哈誰唷","你好"],
-    ["감사합니다","gamsahamnida","砍沙哈咪達","謝謝"],
-    ["죄송합니다","joesonghamnida","催松哈咪達","對不起"],
-    ["실례합니다","sillyehamnida","西勒哈咪達","不好意思（叫人、問路前）"],
+    ["감사합니다","gamsahamnida","砍沙哈姆尼達","謝謝"],
+    ["죄송합니다","joesonghamnida","催松哈姆尼達","對不起"],
+    ["저기요","jeogiyo","醜嘰唷","不好意思（叫住店員、路人）"],
+    ["실례합니다","sillyehamnida","西勒哈姆尼達","打擾了（進門、打斷別人時）"],
     ["잠시만요","jamsimanyo","叉姆西滿妞","借過／請等一下"],
     ["네","ne","內","是／好"],
     ["아니요","aniyo","阿尼優","不是／不用"],
@@ -394,7 +399,7 @@ a.btn{text-decoration:none;display:inline-block}
     ["영어 할 수 있어요?","yeongeo hal su isseoyo?","泳喔 哈 蘇 伊搜唷","你會說英文嗎？"],
     ["다시 한번 말씀해 주세요","dasi hanbeon malsseumhae juseyo","他西 韓崩 馬森黑 組誰唷","請再說一次"],
     ["천천히 말해 주세요","cheoncheonhi malhae juseyo","醜醜尼 馬累 組誰唷","請說慢一點"]]},
-   {id:"food",n:"餐廳",ko:"식당",c:"var(--l2)",tip:"句型：想要的東西 + 주세요。看不懂菜單就指著說 이거 주세요。",it:[
+   {id:"food",n:"餐廳",ko:"식당",c:"var(--l2)",tip:"句型：想要的東西 + 주세요。看不懂菜單就指著說 이거 주세요。叫店員可以說 저기요 或 여기요。很多店是吃完到櫃台結帳。",it:[
     ["여기요!","yeogiyo","呦嘰唷","服務生！（叫人）"],
     ["두 명이에요","du myeong-ieyo","吐 謬恩伊誒唷","兩位"],
     ["메뉴판 주세요","menyupan juseyo","妹妞盤 組誰唷","請給我菜單"],
@@ -402,13 +407,14 @@ a.btn{text-decoration:none;display:inline-block}
     ["물 주세요","mul juseyo","木 組誰唷","請給我水"],
     ["하나 더 주세요","hana deo juseyo","哈那 頭 組誰唷","再給我一個"],
     ["안 맵게 해 주세요","an maepge hae juseyo","安 妹給 黑 組誰唷","請幫我做不辣的"],
+    ["덜 맵게 해 주세요","deol maepge hae juseyo","透 妹給 黑 組誰唷","請做少辣一點"],
     ["땅콩 알레르기가 있어요","ttangkong allereugiga isseoyo","當空 阿勒勒嘰嘎 伊搜唷","我對花生過敏"],
     ["카드 돼요?","kadeu dwaeyo?","卡的 推唷","可以刷卡嗎？"],
     ["포장해 주세요","pojanghae juseyo","波張黑 組誰唷","請幫我打包"],
     ["계산해 주세요","gyesanhae juseyo","給山黑 組誰唷","請結帳"],
     ["맛있어요","masisseoyo","馬西搜唷","很好吃"],
-    ["잘 먹겠습니다","jal meokgetseumnida","插 摸給森咪達","我開動了"],
-    ["잘 먹었습니다","jal meogeotseumnida","插 摸狗森咪達","謝謝招待／我吃飽了"]]},
+    ["잘 먹겠습니다","jal meokgetseumnida","插 摸給森尼達","我開動了"],
+    ["잘 먹었습니다","jal meogeotseumnida","插 摸勾森尼達","謝謝招待／我吃飽了"]]},
    {id:"move",n:"交通",ko:"교통",c:"var(--l3)",tip:"目的地放前面：강남역 가 주세요（請載我到江南站）。手機準備好地圖，直接給司機看最保險。",it:[
     ["강남역 가 주세요","gangnamyeok ga juseyo","剛南唷 卡 組誰唷","請載我到江南站（換成你的目的地）"],
     ["이 주소로 가 주세요","i jusoro ga juseyo","伊 租搜囉 卡 組誰唷","請載我到這個地址"],
@@ -417,18 +423,19 @@ a.btn{text-decoration:none;display:inline-block}
     ["몇 번 출구예요?","myeot beon chulguyeyo?","謬 崩 出古耶唷","是幾號出口？"],
     ["이 버스 강남에 가요?","i beoseu gangname gayo?","伊 撥斯 剛南誒 卡唷","這班公車有到江南嗎？"],
     ["얼마나 걸려요?","eolmana geollyeoyo?","喔嗎那 勾溜唷","要花多久？"],
-    ["티머니 충전해 주세요","timeoni chungjeonhae juseyo","踢摸尼 蟲鍾黑 組誰唷","請幫我儲值 T-money"]]},
+    ["티머니 충전해 주세요","timeoni chungjeonhae juseyo","踢摸尼 蟲鍾黑 組誰唷","請幫我儲值 T-money"],
+    ["만 원 충전해 주세요","man won chungjeonhae juseyo","馬 暖 蟲鍾黑 組誰唷","請儲值一萬韓元（金額可換）"]]},
    {id:"shop",n:"購物",ko:"쇼핑",c:"var(--l4)",tip:"殺價只適合傳統市場，百貨公司和連鎖店多半是定價。",it:[
     ["그냥 구경하는 거예요","geunyang gugyeonghaneun geoyeyo","肯娘 苦庸哈能 狗耶唷","我只是看看"],
     ["얼마예요?","eolmayeyo?","喔嗎耶唷","多少錢？"],
     ["좀 깎아 주세요","jom kkakka juseyo","宗 嘎嘎 組誰唷","可以算便宜一點嗎？（市場）"],
     ["입어 봐도 돼요?","ibeo bwado dwaeyo?","伊撥 怕都 推唷","可以試穿嗎？"],
-    ["다른 색 있어요?","dareun saek isseoyo?","他愣 些 伊搜唷","有別的顏色嗎？"],
+    ["다른 색 있어요?","dareun saek isseoyo?","他愣 誰給搜唷","有別的顏色嗎？"],
     ["더 큰 거 있어요?","deo keun geo isseoyo?","頭 坑 勾 伊搜唷","有大一點的嗎？"],
-    ["세금 환급 돼요?","segeum hwangeup dwaeyo?","誰更 歡格 推唷","可以退稅嗎？"],
+    ["택스 리펀드 돼요?","taekseu ripeondeu dwaeyo?","貼克斯 力朋的 推唷","可以退稅嗎？"],
     ["영수증 주세요","yeongsujeung juseyo","泳蘇增 組誰唷","請給我收據"]]},
    {id:"stay",n:"住宿",ko:"숙소",c:"var(--l5)",tip:"入住時直接出示護照和訂房確認信就好。",it:[
-    ["예약했어요","yeyakhaesseoyo","耶亞克黑搜唷","我有預約"],
+    ["예약했어요","yeyakaesseoyo","耶呀凱搜唷","我有預約"],
     ["짐 좀 맡길 수 있어요?","jim jom matgil su isseoyo?","奇姆 宗 馬個 蘇 伊搜唷","可以寄放行李嗎？"],
     ["와이파이 비밀번호가 뭐예요?","waipai bimilbeonhoga mwoyeyo?","哇伊怕伊 匹米崩後嘎 摸耶唷","Wi-Fi 密碼是什麼？"],
     ["수건 좀 더 주세요","sugeon jom deo juseyo","蘇共 宗 頭 組誰唷","請再給我毛巾"],
@@ -436,9 +443,11 @@ a.btn{text-decoration:none;display:inline-block}
    {id:"sos",n:"緊急",ko:"긴급",c:"var(--l6)",tip:"警察 112、消防與救護 119、韓國旅遊諮詢熱線 1330（有中文服務）。出發前再確認一次。",it:[
     ["도와주세요!","dowajuseyo","都哇組誰唷","請幫幫我！"],
     ["아파요","apayo","阿趴唷","我不舒服／會痛"],
+    ["여기가 아파요","yeogiga apayo","呦嘰嘎 阿趴唷","這裡痛（指著身體說）"],
     ["병원 어디예요?","byeongwon eodiyeyo?","秉窩恩 喔迪耶唷","醫院在哪裡？"],
     ["여권을 잃어버렸어요","yeogwoneul ireobeoryeosseoyo","唷果呢 伊囉播溜搜唷","我把護照弄丟了"],
-    ["경찰 불러 주세요","gyeongchal bulleo juseyo","恐察 布囉 組誰唷","請幫我叫警察"]]}
+    ["경찰 불러 주세요","gyeongchal bulleo juseyo","恐察 布囉 組誰唷","請幫我叫警察"],
+    ["구급차 불러 주세요","gugeupcha bulleo juseyo","苦個恰 布囉 組誰唷","請幫我叫救護車"]]}
   ];
 
   /* 每個情境附帶的單字與補充（招牌字依用途分到各情境） */
@@ -453,7 +462,7 @@ a.btn{text-decoration:none;display:inline-block}
   function pick(keys){return SIGNS.filter(function(a){return keys.indexOf(a[0])>=0;});}
 
   /* 首頁「先從這幾句開始」的優先順序 */
-  var PRIORITY=["이거 주세요","화장실 어디예요","얼마예요","안녕하세요","감사합니다","여기요","계산해 주세요","도와주세요","죄송합니다","네","아니요","카드 돼요","물 주세요","아파요","잠시만요"];
+  var PRIORITY=["이거 주세요","화장실 어디예요","얼마예요","안녕하세요","감사합니다","여기요","계산해 주세요","도와주세요","저기요","죄송합니다","네","아니요","카드 돼요","물 주세요","아파요","잠시만요"];
 
   /* 和 AI 對話練習：各情境 AI 扮演的角色 */
   var AI_ROLE={
@@ -546,6 +555,8 @@ a.btn{text-decoration:none;display:inline-block}
   var RI=['g','kk','n','d','tt','r','m','b','pp','s','ss','','j','jj','ch','k','t','p','h'];
   var RV=['a','ae','ya','yae','eo','e','yeo','ye','o','wa','wae','oe','yo','u','wo','we','wi','yu','eu','ui','i'];
   var RF=['','k','k','k','n','n','n','t','l','k','m','l','l','l','p','l','m','p','p','t','t','ng','t','t','k','t','p','t'];
+  /* 實際唸法（套用連音、鼻音化等規則），與拼寫相同時不顯示 */
+  function pronOf(k){var r=(window.KO_PRON||{})[norm(k)];return r&&r!==norm(k)?r:'';}
   function sylParts(ch){var c=ch.charCodeAt(0)-0xAC00;return {i:Math.floor(c/588),v:Math.floor(c%588/28),f:c%28};}
   function sylRom(o){return RI[o.i]+RV[o.v]+RF[o.f];}
   /* 逐字拆成 初聲／中聲／終聲，用位置配色 */
@@ -556,7 +567,7 @@ a.btn{text-decoration:none;display:inline-block}
       var o=sylParts(word[n]);
       out.push('<div class="syl"><span class="mc mz" lang="ko">'+word[n]+'</span><span class="eq3"><span class="i">'+JL[o.i]+'</span><span class="v">'+JV[o.v]+'</span>'+(o.f?'<span class="f">'+JT[o.f]+'</span>':'')+'</span><span class="r">'+sylRom(o)+'</span></div>');
     }
-    return '<div class="syls">'+out.join('')+'</div><p class="pnote">逐字拆開的拼音；連在一起唸時，發音會有些變化（例如連音）。</p>';
+    return '<div class="syls">'+out.join('')+'</div><p class="pnote">逐字拆開的拼音；連在一起唸時聲音會變，實際唸法見上方，規則在「認字入門 → 連讀」。</p>';
   }
 
   /* ---------- render helpers ---------- */
@@ -660,13 +671,14 @@ a.btn{text-decoration:none;display:inline-block}
   V.tools=function(){
     return {t:'工具',html:'<div class="stack">'+
       '<a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>字母、拼字、尾音、招牌</span></span></a>'+
+      '<a class="wide-link" href="#/tools/patterns" style="--c:var(--l2)"><span class="g" aria-hidden="true">N</span><span><b>萬用句型</b><span>5 個句型，換個名詞就能用</span></span></a>'+
       '<a class="wide-link" href="#/tools/chart" style="--c:var(--l1)"><span class="g" aria-hidden="true">40</span><span><b>40 音表</b><span>子音 19、母音 21、拼音表</span></span></a>'+
       '<a class="wide-link" href="#/tools/numbers" style="--c:var(--l4)"><span class="g" aria-hidden="true">₩</span><span><b>數字與價錢</b><span>兩套數字、量詞、聽懂價錢</span></span></a>'+
       '<a class="wide-link" href="#/tools/prep" style="--c:var(--l3)"><span class="g" aria-hidden="true">✓</span><span><b>出發前準備</b><span>App、交通卡、網路、文化提醒</span></span></a>'+
       '</div><p class="foot">近似音與語音都只是輔助，發音以真人為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'};
   };
   /* ---------- 認字入門：母音 → 子音家族 → 拼字積木 → 解碼招牌 ---------- */
-  var HSTEPS=['母音','子音','拼字','測驗'];
+  var HSTEPS=['母音','子音','拼字','連讀','測驗'];
   function vowel(ch){return VOW.filter(function(a){return a[0]===ch;})[0];}
   function cons(ch){return CON.filter(function(a){return a[0]===ch;})[0];}
   function letter(ch){return VOW.concat(COMPV,CON,TENSEC).filter(function(a){return a[0]===ch;})[0];}
@@ -680,7 +692,7 @@ a.btn{text-decoration:none;display:inline-block}
     {n:"舌尖音",o:"舌音",base:"ㄴ",q:"象舌附上腭之形",why:"舌尖貼住上顎前方的樣子",chain:["ㄴ","ㄷ","ㅌ"],tense:["ㄸ"],alt:"ㄹ"},
     {n:"雙唇音",o:"脣音",base:"ㅁ",q:"象口形",why:"嘴巴的形狀",chain:["ㅁ","ㅂ","ㅍ"],tense:["ㅃ"]},
     {n:"齒音",o:"齒音",base:"ㅅ",q:"象齒形",why:"牙齒的形狀",chain:["ㅅ","ㅈ","ㅊ"],tense:["ㅆ","ㅉ"]},
-    {n:"喉音",o:"喉音",base:"ㅇ",q:"象喉形",why:"喉嚨的形狀",chain:["ㅇ","ㅎ"],tense:[]}
+    {n:"喉音",o:"喉音",base:"ㅇ",q:"象喉形",why:"喉嚨的形狀",chain:["ㅇ","ㅎ"],tense:[],plus:"加劃"}
   ];
   var TENSE={"ㄲ":"kk","ㄸ":"tt","ㅃ":"pp","ㅆ":"ss","ㅉ":"jj"};
   function famCell(ch,note){
@@ -688,7 +700,7 @@ a.btn{text-decoration:none;display:inline-block}
     return '<button class="fc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span>'+(ch==='ㅇ'?'開頭不發音・尾音 ng':a[2]+' · '+a[3].replace(/（.*?）/,''))+'</span><small>'+(note||a[4]+' '+a[5])+'</small></button>';
   }
   function artRow(g){
-    var cells=g.chain.map(function(ch,i){return (i?'<span class="plus" aria-hidden="true">＋1 劃</span>':'')+famCell(ch);}).join('');
+    var cells=g.chain.map(function(ch,i){return (i?'<span class="plus" aria-hidden="true">'+(g.plus||'＋1 劃')+'</span>':'')+famCell(ch);}).join('');
     var extra=g.tense.map(function(ch){var a=letter(ch);return '<button class="fc tense" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+ch+'</b><span>'+a[2]+'・緊音</span><small>'+a[4]+' '+a[5]+'</small></button>';}).join('')+
       (g.alt?famCell(g.alt,'變體・'+cons(g.alt)[4]):'');
     return '<section class="art"><div class="art-h"><b>'+g.n+'</b><span class="o">'+g.o+'</span>'+
@@ -726,7 +738,7 @@ a.btn{text-decoration:none;display:inline-block}
       '<a class="wide-link" href="#/tools/hangul" style="margin-top:20px"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>用《訓民正音》的設計原理一步步學</span></span></a>'};
   };
   V.hangul=function(step){
-    step=Math.min(Math.max(parseInt(step,10)||1,1),4);
+    step=Math.min(Math.max(parseInt(step,10)||1,1),5);
     var nav='<nav class="steps" aria-label="認字入門步驟">'+HSTEPS.map(function(n,i){
       return '<a href="#/tools/hangul/'+(i+1)+'"'+(i+1===step?' aria-current="step"':'')+'><i>'+(i+1)+'</i>'+n+'</a>';}).join('')+'</nav>';
     var body;
@@ -749,12 +761,12 @@ a.btn{text-decoration:none;display:inline-block}
         '<div class="hgrid">'+["ㅐ","ㅒ","ㅔ","ㅖ","ㅚ","ㅟ","ㅢ"].map(function(c){return cv(letter(c));}).join('')+'</div>'+
         '<h3>2. 明亮配明亮、低沉配低沉</h3><p class="lead" style="font-size:14px">《訓民正音》：「ㅗ與ㅏ同出於ㆍ，故合而為ㅘ」。所以 ㅗ 只和 ㅏ、ㅐ 合，ㅜ 只和 ㅓ、ㅔ 合。</p>'+
         '<div class="hgrid">'+["ㅘ","ㅙ","ㅝ","ㅞ"].map(function(c){return cv(letter(c));}).join('')+'</div>'+
-        '<p class="note" style="margin-top:10px">現代首爾話裡，ㅐ 和 ㅔ 都唸 e，ㅙ、ㅚ、ㅞ 都唸 we，分不清也沒關係。像「주세요」的 세 就是 ㅅ+ㅔ。</p>'+
+        '<p class="note" style="margin-top:10px">現代首爾話裡，ㅐ 和 ㅔ 都唸 e，ㅙ、ㅚ、ㅞ 都唸 we，分不清也沒關係。像「주세요」的 세 就是 ㅅ+ㅔ。另外 ㅢ 有三種唸法：在字首唸 ui（의사），在字中唸 i（편의점 唸 [펴니점]），當「的」時唸 e。</p>'+
         '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="v"></div>';
     }else if(step===2){
       body='<p class="lead">14 個子音其實只有 5 個基本字，都是照著<b>發音時口腔的樣子</b>畫出來的。同一組的字發音部位相同，每<b>加一劃</b>聲音就更強；<b>寫兩次</b>是緊音。</p>'+
         '<div class="stack">'+ART.map(artRow).join('')+'</div>'+
-        '<p class="note" style="margin-top:10px">「」裡是《訓民正音解例本》（1446）的原文。緊音在旅遊時先當成基本音，對方通常也聽得懂。ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。點卡片會唸出音節和例字。</p>'+
+        '<p class="note" style="margin-top:10px">「」裡是《訓民正音解例本》（1446）的原文。給台灣人的對照：緊音 ㄲㄸㅃㅉ 很像國語不送氣的 ㄍㄉㄅㄐ，再加一點喉嚨用力；平音 ㄱㄷㅂㅈ 在字首反而帶一點氣，介於 ㄍ 和 ㄎ 之間，音調也比較低。緊音一定要分清楚，例如 싸요（便宜）和 사요（買）、짜요（鹹）和 자요（睡覺）意思完全不同。ㅇ 放在開頭不發音，只是佔位；放在最後是 ng，像「공항」。點卡片會唸出音節和例字。</p>'+
         '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="c"></div>';
     }else if(step===3){
       body='<p class="lead">韓文像拼積木：子音＋母音，有時再加一個尾音，組成一個方塊字。選選看：</p><div id="builder"></div>'+
@@ -765,10 +777,18 @@ a.btn{text-decoration:none;display:inline-block}
             '<button class="chip" type="button" data-say="'+f[3]+'"><span class="ko">'+f[3]+'</span><span class="zh">'+f[4]+'</span></button></div>';
         }).join('')+'</div>'+
         '<p class="note" style="margin-top:10px"><b>台灣人的優勢：</b>如果你會閩南語或客語，k、t、p 收尾的音你本來就會（像「六」「食」「十」），n、m、ng 收尾則跟華語的 -n、-ng 很像。</p>';
+    }else if(step===4){
+      body='<p class="lead">一個字一個字拼對了，連在一起唸時聲音還會變。旅遊常用的句子幾乎都會遇到這 5 條規則，點例句可以聽。</p>'+
+        '<div class="stack">'+SOUNDRULES.map(function(r){
+          return '<section class="art"><div class="art-h"><b>'+r[0]+'</b><p>'+r[1]+'</p></div><div class="stack">'+r[2].map(function(x){
+            var k=typeof x==='string'?x:x[0],pr=typeof x==='string'?(pronOf(k)||PH[k].ko):x[1];
+            return '<button class="ph" type="button" data-open="'+esc(k)+'"><span class="dt'+(state.h[k]?' on':'')+'" aria-hidden="true"></span><span class="ko">'+esc(PH[k].ko)+'</span><span class="zh">唸成 ['+esc(pr)+']</span><span class="rm">'+esc(PH[k].zh)+'</span></button>';
+          }).join('')+'</div></section>';}).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px">句子卡上的「實際唸法」就是套用這些規則後的讀音。書上的拼寫不變，只有唸法會變。</p>';
     }else{
       body='<div class="seg" role="radiogroup" aria-label="測驗種類">'+QMODES.map(function(m){return '<button type="button" role="radio" data-qm="'+m[0]+'" aria-checked="'+(qm===m[0])+'">'+m[1]+'</button>';}).join('')+'</div><div id="qarea"></div>';
     }
-    var next=step<4?'<div class="pager"><a aria-disabled="true">.</a><span></span><a href="#/tools/hangul/'+(step+1)+'">下一步：'+HSTEPS[step]+' ›</a></div>':'';
+    var next=step<5?'<div class="pager"><a aria-disabled="true">.</a><span></span><a href="#/tools/hangul/'+(step+1)+'">下一步：'+HSTEPS[step]+' ›</a></div>':'';
     return {t:'認字入門',back:'#/tools',html:nav+body+next+hangulRef()};
   };
 
@@ -861,6 +881,15 @@ a.btn{text-decoration:none;display:inline-block}
   document.addEventListener('pointercancel',function(){drawingTr=false;});
   window.addEventListener('resize',sizeCanvas);
 
+  /* 連讀規則：名稱, 說明, 教材裡的例句 */
+  var SOUNDRULES=[
+    ['1. 連音','收音後面接 ㅇ 開頭的字，收音會移過去唸。',["맛있어요","한국어 잘 못해요","다른 색 있어요","화장실 어디예요"]],
+    ['2. 鼻音化','收音 ㄱ、ㄷ、ㅂ 碰到 ㄴ、ㅁ，會變成 ㅇ、ㄴ、ㅁ。',["감사합니다","죄송합니다","몇 번 출구예요"]],
+    ['3. 硬音化','收音 ㄱ、ㄷ、ㅂ 後面的平音會變成緊音。',["약국","입구","맥주","떡볶이"]],
+    ['4. ㅎ 和前後合成送氣音','ㄱ、ㄷ、ㅂ、ㅈ 碰到 ㅎ，會合成 ㅋ、ㅌ、ㅍ、ㅊ。',["예약했어요","한국어 잘 못해요"]],
+    ['5. ㅎ 弱化','ㅎ 夾在中間時常常不發音。괜찮아요 的標準唸法就是這樣；은행、천천히 則是口語常唸得很輕。',["괜찮아요",["은행","으냉（口語）"],["천천히 말해 주세요","천처니 마래 주세요（口語）"]]]
+  ];
+
   /* 測驗：解碼招牌、看字選音、拼字挑戰（不做聽音選字：單一字母的語音不夠準） */
   var QMODES=[['decode','解碼招牌'],['see','看字選音'],['syl','拼字挑戰']],qm='decode',lq=null,lqTimer=null;
   var QS={see:{n:0,ok:0,st:0},syl:{n:0,ok:0,st:0}};
@@ -940,11 +969,28 @@ a.btn{text-decoration:none;display:inline-block}
       (dq.done?'<div class="a"><div class="hint">讀作 <b>'+esc(p.rm)+'</b></div><div class="btns"><button class="btn" type="button" data-say="'+esc(p.ko)+'">再聽一次</button><button class="btn pri" type="button" data-dq="next">下一題</button></div></div>':'')+
       '</div>'+(dq.total?'<p class="lead" style="text-align:center;margin-top:8px;font-size:13px">這次答對 '+dq.right+' / '+dq.total+'</p>':'');
   }
+  /* 萬用句型：換掉名詞就能用在各種情境 */
+  var PATTERNS=[
+    ['N 주세요','請給我 N','東西 + 주세요，最萬用的一句。',["이거 주세요","물 주세요","영수증 주세요"]],
+    ['N 있어요?','有 N 嗎？','問店家有沒有。',["다른 색 있어요","더 큰 거 있어요"]],
+    ['N 어디예요?','N 在哪裡？','地點 + 어디예요。',["화장실 어디예요","병원 어디예요","지하철역 어디예요"]],
+    ['N 돼요?','可以 N 嗎？','問能不能做某件事。',["카드 돼요","택스 리펀드 돼요"]],
+    ['動詞 + 아/어 주세요','請幫我…','請對方幫你做事，하다 動詞變成 해 주세요。',["포장해 주세요","계산해 주세요","천천히 말해 주세요"]]
+  ];
+  V.patterns=function(){
+    return {t:'萬用句型',back:'#/tools',html:
+      '<p class="lead">會這 5 個句型，把名詞換掉就能自己造句。點例句可以聽。</p>'+
+      '<div class="stack">'+PATTERNS.map(function(p){
+        return '<section class="art"><div class="art-h"><b lang="ko">'+p[0]+'</b><span class="o">'+p[1]+'</span><p>'+p[2]+'</p></div><div class="stack">'+p[3].map(row).join('')+'</div></section>';
+      }).join('')+'</div>'+
+      '<h2>「是 N」：예요 還是 이에요？</h2>'+
+      '<p class="note">看前一個字有沒有收音：沒有收音接 <b>예요</b>，例如 어디예요、얼마예요；有收音接 <b>이에요</b>，例如 사람이에요、명이에요。問「這是什麼」時說 뭐예요。</p>'};
+  };
   V.numbers=function(){
     return {t:'數字與價錢',back:'#/tools',html:
       '<p class="note"><b>漢字數字</b>用在價錢、樓層、號碼、日期。<b>固有數字</b>用在數量、人數、幾點。</p>'+
       '<h2>漢字數字（價錢用）</h2>'+chips(SINO)+
-      '<h2>聽懂價錢</h2><p class="note">一萬直接說 <b>만</b>，不說 일만。所以 12,000 是 만 이천，50,000 是 오만。</p>'+rows(PRICES)+
+      '<h2>聽懂價錢</h2><p class="note">一萬直接說 <b>만</b>，不說 일만；一百、一千也一樣，直接說 <b>백</b>、<b>천</b>。所以 12,000 是 만 이천，50,000 是 오만。</p>'+rows(PRICES)+
       '<h2>固有數字（數東西用）</h2>'+chips(NATIVE)+
       '<p class="note" style="margin-top:10px">後面接量詞時，하나 → <b>한</b>、둘 → <b>두</b>、셋 → <b>세</b>、넷 → <b>네</b>。常用量詞：개（個）、명（人）、잔（杯）、병（瓶）。例外：<b>인분</b>（人份）要配漢字數字，兩人份是 이 인분。</p>'+rows(COUNTERS)};
   };
@@ -954,7 +1000,7 @@ a.btn{text-decoration:none;display:inline-block}
       PRE.map(function(t,i){return '<label class="chk"><input type="checkbox" id="pre'+i+'" data-pre="p'+i+'"'+(state.p['p'+i]?' checked':'')+'><span>'+t+'</span></label>';}).join('')+
       '<h2>小小文化提醒</h2><ul class="plain">'+
         '<li>韓國一般沒有給小費的習慣。</li><li>遞東西或接東西時用雙手，比較有禮貌。</li>'+
-        '<li>很多餐廳桌上有呼叫鈴，沒有的話就舉手喊 여기요。</li><li>部分烤肉店是 2 人份起點，一個人吃前先問一下。</li></ul>'};
+        '<li>很多餐廳桌上有呼叫鈴，沒有的話就舉手喊 저기요 或 여기요。</li><li>很多餐廳是吃完到櫃台結帳，不是在座位上付錢。</li><li>部分烤肉店是 2 人份起點，一個人吃前先問一下。</li></ul>'};
   };
   V.list=function(){
     var keys=Object.keys(state.s).filter(function(k){return state.s[k]&&PH[k];});
@@ -983,6 +1029,7 @@ a.btn{text-decoration:none;display:inline-block}
       :'<a href="#/shadow/'+listId+'/'+encodeURIComponent(list.keys[j])+'">'+(j<i?'‹ 上一句':'下一句 ›')+'</a>';};
     return {t:'跟讀｜'+list.n,back:'#/practice',html:
       '<p class="sh-ko">'+esc(p.ko)+'</p><p class="sh-zh">'+esc(p.zh)+'</p><div class="sh-rm">'+esc(p.rm)+(p.zy?'　≈ '+esc(p.zy):'')+'</div>'+
+      (pronOf(key)?'<div class="pron">實際唸法 <b lang="ko">['+esc(pronOf(key))+']</b></div>':'')+
       '<section class="step"><h3>聽完跟著大聲說</h3><div class="row-btns">'+
         '<button class="btn" type="button" data-sh="tts">播放</button><button class="btn" type="button" data-sh="tts-slow">慢速</button></div>'+
       '</section>'+
@@ -1035,7 +1082,7 @@ a.btn{text-decoration:none;display:inline-block}
   function stopAudio(){if(player){player.pause();}}
 
   /* ---------- router ---------- */
-  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/chart':'chart','tools/prep':'prep','list':'list'};
+  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/chart':'chart','tools/patterns':'patterns','tools/prep':'prep','list':'list'};
   function render(){
     var path=location.hash.replace(/^#\/?/,''),v,tab;
     stopYG();clearTimeout(lqTimer);
@@ -1084,6 +1131,7 @@ a.btn{text-decoration:none;display:inline-block}
     $('sk').textContent=p.ko;$('sz').textContent=p.zh;
     $('sr').textContent=p.rm+(p.zy?'　≈ '+p.zy:'');
     $('sy').innerHTML=spellCards(p.ko);
+    var pr=pronOf(k);$('spr').hidden=!pr;$('spr').innerHTML=pr?'實際唸法 <b lang="ko">['+esc(pr)+']</b>':'';
     $('spell').open=false;
     document.querySelector('[data-act="star"]').setAttribute('aria-pressed',String(!!state.s[k]));
     $('sheet').hidden=false;document.body.classList.add('lock');
