@@ -178,6 +178,15 @@ ul.plain li{margin:0 0 4px}
 .pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
 .pair{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
 .pair .arr{color:var(--muted);font-size:18px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:6px}
+.cc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 2px;text-align:center;line-height:1.25;cursor:pointer}
+.cc:hover{border-color:var(--l1)}
+.cc.x{border-style:dashed;background:var(--soft)}
+.cc b{display:block;font:400 26px/1.15 var(--f-disp)}
+.cc span{display:block;font-size:12px;color:var(--muted)}
+.cc small{display:block;font:500 11px/1.3 var(--f-ko);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbl.syl th,.tbl.syl td{text-align:center;padding:5px 6px;font-family:var(--f-ko);white-space:nowrap}
+.tbl.syl td{font-size:16px}
 .tdj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .tdj div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center}
 .tdj b{display:block;font-size:18px}
@@ -314,6 +323,8 @@ a.btn{text-decoration:none;display:inline-block}
   /* 字母, 音節, 羅馬拼音, 近似音, 例字, 例字中文 */
   var VOW=[["ㅏ","아","a","阿","아이","小孩"],["ㅑ","야","ya","呀","약국","藥局"],["ㅓ","어","eo","喔（嘴張大）","어디","哪裡"],["ㅕ","여","yeo","約（嘴張大）","여기","這裡"],["ㅗ","오","o","歐","오늘","今天"],["ㅛ","요","yo","喲（嘴圓）","요금","費用"],["ㅜ","우","u","烏","우유","牛奶"],["ㅠ","유","yu","尤","유자차","柚子茶"],["ㅡ","으","eu","嘴扁平發ㄜ","은행","銀行"],["ㅣ","이","i","衣","이거","這個"]];
   var CON=[["ㄱ","가","g / k","ㄍ","가방","包包"],["ㄴ","나","n","ㄋ","나무","樹"],["ㄷ","다","d / t","ㄉ","다리","橋"],["ㄹ","라","r / l","ㄌ","라면","泡麵"],["ㅁ","마","m","ㄇ","만두","餃子"],["ㅂ","바","b / p","ㄅ","버스","公車"],["ㅅ","사","s","ㄙ","사과","蘋果"],["ㅇ","아","（不發音）/ ng","開頭不發音","공항","機場（尾音 ng）"],["ㅈ","자","j","ㄗ / ㄐ","자리","座位"],["ㅊ","차","ch","ㄘ / ㄑ（送氣）","치킨","炸雞"],["ㅋ","카","k","ㄎ（送氣）","커피","咖啡"],["ㅌ","타","t","ㄊ（送氣）","택시","計程車"],["ㅍ","파","p","ㄆ（送氣）","피자","披薩"],["ㅎ","하","h","ㄏ","하나","一"]];
+  var COMPV=[["ㅐ","애","ae","ㅏ+ㅣ","대만","台灣"],["ㅒ","얘","yae","ㅑ+ㅣ","얘기","聊天"],["ㅔ","에","e","ㅓ+ㅣ","카메라","相機"],["ㅖ","예","ye","ㅕ+ㅣ","예뻐요","漂亮"],["ㅚ","외","oe","ㅗ+ㅣ","죄송합니다","對不起"],["ㅟ","위","wi","ㅜ+ㅣ","위치","位置"],["ㅢ","의","ui","ㅡ+ㅣ","편의점","便利商店"],["ㅘ","와","wa","ㅗ+ㅏ","와이파이","Wi-Fi"],["ㅙ","왜","wae","ㅗ+ㅐ","괜찮아요","沒關係"],["ㅝ","워","wo","ㅜ+ㅓ","병원","醫院"],["ㅞ","웨","we","ㅜ+ㅔ","웨딩","婚禮"]];
+  var TENSEC=[["ㄲ","까","kk","ㄱ 寫兩次","깨끗해요","很乾淨"],["ㄸ","따","tt","ㄷ 寫兩次","떡볶이","辣炒年糕"],["ㅃ","빠","pp","ㅂ 寫兩次","오빠","哥哥（女生叫）"],["ㅆ","싸","ss","ㅅ 寫兩次","비싸요","很貴"],["ㅉ","짜","jj","ㅈ 寫兩次","짬뽕","炒碼麵"]];
   /* 尾音, 唸成, 尾音在 Unicode 的序號（組出「아+尾音」對比用）, 例字, 例字中文 */
   var FINALS=[["ㄱ ㄲ ㅋ","k",1,"약국","藥局"],["ㄴ","n",4,"환전","換錢"],["ㄷ ㅅ ㅈ ㅊ ㅌ ㅎ","t",19,"옷","衣服"],["ㄹ","l",8,"물","水"],["ㅁ","m",16,"삼","三"],["ㅂ ㅍ","p",17,"십","十"],["ㅇ","ng",21,"공항","機場"]];
   var SIGNS=[["출구","chulgu","出口"],["입구","ipgu","入口"],["지하철","jihacheol","地鐵"],["역","yeok","車站"],["버스 정류장","beoseu jeongnyujang","公車站"],["화장실","hwajangsil","廁所"],["편의점","pyeonuijeom","便利商店"],["약국","yakguk","藥局"],["병원","byeongwon","醫院"],["공항","gonghang","機場"],["은행","eunhaeng","銀行"],["환전","hwanjeon","換錢"],["무료","muryo","免費"],["영업 중","yeongeop jung","營業中"],["휴무","hyumu","公休"]];
@@ -590,6 +601,7 @@ a.btn{text-decoration:none;display:inline-block}
   V.tools=function(){
     return {t:'工具',html:'<div class="stack">'+
       '<a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>字母、拼字、尾音、招牌</span></span></a>'+
+      '<a class="wide-link" href="#/tools/chart" style="--c:var(--l1)"><span class="g" aria-hidden="true">40</span><span><b>40 音表</b><span>子音 19、母音 21、拼音表</span></span></a>'+
       '<a class="wide-link" href="#/tools/numbers" style="--c:var(--l4)"><span class="g" aria-hidden="true">₩</span><span><b>數字與價錢</b><span>兩套數字、量詞、聽懂價錢</span></span></a>'+
       '<a class="wide-link" href="#/tools/prep" style="--c:var(--l3)"><span class="g" aria-hidden="true">✓</span><span><b>出發前準備</b><span>App、交通卡、網路、文化提醒</span></span></a>'+
       '</div><p class="foot">近似音與語音都只是輔助，發音以真人為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'};
@@ -598,6 +610,11 @@ a.btn{text-decoration:none;display:inline-block}
   var HSTEPS=['母音','子音','拼字','解碼招牌'];
   function vowel(ch){return VOW.filter(function(a){return a[0]===ch;})[0];}
   function cons(ch){return CON.filter(function(a){return a[0]===ch;})[0];}
+  function letter(ch){return VOW.concat(COMPV,CON,TENSEC).filter(function(a){return a[0]===ch;})[0];}
+  function cv(a){
+    return '<button class="hc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span class="s">'+a[1]+'</span><span class="r">'+a[2]+'</span><small>'+a[3]+'</small>'+
+      '<span class="ex"><span class="exk">'+a[4]+'</span> '+a[5]+'</span></button>';
+  }
   /* 子音依《訓民正音解例本》的發音部位分組：基本字模仿發音器官，每加一劃聲音更強，雙寫為緊音 */
   var ART=[
     {n:"舌根音",o:"牙音",base:"ㄱ",q:"象舌根閉喉之形",why:"舌根往上擋住喉嚨的樣子",chain:["ㄱ","ㅋ"],tense:["ㄲ"]},
@@ -613,7 +630,7 @@ a.btn{text-decoration:none;display:inline-block}
   }
   function artRow(g){
     var cells=g.chain.map(function(ch,i){return (i?'<span class="plus" aria-hidden="true">＋1 劃</span>':'')+famCell(ch);}).join('');
-    var extra=g.tense.map(function(ch){return '<div class="fc tense"><b>'+ch+'</b><span>'+TENSE[ch]+'</span><small>雙寫・緊音</small></div>';}).join('')+
+    var extra=g.tense.map(function(ch){var a=letter(ch);return '<button class="fc tense" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+ch+'</b><span>'+a[2]+'・緊音</span><small>'+a[4]+' '+a[5]+'</small></button>';}).join('')+
       (g.alt?famCell(g.alt,'變體・'+cons(g.alt)[4]):'');
     return '<section class="art"><div class="art-h"><b>'+g.n+'</b><span class="o">'+g.o+'</span>'+
       '<p><span class="qt">'+g.base+'「'+g.q+'」</span>'+g.why+'</p></div>'+
@@ -627,9 +644,27 @@ a.btn{text-decoration:none;display:inline-block}
     return '<svg class="vs" viewBox="0 0 60 60" aria-hidden="true">'+parts+'</svg>';
   }
   function hangulRef(){
-    var cell=function(a){return '<div><b>'+a[0]+'</b><span>'+a[2]+'</span></div>';};
-    return '<details class="ref"><summary>字母總表</summary><div class="refg">'+VOW.map(cell).join('')+'</div><div class="refg">'+CON.map(cell).join('')+'</div></details>';
+    return '<a class="wide-link" href="#/tools/chart" style="margin-top:28px;--c:var(--l1)"><span class="g" aria-hidden="true">40</span><span><b>40 音表</b><span>19 個子音、21 個母音一次看</span></span></a>';
   }
+  /* 40 音表：子音 19（基本 14＋緊音 5）、母音 21（基本 10＋複合 11），依字典順序 */
+  var ORD_C="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ".split(''),ORD_V="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ".split('');
+  V.chart=function(){
+    var isExtra=function(ch){return TENSEC.concat(COMPV).some(function(a){return a[0]===ch;});};
+    var cell=function(ch){var a=letter(ch);
+      return '<button class="cc'+(isExtra(ch)?' x':'')+'" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+ch+'</b><span>'+(ch==='ㅇ'?'ng':a[2].replace(/（.*?）|\s/g,''))+'</span><small>'+a[4]+'</small></button>';};
+    var bc=CON.map(function(a){return a[0];}).filter(function(c){return c!=='ㅇ';}).concat(['ㅇ']);
+    var bv=VOW.map(function(a){return a[0];});
+    var grid='<div class="scroll"><table class="tbl syl"><tr><th></th>'+bv.map(function(v){return '<th>'+v+'</th>';}).join('')+'</tr>'+
+      CON.map(function(c){var li="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ".indexOf(c[0]);
+        return '<tr><th>'+c[0]+'</th>'+bv.map(function(v){var vi="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ".indexOf(v);
+          return '<td lang="ko">'+String.fromCharCode(0xAC00+li*588+vi*28)+'</td>';}).join('')+'</tr>';}).join('')+'</table></div>';
+    return {t:'40 音表',back:'#/tools',html:
+      '<p class="lead">韓文常說的「40 音」：子音 19 個、母音 21 個。虛線框是緊音和複合母音，點任何一格會唸出音節和例字。</p>'+
+      '<h2>子音 19 個</h2><div class="cgrid">'+ORD_C.map(cell).join('')+'</div>'+
+      '<h2>母音 21 個</h2><div class="cgrid">'+ORD_V.map(cell).join('')+'</div>'+
+      '<h2>拼音表：子音 × 母音</h2><p class="lead">每一格是左邊的子音配上面的母音。先試著唸，再到「認字入門」的拼字積木確認。</p>'+grid+
+      '<a class="wide-link" href="#/tools/hangul" style="margin-top:20px"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>用《訓民正音》的設計原理一步步學</span></span></a>'};
+  };
   V.hangul=function(step){
     step=Math.min(Math.max(parseInt(step,10)||1,1),4);
     var nav='<nav class="steps" aria-label="認字入門步驟">'+HSTEPS.map(function(n,i){
@@ -649,7 +684,12 @@ a.btn{text-decoration:none;display:inline-block}
         '<p class="note" style="margin-top:10px">短橫在右 ㅏ 是 a、在左 ㅓ 是 eo；在上 ㅗ 是 o、在下 ㅜ 是 u。沒有短橫的 ㅡ、ㅣ 分別是 eu、i。</p>'+
         '<h2>兩個點，就是加 y</h2><p class="lead">天的點變成兩個（現在寫成兩條短橫），前面就多一個 y 的音，這 4 個不用另外背。</p>'+
         '<div class="pairs">'+pair("ㅏ","ㅑ")+pair("ㅓ","ㅕ")+pair("ㅗ","ㅛ")+pair("ㅜ","ㅠ")+'</div>'+
-        '<p class="note" style="margin-top:10px">常見的 ㅐ、ㅔ 都唸 e，像「주세요」的 세 就是 ㅅ+ㅔ。</p>'+
+        '<h2>再合起來：複合母音</h2><p class="lead">兩個母音合在一起，就是複合母音，一共 11 個。規則只有兩條。</p>'+
+        '<h3>1. 後面加 ㅣ</h3><p class="lead" style="font-size:14px">《訓民正音》：「一字中聲之與ㅣ相合者十」，現代還在用的是這 7 個。</p>'+
+        '<div class="hgrid">'+["ㅐ","ㅒ","ㅔ","ㅖ","ㅚ","ㅟ","ㅢ"].map(function(c){return cv(letter(c));}).join('')+'</div>'+
+        '<h3>2. 明亮配明亮、低沉配低沉</h3><p class="lead" style="font-size:14px">《訓民正音》：「ㅗ與ㅏ同出於ㆍ，故合而為ㅘ」。所以 ㅗ 只和 ㅏ、ㅐ 合，ㅜ 只和 ㅓ、ㅔ 合。</p>'+
+        '<div class="hgrid">'+["ㅘ","ㅙ","ㅝ","ㅞ"].map(function(c){return cv(letter(c));}).join('')+'</div>'+
+        '<p class="note" style="margin-top:10px">現代首爾話裡，ㅐ 和 ㅔ 都唸 e，ㅙ、ㅚ、ㅞ 都唸 we，分不清也沒關係。像「주세요」的 세 就是 ㅅ+ㅔ。</p>'+
         '<h2>寫寫看</h2><p class="lead">照著淡淡的範本描，熟了就按「隱藏範本」自己寫。</p><div id="tracer" data-set="v"></div>';
     }else if(step===2){
       body='<p class="lead">14 個子音其實只有 5 個基本字，都是照著<b>發音時口腔的樣子</b>畫出來的。同一組的字發音部位相同，每<b>加一劃</b>聲音就更強；<b>寫兩次</b>是緊音。</p>'+
@@ -673,10 +713,11 @@ a.btn{text-decoration:none;display:inline-block}
   };
 
   /* 拼字積木：用 Unicode 規則即時組字 */
-  var BC=[["ㄱ",0,"g"],["ㄴ",2,"n"],["ㄷ",3,"d"],["ㄹ",5,"r"],["ㅁ",6,"m"],["ㅂ",7,"b"],["ㅅ",9,"s"],["ㅇ",11,""],["ㅈ",12,"j"],["ㅊ",14,"ch"],["ㅋ",15,"k"],["ㅌ",16,"t"],["ㅍ",17,"p"],["ㅎ",18,"h"]];
-  var BV=[["ㅏ",0,"a",1],["ㅐ",1,"ae",1],["ㅑ",2,"ya",1],["ㅓ",4,"eo",1],["ㅔ",5,"e",1],["ㅕ",6,"yeo",1],["ㅗ",8,"o",0],["ㅛ",12,"yo",0],["ㅜ",13,"u",0],["ㅠ",17,"yu",0],["ㅡ",18,"eu",0],["ㅣ",20,"i",1]];
+  var BC=[["ㄱ",0,"g"],["ㄲ",1,"kk"],["ㄴ",2,"n"],["ㄷ",3,"d"],["ㄸ",4,"tt"],["ㄹ",5,"r"],["ㅁ",6,"m"],["ㅂ",7,"b"],["ㅃ",8,"pp"],["ㅅ",9,"s"],["ㅆ",10,"ss"],["ㅇ",11,""],["ㅈ",12,"j"],["ㅉ",13,"jj"],["ㅊ",14,"ch"],["ㅋ",15,"k"],["ㅌ",16,"t"],["ㅍ",17,"p"],["ㅎ",18,"h"]];
+  /* 母音, 序號, 拼音, 排法（1 右、0 下、2 下＋右） */
+  var BV=[["ㅏ",0,"a",1],["ㅐ",1,"ae",1],["ㅑ",2,"ya",1],["ㅒ",3,"yae",1],["ㅓ",4,"eo",1],["ㅔ",5,"e",1],["ㅕ",6,"yeo",1],["ㅖ",7,"ye",1],["ㅗ",8,"o",0],["ㅘ",9,"wa",2],["ㅙ",10,"wae",2],["ㅚ",11,"oe",2],["ㅛ",12,"yo",0],["ㅜ",13,"u",0],["ㅝ",14,"wo",2],["ㅞ",15,"we",2],["ㅟ",16,"wi",2],["ㅠ",17,"yu",0],["ㅡ",18,"eu",0],["ㅢ",19,"ui",2],["ㅣ",20,"i",1]];
   var BT=[["無",0,""],["ㄱ",1,"k"],["ㄴ",4,"n"],["ㄷ",7,"t"],["ㄹ",8,"l"],["ㅁ",16,"m"],["ㅂ",17,"p"],["ㅅ",19,"t"],["ㅇ",21,"ng"]];
-  var hb={c:10,v:3,t:0};
+  var hb={c:15,v:4,t:0};
   function renderBuilder(){
     var box=$('builder');if(!box)return;
     var pick=function(list,key,label){
@@ -688,7 +729,7 @@ a.btn{text-decoration:none;display:inline-block}
       .sort(function(a,b){return (b.indexOf(syl)===0)-(a.indexOf(syl)===0)||a.length-b.length;}).slice(0,6);
     box.innerHTML=pick(BC,'c','子音')+pick(BV,'v','母音')+pick(BT,'t','尾音')+
       '<div class="blk"><div class="big" lang="ko">'+syl+'</div><div class="eq">'+c[0]+' + '+v[0]+(t[1]?' + '+t[0]:'')+
-        '<br>讀作 <b>'+(c[2]+v[2]+t[2])+'</b><br>'+(v[3]?'母音在右 → 左右排':'母音在下 → 上下排')+(t[1]?'，尾音放最下面':'')+'</div></div>'+
+        '<br>讀作 <b>'+(c[2]+v[2]+t[2])+'</b><br>'+(v[3]===1?'母音在右 → 左右排':v[3]===2?'母音在下又在右 → 包住子音':'母音在下 → 上下排')+(t[1]?'，尾音放最下面':'')+'</div></div>'+
       (words.length?'<p class="lead" style="margin:12px 0 8px;font-size:14px">教材裡有「'+syl+'」的字，點來聽：</p><div class="grid">'+words.map(function(k){
           return '<button class="chip" type="button" data-open="'+esc(k)+'"><span class="ko">'+esc(PH[k].ko)+'</span><span class="zh">'+esc(PH[k].zh)+'</span></button>';}).join('')+'</div>'
         :'<p class="lead" style="margin:12px 0 0;font-size:14px">教材裡還沒有含「'+syl+'」的字，換個組合試試。</p>');
@@ -701,8 +742,8 @@ a.btn{text-decoration:none;display:inline-block}
     var box=$('tracer');if(!box){tr.set=null;return;}
     tr.set=box.getAttribute('data-set');
     if(tr.set==='b')return; /* 拼字積木會在 renderBuilder 裡把組好的字交給手寫區 */
-    tr.list=tr.set==='v'?VOW.map(function(a){return a[0];})
-      :CON.map(function(a){return a[0];}).concat(["ㄲ","ㄸ","ㅃ","ㅆ","ㅉ"]);
+    tr.list=tr.set==='v'?ORD_V.slice()
+      :ORD_C.slice();
     tr.g=tr.list[0];renderTracer();
   }
   function renderTracer(){
@@ -870,7 +911,7 @@ a.btn{text-decoration:none;display:inline-block}
   function stopAudio(){if(player){player.pause();}}
 
   /* ---------- router ---------- */
-  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/prep':'prep','list':'list'};
+  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/chart':'chart','tools/prep':'prep','list':'list'};
   function render(){
     var path=location.hash.replace(/^#\/?/,''),v,tab;
     stopYG();

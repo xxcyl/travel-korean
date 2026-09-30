@@ -18,7 +18,7 @@ for (const m of script.matchAll(/"([^"\\]*)"/g)) {
   if (HANGUL.test(s) && !HAN.test(s) && !map.has(norm(s))) map.set(norm(s), s);
 }
 // 字母卡唸的是「音節, 例字」，是執行時組出來的，要從 VOW/CON 陣列另外組合（與頁面 hc() 相同）
-for (const name of ['VOW', 'CON']) {
+for (const name of ['VOW', 'CON', 'COMPV', 'TENSEC']) {
   const arr = JSON.parse(script.match(new RegExp(`var ${name}=(\\[.*?\\]\\]);`))[1]);
   for (const a of arr) { const s = a[1] + ', ' + a[4]; map.set(norm(s), s); }
 }
