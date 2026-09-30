@@ -131,7 +131,8 @@ ul.plain li{margin:0 0 4px}
 .btn.pri{background:var(--l1);border-color:var(--l1);color:var(--on-c)}
 .seg{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
 .seg button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font-size:14px;font-weight:500;cursor:pointer}
-.seg button[aria-checked="true"]{background:var(--l6);border-color:var(--l6);color:var(--on-c)}
+.seg button[aria-checked="true"],.seg button[aria-pressed="true"]{background:var(--l6);border-color:var(--l6);color:var(--on-c)}
+.scene.no-rm .ph .rm,.scene.no-rm .chip .rm,.scene.no-zh .ph .zh,.scene.no-zh .chip .zh{visibility:hidden}
 #aip{width:100%;font:inherit;font-size:14px;line-height:1.55;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);resize:vertical}
 
 /* empty state */
@@ -159,8 +160,26 @@ ul.plain li{margin:0 0 4px}
 .act[aria-pressed="true"] svg{fill:currentColor}
 .spell{margin-top:12px;font-size:14px}
 .spell summary{cursor:pointer;color:var(--muted)}
-.spell .sy{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.spell .sy span{background:var(--soft);border-radius:8px;padding:4px 10px;font-family:var(--f-ko)}
+.spell .sy{margin-top:8px}
+/* 位置配色：子音（初聲）藍、母音紅、收音（終聲）深色 */
+:root{--ci:var(--l1);--vi:var(--l6);--fi:var(--ink)}
+.mz{background-color:var(--surface);border:1.5px solid var(--line);border-radius:6px;
+  background-image:linear-gradient(to right,transparent calc(50% - .5px),var(--soft) calc(50% - .5px),var(--soft) calc(50% + .5px),transparent calc(50% + .5px)),
+  linear-gradient(to bottom,transparent calc(50% - .5px),var(--soft) calc(50% - .5px),var(--soft) calc(50% + .5px),transparent calc(50% + .5px)),
+  linear-gradient(to top right,transparent calc(50% - .5px),var(--soft) calc(50% - .5px),var(--soft) calc(50% + .5px),transparent calc(50% + .5px)),
+  linear-gradient(to bottom right,transparent calc(50% - .5px),var(--soft) calc(50% - .5px),var(--soft) calc(50% + .5px),transparent calc(50% + .5px))}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.legend span{font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px}
+.legend .c{color:var(--ci);background:color-mix(in srgb,var(--ci) 12%,var(--surface))}
+.legend .v{color:var(--vi);background:color-mix(in srgb,var(--vi) 12%,var(--surface))}
+.legend .f{color:var(--fi);background:var(--soft)}
+.syls{display:flex;gap:10px;overflow-x:auto;padding:4px 0}
+.syl{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:58px}
+.syl .mc{width:56px;aspect-ratio:1;display:grid;place-items:center;font:700 30px/1 var(--f-ko)}
+.eq3{display:flex;gap:3px;font:700 15px/1.2 var(--f-ko)}
+.eq3 .i{color:var(--ci)} .eq3 .v{color:var(--vi)} .eq3 .f{color:var(--fi)}
+.syl .r{font-size:12px;color:var(--muted)}
+.pnote{font-size:12px;color:var(--muted);margin:6px 0 0}
 .close{display:block;margin:14px auto 0;border:0;background:none;color:var(--muted);cursor:pointer;padding:6px 12px}
 
 /* show-to-staff */
@@ -244,9 +263,31 @@ ul.plain li{margin:0 0 4px}
 .refg div{background:var(--surface);border:1px solid var(--line);border-radius:8px;text-align:center;padding:4px 2px}
 .refg b{display:block;font:400 20px/1.2 var(--f-disp)}
 .refg span{font-size:11px;color:var(--muted)}
+/* 拼字積木（配色版） */
+.picks.c button{color:var(--ci)} .picks.v button{color:var(--vi)} .picks.t button{color:var(--fi)}
+.picks.c button[aria-checked="true"]{background:var(--ci);border-color:var(--ci);color:var(--on-c)}
+.picks.v button[aria-checked="true"]{background:var(--vi);border-color:var(--vi);color:var(--on-c)}
+.picks.t button[aria-checked="true"]{background:var(--fi);border-color:var(--fi);color:var(--bg)}
+.stage{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:6px 0 4px}
+.bcell{width:140px;aspect-ratio:1;display:grid;place-items:center;font:700 88px/1 var(--f-ko);cursor:pointer}
+.frm{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.frm div{display:flex;align-items:center;gap:8px}
+.frm b{min-width:34px;height:34px;display:grid;place-items:center;border-radius:8px;font:700 20px/1 var(--f-ko)}
+.frm .i{color:var(--ci);background:color-mix(in srgb,var(--ci) 12%,var(--surface))}
+.frm .v{color:var(--vi);background:color-mix(in srgb,var(--vi) 12%,var(--surface))}
+.frm .f{color:var(--fi);background:var(--soft)}
+.readout{margin:10px 0 2px;font-size:14px}
+.readout b{font-size:20px}
+/* 40 音與字母卡配色 */
+.cc.c b,.hc.c b,.fc b{color:var(--ci)} .cc.v b,.hc.v b{color:var(--vi)}
+/* 字母測驗 */
+.qcell{width:140px;aspect-ratio:1;display:grid;place-items:center;font:700 80px/1 var(--f-ko);margin:10px auto 6px;cursor:pointer}
+.qcell.c{color:var(--ci)} .qcell.v{color:var(--vi)}
+.opt.bad{border-color:var(--l6);color:var(--l6)}
+.score{display:flex;justify-content:center;gap:16px;font-size:13px;color:var(--muted);margin-top:8px}
+.score b{color:var(--ink)}
 /* 手寫 */
-.tbox{position:relative;width:100%;max-width:300px;aspect-ratio:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;touch-action:none;overflow:hidden;
-  background-image:linear-gradient(var(--line),var(--line)),linear-gradient(var(--line),var(--line));background-size:100% 1px,1px 100%;background-position:center;background-repeat:no-repeat}
+.tbox{position:relative;width:100%;max-width:300px;aspect-ratio:1;border-radius:12px;touch-action:none;overflow:hidden}
 .tg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 #tc{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
 /* shadowing */
@@ -451,7 +492,7 @@ a.btn{text-decoration:none;display:inline-block}
   [SIGNS,LOANS,FOODS,SINO,NATIVE].forEach(function(L){L.forEach(function(a){addPh(a,2,null);});});
 
   /* ---------- state ---------- */
-  var state={h:{},s:{},k:{},p:{},slow:false,ai:{sc:"food",m:"role"}};
+  var state={h:{},s:{},k:{},p:{},slow:false,ai:{sc:"food",m:"role"},view:{rm:true,zh:true}};
   try{var sv=JSON.parse(localStorage.getItem('krtrip-v2')||'null');if(sv)for(var x in state)if(sv[x]!=null)state[x]=sv[x];}catch(e){}
   function save(){try{localStorage.setItem('krtrip-v2',JSON.stringify(state));}catch(e){}}
 
@@ -501,6 +542,23 @@ a.btn{text-decoration:none;display:inline-block}
     return out;
   }
 
+  /* 拼音（韓國文化觀光部標準） */
+  var RI=['g','kk','n','d','tt','r','m','b','pp','s','ss','','j','jj','ch','k','t','p','h'];
+  var RV=['a','ae','ya','yae','eo','e','yeo','ye','o','wa','wae','oe','yo','u','wo','we','wi','yu','eu','ui','i'];
+  var RF=['','k','k','k','n','n','n','t','l','k','m','l','l','l','p','l','m','p','p','t','t','ng','t','t','k','t','p','t'];
+  function sylParts(ch){var c=ch.charCodeAt(0)-0xAC00;return {i:Math.floor(c/588),v:Math.floor(c%588/28),f:c%28};}
+  function sylRom(o){return RI[o.i]+RV[o.v]+RF[o.f];}
+  /* 逐字拆成 初聲／中聲／終聲，用位置配色 */
+  function spellCards(word){
+    var out=[];
+    for(var n=0;n<word.length;n++){
+      var c=word.charCodeAt(n);if(c<0xAC00||c>0xD7A3)continue;
+      var o=sylParts(word[n]);
+      out.push('<div class="syl"><span class="mc mz" lang="ko">'+word[n]+'</span><span class="eq3"><span class="i">'+JL[o.i]+'</span><span class="v">'+JV[o.v]+'</span>'+(o.f?'<span class="f">'+JT[o.f]+'</span>':'')+'</span><span class="r">'+sylRom(o)+'</span></div>');
+    }
+    return '<div class="syls">'+out.join('')+'</div><p class="pnote">逐字拆開的拼音；連在一起唸時，發音會有些變化（例如連音）。</p>';
+  }
+
   /* ---------- render helpers ---------- */
   var $=function(id){return document.getElementById(id);};
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -516,7 +574,7 @@ a.btn{text-decoration:none;display:inline-block}
   function chips(list){return '<div class="grid">'+list.map(chip).join('')+'</div>';}
   /* 字母卡：唸「音節, 例字」 */
   function hc(a){
-    return '<button class="hc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span class="s">'+a[1]+'</span><span class="r">'+a[2]+'</span><small>≈ '+a[3]+'</small>'+
+    return '<button class="hc '+(a[0]>='ㅏ'?'v':'c')+'" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span class="s">'+a[1]+'</span><span class="r">'+a[2]+'</span><small>≈ '+a[3]+'</small>'+
       '<span class="ex"><span class="exk">'+a[4]+'</span> '+a[5]+'</span></button>';
   }
   function heardIn(keys){return keys.filter(function(k){return state.h[k];}).length;}
@@ -541,11 +599,12 @@ a.btn{text-decoration:none;display:inline-block}
   V.scene=function(id){
     var s=SC.filter(function(x){return x.id===id;})[0];
     if(!s)return V.home();
-    var h='<p class="note">'+s.tip+'</p><div class="stack" style="--c:'+s.c+'">'+s.keys.map(row).join('')+'</div>';
+    var h='<div class="seg" role="group" aria-label="閱讀練習"><button type="button" data-view="rm" aria-pressed="'+state.view.rm+'">顯示拼音</button><button type="button" data-view="zh" aria-pressed="'+state.view.zh+'">顯示中文</button></div>'+
+      '<p class="note">'+s.tip+'</p><div class="stack" style="--c:'+s.c+'">'+s.keys.map(row).join('')+'</div>';
     (EXTRA[id]||[]).forEach(function(b){
       h+='<h2>'+b.h+'</h2>'+(b.chips?chips(b.chips):rows(b.rows))+(b.note?'<p class="note" style="margin-top:10px">'+b.note+'</p>':'');
     });
-    return {t:s.n,back:'#/',html:'<div style="--c:'+s.c+'">'+h+'</div>'};
+    return {t:s.n,back:'#/',html:'<div class="scene'+(state.view.rm?'':' no-rm')+(state.view.zh?'':' no-zh')+'" style="--c:'+s.c+'">'+h+'</div>'};
   };
   V.practice=function(){
     var L=shadowLists();
@@ -607,12 +666,12 @@ a.btn{text-decoration:none;display:inline-block}
       '</div><p class="foot">近似音與語音都只是輔助，發音以真人為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'};
   };
   /* ---------- 認字入門：母音 → 子音家族 → 拼字積木 → 解碼招牌 ---------- */
-  var HSTEPS=['母音','子音','拼字','解碼招牌'];
+  var HSTEPS=['母音','子音','拼字','測驗'];
   function vowel(ch){return VOW.filter(function(a){return a[0]===ch;})[0];}
   function cons(ch){return CON.filter(function(a){return a[0]===ch;})[0];}
   function letter(ch){return VOW.concat(COMPV,CON,TENSEC).filter(function(a){return a[0]===ch;})[0];}
   function cv(a){
-    return '<button class="hc" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span class="s">'+a[1]+'</span><span class="r">'+a[2]+'</span><small>'+a[3]+'</small>'+
+    return '<button class="hc '+(a[0]>='ㅏ'?'v':'c')+'" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+a[0]+'</b><span class="s">'+a[1]+'</span><span class="r">'+a[2]+'</span><small>'+a[3]+'</small>'+
       '<span class="ex"><span class="exk">'+a[4]+'</span> '+a[5]+'</span></button>';
   }
   /* 子音依《訓民正音解例本》的發音部位分組：基本字模仿發音器官，每加一劃聲音更強，雙寫為緊音 */
@@ -651,7 +710,7 @@ a.btn{text-decoration:none;display:inline-block}
   V.chart=function(){
     var isExtra=function(ch){return TENSEC.concat(COMPV).some(function(a){return a[0]===ch;});};
     var cell=function(ch){var a=letter(ch);
-      return '<button class="cc'+(isExtra(ch)?' x':'')+'" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+ch+'</b><span>'+(ch==='ㅇ'?'ng':a[2].replace(/（.*?）|\s/g,''))+'</span><small>'+a[4]+'</small></button>';};
+      return '<button class="cc '+(ch>='ㅏ'?'v':'c')+(isExtra(ch)?' x':'')+'" type="button" data-say="'+a[1]+', '+a[4]+'"><b>'+ch+'</b><span>'+(ch==='ㅇ'?'ng':a[2].replace(/（.*?）|\s/g,''))+'</span><small>'+a[4]+'</small></button>';};
     var bc=CON.map(function(a){return a[0];}).filter(function(c){return c!=='ㅇ';}).concat(['ㅇ']);
     var bv=VOW.map(function(a){return a[0];});
     var grid='<div class="scroll"><table class="tbl syl"><tr><th></th>'+bv.map(function(v){return '<th>'+v+'</th>';}).join('')+'</tr>'+
@@ -660,6 +719,7 @@ a.btn{text-decoration:none;display:inline-block}
           return '<td lang="ko">'+String.fromCharCode(0xAC00+li*588+vi*28)+'</td>';}).join('')+'</tr>';}).join('')+'</table></div>';
     return {t:'40 音表',back:'#/tools',html:
       '<p class="lead">韓文常說的「40 音」：子音 19 個、母音 21 個。虛線框是緊音和複合母音，點任何一格會唸出音節和例字。</p>'+
+      '<div class="legend"><span class="c">子音（初聲）</span><span class="v">母音</span><span class="f">收音（最下方）</span></div>'+
       '<h2>子音 19 個</h2><div class="cgrid">'+ORD_C.map(cell).join('')+'</div>'+
       '<h2>母音 21 個</h2><div class="cgrid">'+ORD_V.map(cell).join('')+'</div>'+
       '<h2>拼音表：子音 × 母音</h2><p class="lead">每一格是左邊的子音配上面的母音。先試著唸，再到「認字入門」的拼字積木確認。</p>'+grid+
@@ -706,7 +766,7 @@ a.btn{text-decoration:none;display:inline-block}
         }).join('')+'</div>'+
         '<p class="note" style="margin-top:10px"><b>台灣人的優勢：</b>如果你會閩南語或客語，k、t、p 收尾的音你本來就會（像「六」「食」「十」），n、m、ng 收尾則跟華語的 -n、-ng 很像。</p>';
     }else{
-      body='<p class="lead">看招牌上的字，先試著拼出讀音，再猜是什麼意思。很多是英文外來語，唸出來就懂。</p><div id="decode"></div>';
+      body='<div class="seg" role="radiogroup" aria-label="測驗種類">'+QMODES.map(function(m){return '<button type="button" role="radio" data-qm="'+m[0]+'" aria-checked="'+(qm===m[0])+'">'+m[1]+'</button>';}).join('')+'</div><div id="qarea"></div>';
     }
     var next=step<4?'<div class="pager"><a aria-disabled="true">.</a><span></span><a href="#/tools/hangul/'+(step+1)+'">下一步：'+HSTEPS[step]+' ›</a></div>':'';
     return {t:'認字入門',back:'#/tools',html:nav+body+next+hangulRef()};
@@ -716,23 +776,29 @@ a.btn{text-decoration:none;display:inline-block}
   var BC=[["ㄱ",0,"g"],["ㄲ",1,"kk"],["ㄴ",2,"n"],["ㄷ",3,"d"],["ㄸ",4,"tt"],["ㄹ",5,"r"],["ㅁ",6,"m"],["ㅂ",7,"b"],["ㅃ",8,"pp"],["ㅅ",9,"s"],["ㅆ",10,"ss"],["ㅇ",11,""],["ㅈ",12,"j"],["ㅉ",13,"jj"],["ㅊ",14,"ch"],["ㅋ",15,"k"],["ㅌ",16,"t"],["ㅍ",17,"p"],["ㅎ",18,"h"]];
   /* 母音, 序號, 拼音, 排法（1 右、0 下、2 下＋右） */
   var BV=[["ㅏ",0,"a",1],["ㅐ",1,"ae",1],["ㅑ",2,"ya",1],["ㅒ",3,"yae",1],["ㅓ",4,"eo",1],["ㅔ",5,"e",1],["ㅕ",6,"yeo",1],["ㅖ",7,"ye",1],["ㅗ",8,"o",0],["ㅘ",9,"wa",2],["ㅙ",10,"wae",2],["ㅚ",11,"oe",2],["ㅛ",12,"yo",0],["ㅜ",13,"u",0],["ㅝ",14,"wo",2],["ㅞ",15,"we",2],["ㅟ",16,"wi",2],["ㅠ",17,"yu",0],["ㅡ",18,"eu",0],["ㅢ",19,"ui",2],["ㅣ",20,"i",1]];
-  var BT=[["無",0,""],["ㄱ",1,"k"],["ㄴ",4,"n"],["ㄷ",7,"t"],["ㄹ",8,"l"],["ㅁ",16,"m"],["ㅂ",17,"p"],["ㅅ",19,"t"],["ㅇ",21,"ng"]];
+  /* 收音 27 個加「無」；雙收音照慣例唸其中一個 */
+  var BT=JT.map(function(t,i){return [i?t:"無",i,RF[i]];});
   var hb={c:15,v:4,t:0};
   function renderBuilder(){
     var box=$('builder');if(!box)return;
-    var pick=function(list,key,label){
-      return '<div class="picks" role="radiogroup" aria-label="'+label+'"><span>'+label+'</span>'+list.map(function(x,i){
+    var pick=function(list,key,label,cls){
+      return '<div class="picks '+cls+'" role="radiogroup" aria-label="'+label+'"><span>'+label+'</span>'+list.map(function(x,i){
         return '<button type="button" role="radio" data-hb="'+key+':'+i+'" aria-checked="'+(hb[key]===i)+'">'+x[0]+'</button>';}).join('')+'</div>';};
     var c=BC[hb.c],v=BV[hb.v],t=BT[hb.t];
     var syl=String.fromCharCode(0xAC00+c[1]*588+v[1]*28+t[1]);
     var words=Object.keys(PH).filter(function(k){return k.indexOf(syl)>=0;})
       .sort(function(a,b){return (b.indexOf(syl)===0)-(a.indexOf(syl)===0)||a.length-b.length;}).slice(0,6);
-    box.innerHTML=pick(BC,'c','子音')+pick(BV,'v','母音')+pick(BT,'t','尾音')+
-      '<div class="blk"><div class="big" lang="ko">'+syl+'</div><div class="eq">'+c[0]+' + '+v[0]+(t[1]?' + '+t[0]:'')+
-        '<br>讀作 <b>'+(c[2]+v[2]+t[2])+'</b><br>'+(v[3]===1?'母音在右 → 左右排':v[3]===2?'母音在下又在右 → 包住子音':'母音在下 → 上下排')+(t[1]?'，尾音放最下面':'')+'</div></div>'+
+    var shape=v[3]===1?'母音是直的，放在子音右邊（左右排）。':v[3]===2?'複合母音，包住子音的右邊和下方。':'母音是橫的，放在子音下方（上下排）。';
+    box.innerHTML='<div class="legend"><span class="c">子音（初聲）</span><span class="v">母音</span><span class="f">收音（最下方）</span></div>'+
+      '<div class="stage"><button class="bcell mz" type="button" data-say="'+syl+'" aria-label="聽「'+syl+'」的發音" lang="ko">'+syl+'</button>'+
+      '<div class="frm"><div><b class="i">'+c[0]+'</b>子音'+(c[0]==='ㅇ'?'（開頭不發音）':'')+'</div><div><b class="v">'+v[0]+'</b>母音</div>'+
+        '<div><b class="f">'+(t[1]?t[0]:'—')+'</b>'+(t[1]?'收音，唸 '+t[2]:'沒有收音')+'</div></div></div>'+
+      '<p class="readout">拼音 <b>'+(c[2]+v[2]+t[2])+'</b>　<button class="btn" type="button" data-say="'+syl+'">聽發音</button></p>'+
+      '<p class="pnote">'+shape+(t[1]?'收音放在最底下。':'')+'教材裡沒有的字會用裝置內建的韓文語音。</p>'+
+      pick(BC,'c','① 子音','c')+pick(BV,'v','② 母音','v')+pick(BT,'t','③ 收音（可以沒有）','t')+
       (words.length?'<p class="lead" style="margin:12px 0 8px;font-size:14px">教材裡有「'+syl+'」的字，點來聽：</p><div class="grid">'+words.map(function(k){
           return '<button class="chip" type="button" data-open="'+esc(k)+'"><span class="ko">'+esc(PH[k].ko)+'</span><span class="zh">'+esc(PH[k].zh)+'</span></button>';}).join('')+'</div>'
-        :'<p class="lead" style="margin:12px 0 0;font-size:14px">教材裡還沒有含「'+syl+'」的字，換個組合試試。</p>');
+        :'<p class="lead" style="margin:12px 0 0;font-size:14px">教材裡還沒有含「'+syl+'」的字。</p>');
     if(tr.set==='b'){tr.list=[syl];tr.g=syl;renderTracer();}
   }
 
@@ -751,7 +817,7 @@ a.btn{text-decoration:none;display:inline-block}
     tr.strokes=[];
     box.innerHTML=(tr.list.length>1?'<div class="picks" role="radiogroup" aria-label="選擇字母">'+tr.list.map(function(g){
         return '<button type="button" role="radio" data-tr="'+g+'" aria-checked="'+(g===tr.g)+'">'+g+'</button>';}).join('')+'</div>':'')+
-      '<div class="tbox"><canvas class="tg" id="tgc" aria-hidden="true"'+(tr.guide?'':' hidden')+'></canvas><canvas id="tc" aria-label="手寫區，用手指或滑鼠書寫"></canvas></div>'+
+      '<div class="tbox mz"><canvas class="tg" id="tgc" aria-hidden="true"'+(tr.guide?'':' hidden')+'></canvas><canvas id="tc" aria-label="手寫區，用手指或滑鼠書寫"></canvas></div>'+
       '<div class="row-btns" style="margin-top:8px"><button class="btn" type="button" data-trx="clear">清除</button>'+
       '<button class="btn" type="button" data-trx="guide" aria-pressed="'+(!tr.guide)+'">隱藏範本</button></div>';
     sizeCanvas();
@@ -795,6 +861,64 @@ a.btn{text-decoration:none;display:inline-block}
   document.addEventListener('pointercancel',function(){drawingTr=false;});
   window.addEventListener('resize',sizeCanvas);
 
+  /* 測驗：解碼招牌、看字選音、拼字挑戰（不做聽音選字：單一字母的語音不夠準） */
+  var QMODES=[['decode','解碼招牌'],['see','看字選音'],['syl','拼字挑戰']],qm='decode',lq=null,lqTimer=null;
+  var QS={see:{n:0,ok:0,st:0},syl:{n:0,ok:0,st:0}};
+  function renderQArea(){
+    var box=$('qarea');if(!box)return;
+    clearTimeout(lqTimer);
+    if(qm==='decode'){box.innerHTML='<p class="lead">看招牌上的字，先試著拼出讀音，再猜是什麼意思。很多是英文外來語，唸出來就懂。</p><div id="decode"></div>';nextDecode();}
+    else{box.innerHTML='<p class="lead">'+(qm==='see'?'這個字母怎麼唸？答完會唸出音節和例字。':'這個字怎麼拼？點字可以聽發音。')+'</p><div id="lq"></div>';nextLQ();}
+  }
+  var rnd=function(n){return Math.floor(Math.random()*n);};
+  var shuffle=function(a){for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t;}return a;};
+  /* 測驗只用一個主要拼音，避免 g/k 和 k 同時看起來都對 */
+  function romOfLetter(a){return a[0]==='ㅇ'?'ng':a[2].split('/')[0].replace(/（.*?）|\s/g,'');}
+  function nextLQ(){
+    clearTimeout(lqTimer);
+    if(qm==='see'){
+      var all=ORD_C.concat(ORD_V).map(letter),L;
+      do{L=all[rnd(all.length)];}while(lq&&lq.L===L);
+      var isV=L[0]>='ㅏ',same=all.filter(function(x){return (x[0]>='ㅏ')===isV&&romOfLetter(x)!==romOfLetter(L);});
+      var seen={},opts=[romOfLetter(L)];seen[opts[0]]=1;
+      shuffle(same).forEach(function(x){var r=romOfLetter(x);if(opts.length<4&&!seen[r]){seen[r]=1;opts.push(r);}});
+      lq={L:L,ans:romOfLetter(L),opts:shuffle(opts),done:false,say:L[1]+', '+L[4]};
+    }else{
+      var common=[1,4,8,16,17,21],basicV=[0,2,4,6,8,12,13,17,18,20],o={i:rnd(19),v:Math.random()<.75?basicV[rnd(10)]:rnd(21),f:Math.random()<.5?0:common[rnd(6)]};
+      var ans=sylRom(o),set={},list=[ans];set[ans]=1;
+      for(var k=0;list.length<4&&k<150;k++){
+        var t={i:o.i,v:o.v,f:o.f},r=rnd(3);
+        if(r===0)t.i=rnd(19);else if(r===1)t.v=rnd(21);else t.f=o.f===0||Math.random()<.6?common[rnd(6)]:0;
+        var x=sylRom(t);if(x&&!set[x]){set[x]=1;list.push(x);}
+      }
+      var g=String.fromCharCode(0xAC00+o.i*588+o.v*28+o.f);
+      lq={g:g,ans:ans,opts:shuffle(list),done:false,say:g};
+    }
+    renderLQ();
+  }
+  function renderLQ(){
+    var box=$('lq');if(!box||!lq)return;
+    var sc=QS[qm];
+    var cell=qm==='see'?'<button class="qcell mz '+(lq.L[0]>='ㅏ'?'v':'c')+'" type="button" lang="ko"'+(lq.done?' data-say="'+lq.say+'"':'')+'>'+lq.L[0]+'</button>'
+      :'<button class="qcell mz" type="button" lang="ko" data-say="'+lq.g+'" aria-label="聽「'+lq.g+'」的發音">'+lq.g+'</button>';
+    box.innerHTML='<div class="quiz">'+cell+
+      '<div class="opts">'+lq.opts.map(function(r,i){
+        var cls=lq.done?(r===lq.ans?' ok':(r===lq.pick?' bad':' dim')):'';
+        return '<button class="btn opt'+cls+'" type="button" data-lq="'+i+'"'+(lq.done?' aria-disabled="true"':'')+'>'+r+'</button>';}).join('')+'</div>'+
+      (lq.done?'<div class="a"><div class="hint">'+(lq.pick===lq.ans?'答對了！':'答案是 <b>'+lq.ans+'</b>')+(qm==='see'?'　例字：'+lq.L[4]+' '+lq.L[5]:'')+
+        '</div><div class="btns">'+(qm==='syl'?spellCards(lq.g):'')+'<button class="btn pri" type="button" data-lq="next">下一題</button></div></div>':'')+
+      '</div><div class="score"><span>答對 <b>'+sc.ok+'</b> / '+sc.n+'</span><span>連續答對 <b>'+sc.st+'</b></span></div>';
+  }
+  function answerLQ(i){
+    if(!lq||lq.done)return;
+    var r=lq.opts[i],sc=QS[qm];
+    lq.done=true;lq.pick=r;sc.n++;
+    if(r===lq.ans){sc.ok++;sc.st++;}else sc.st=0;
+    renderLQ();speak(lq.say,state.slow);
+    if(r===lq.ans)lqTimer=setTimeout(function(){if($('lq'))nextLQ();},1600);
+    var fn=document.querySelector('[data-lq="next"]');if(fn)fn.focus();
+  }
+
   /* 解碼招牌：看字 → 看拆解 → 猜意思 */
   var dq={k:null,opts:[],done:false,right:0,total:0};
   function decodePool(){return SIGNS.concat(LOANS).map(function(a){return norm(a[0]);});}
@@ -809,7 +933,7 @@ a.btn{text-decoration:none;display:inline-block}
     var box=$('decode');if(!box)return;
     var p=PH[dq.k];
     box.innerHTML='<div class="quiz"><div class="hint">這個招牌寫什麼？</div><div class="sign-w" lang="ko">'+esc(p.ko)+'</div>'+
-      '<details class="spell"><summary>看拆解</summary><div class="sy">'+spell(p.ko).map(function(s){return '<span>'+s+'</span>';}).join('')+'</div></details>'+
+      '<details class="spell"><summary>看拆解</summary><div class="sy">'+spellCards(p.ko)+'</div></details>'+
       '<div class="opts">'+dq.opts.map(function(k,i){
         var cls=dq.done?(k===dq.k?' ok':' dim'):'';
         return '<button class="btn opt'+cls+'" type="button" data-dq="'+i+'"'+(dq.done?' aria-disabled="true"':'')+'>'+esc(PH[k].zh)+'</button>';}).join('')+'</div>'+
@@ -914,7 +1038,7 @@ a.btn{text-decoration:none;display:inline-block}
   var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/chart':'chart','tools/prep':'prep','list':'list'};
   function render(){
     var path=location.hash.replace(/^#\/?/,''),v,tab;
-    stopYG();
+    stopYG();clearTimeout(lqTimer);
     if(path.indexOf('tools/hangul')===0){v=V.hangul(path.split('/')[2]);tab='tools';}
     else if(path.indexOf('shadow/')===0){var ps=path.split('/');v=V.shadow(ps[1],decodeURIComponent(ps.slice(2).join('/')));tab='practice';}
     else if(path.indexOf('scene/')===0){v=V.scene(path.slice(6));tab='home';}
@@ -929,7 +1053,7 @@ a.btn{text-decoration:none;display:inline-block}
     if($('quiz'))nextQuiz();
     initTracer();
     renderBuilder();
-    if($('decode'))nextDecode();
+    renderQArea();
     renderAI();
     window.scrollTo(0,0);
   }
@@ -959,7 +1083,7 @@ a.btn{text-decoration:none;display:inline-block}
     cur=k;lastFocus=document.activeElement;
     $('sk').textContent=p.ko;$('sz').textContent=p.zh;
     $('sr').textContent=p.rm+(p.zy?'　≈ '+p.zy:'');
-    $('sy').innerHTML=spell(p.ko).map(function(s){return '<span>'+s+'</span>';}).join('');
+    $('sy').innerHTML=spellCards(p.ko);
     $('spell').open=false;
     document.querySelector('[data-act="star"]').setAttribute('aria-pressed',String(!!state.s[k]));
     $('sheet').hidden=false;document.body.classList.add('lock');
@@ -1017,7 +1141,7 @@ a.btn{text-decoration:none;display:inline-block}
   document.addEventListener('click',function(e){
     if(e.target.closest('#show')){hideBig();return;}
     if(e.target.id==='sheet'){closeSheet();return;}
-    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-dq],[data-tr],[data-trx],#speed,#back,#seed');
+    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-dq],[data-tr],[data-trx],[data-qm],[data-lq],[data-view],#speed,#back,#seed');
     if(!t)return;
     if(t.id==='speed'){state.slow=!state.slow;save();syncSpeed();return;}
     if(t.id==='back'){location.hash=t.dataset.to;return;}
@@ -1037,6 +1161,21 @@ a.btn{text-decoration:none;display:inline-block}
       else if(act==='show')showBig();
       else if(act==='shadow'){var k=cur,ls=PH[k].sc||(PRIORITY.indexOf(k)>=0?'common':'one');closeSheet();location.hash='#/shadow/'+ls+'/'+encodeURIComponent(k);}
       else if(act==='close')closeSheet();
+      return;
+    }
+    if(t.hasAttribute('data-view')){
+      var vk=t.getAttribute('data-view');state.view[vk]=!state.view[vk];save();
+      t.setAttribute('aria-pressed',String(state.view[vk]));
+      var sw=document.querySelector('.scene');if(sw)sw.classList.toggle('no-'+vk,!state.view[vk]);return;
+    }
+    if(t.hasAttribute('data-qm')){
+      qm=t.getAttribute('data-qm');
+      [].forEach.call(document.querySelectorAll('[data-qm]'),function(b){b.setAttribute('aria-checked',String(b===t));});
+      renderQArea();return;
+    }
+    if(t.hasAttribute('data-lq')){
+      var lv=t.getAttribute('data-lq');
+      if(lv==='next'){nextLQ();var f0=document.querySelector('[data-lq="0"]');if(f0)f0.focus();}else answerLQ(+lv);
       return;
     }
     if(t.hasAttribute('data-tr')){tr.g=t.getAttribute('data-tr');renderTracer();var ft=document.querySelector('[data-tr="'+tr.g+'"]');if(ft)ft.focus();return;}
