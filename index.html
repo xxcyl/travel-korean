@@ -323,6 +323,33 @@ ul.plain li{margin:0 0 4px}
 .bar i{display:block;height:100%;background:var(--sun);transition:width .2s}
 .state{display:inline-block;font-size:12px;font-weight:800;padding:1px 10px;border-radius:999px;margin-right:8px;background:var(--soft);color:var(--muted);vertical-align:2px}
 .state.ok{background:color-mix(in srgb,var(--heard) 16%,var(--surface));color:var(--heard)}
+/* 學習路徑 */
+.path{display:grid;gap:12px}
+.pstep{display:grid;grid-template-columns:auto 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px}
+.pn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--sun);color:#161b26;font:400 19px/1 var(--f-disp)}
+.pb b{font-size:17px;font-weight:800}
+.pb p{margin:2px 0 10px;color:var(--muted);font-size:14px}
+.pb .seg{margin:0}
+.pb .tiles{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+/* 練習中心 */
+.daily{background:radial-gradient(110% 120% at 100% 0%,var(--b6) 0,transparent 55%),var(--sun-soft);border:1px solid var(--line);border-radius:22px;padding:18px}
+.daily b{font:400 26px/1.2 var(--f-disp)}
+.daily p{margin:6px 0 14px;color:var(--muted);font-size:14px}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.qcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;transition:transform .12s,box-shadow .12s}
+.qcard:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.qcard b{font-weight:800}
+.qcard span{font-size:13px;color:var(--muted)}
+.qprog{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+#qz .bar{margin:0 0 14px}
+.qbig{font-size:24px;font-weight:800;margin:6px 0 4px;text-wrap:balance}
+.qbig[lang="ko"],.qko{font-family:var(--f-ko)}
+.qbig u{text-decoration:none;background:var(--sun);border-radius:6px;padding:0 3px}
+.qplay{margin:10px auto 4px;font-size:16px}
+.opt.ko{font-family:var(--f-ko);font-size:17px}
+.opts.wide{grid-template-columns:1fr}
+.qex{margin-top:6px;font-size:14px;color:var(--muted)}
+.qex .syls{justify-content:center}
 /* 手寫 */
 .tbox{position:relative;width:100%;max-width:300px;aspect-ratio:1;border-radius:12px;touch-action:none;overflow:hidden}
 .tg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
@@ -363,10 +390,10 @@ a.btn{text-decoration:none;display:inline-block}
 
 <nav class="tabbar" aria-label="主要分頁">
   <div class="tabbar-in">
-    <a href="#/" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>情境</a>
-    <a href="#/practice" data-tab="practice"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>練習</a>
-    <a href="#/tools" data-tab="tools"><span class="gl" aria-hidden="true">가</span>工具</a>
-    <a href="#/list" data-tab="list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>清單</a>
+    <a href="#/" data-tab="learn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v14.5H6.5A2.5 2.5 0 0 0 4 20z"/><path d="M4 20a2.5 2.5 0 0 0 2.5 1H20v-3.5"/></svg>學習</a>
+    <a href="#/practice" data-tab="practice"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" /></svg>練習</a>
+    <a href="#/use" data-tab="use"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.5"/></svg>旅途</a>
+    <a href="#/more" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg>更多</a>
   </div>
 </nav>
 
@@ -413,6 +440,8 @@ a.btn{text-decoration:none;display:inline-block}
   var SINO=[["일","il","1"],["이","i","2"],["삼","sam","3"],["사","sa","4"],["오","o","5"],["육","yuk","6"],["칠","chil","7"],["팔","pal","8"],["구","gu","9"],["십","sip","10"],["백","baek","100"],["천","cheon","1,000"],["만","man","10,000"]];
   var NATIVE=[["하나","hana","1"],["둘","dul","2"],["셋","set","3"],["넷","net","4"],["다섯","daseot","5"],["여섯","yeoseot","6"],["일곱","ilgop","7"],["여덟","yeodeol","8"],["아홉","ahop","9"],["열","yeol","10"]];
   var PRICES=[["삼천오백 원","samcheon-obaek won","","3,500 韓元"],["만 이천 원","man icheon won","","12,000 韓元"],["오만 원","oman won","","50,000 韓元"]];
+  /* 聽價錢測驗用：韓文唸法, 金額 */
+  var PRICEQ=[["천 원","1,000"],["오천 원","5,000"],["칠천 원","7,000"],["만 원","10,000"],["만 오천 원","15,000"],["이만 원","20,000"],["삼만 원","30,000"],["삼천오백 원","3,500"],["사천오백 원","4,500"],["만 이천 원","12,000"],["이만 오천 원","25,000"],["오만 원","50,000"]];
   var COUNTERS=[["커피 두 잔 주세요","keopi du jan juseyo","","請給我兩杯咖啡"],["맥주 한 병 주세요","maekju han byeong juseyo","","請給我一瓶啤酒"],["세 명이에요","se myeong-ieyo","","三位"],["삼겹살 이 인분 주세요","samgyeopsal i inbun juseyo","","請給我兩人份五花肉"]];
   var TRIO=[["이거 주세요","igeo juseyo","伊狗 組誰唷","請給我這個（指著菜單或商品）"],["화장실 어디예요?","hwajangsil eodiyeyo?","花張西 喔迪耶唷","廁所在哪裡？"],["얼마예요?","eolmayeyo?","喔嗎耶唷","多少錢？"]];
   var FOODS=[["김치","gimchi","泡菜"],["비빔밥","bibimbap","拌飯"],["불고기","bulgogi","醃烤牛肉"],["삼겹살","samgyeopsal","五花肉"],["김밥","gimbap","紫菜飯捲"],["떡볶이","tteokbokki","辣炒年糕"],["김치찌개","gimchijjigae","泡菜鍋"],["순두부찌개","sundubu-jjigae","嫩豆腐鍋"],["삼계탕","samgyetang","蔘雞湯"],["냉면","naengmyeon","冷麵"],["치킨","chikin","炸雞"],["소주","soju","燒酒"],["맥주","maekju","啤酒"],["물","mul","水"],["아메리카노","amerikano","美式咖啡"]];
@@ -537,7 +566,7 @@ a.btn{text-decoration:none;display:inline-block}
   [SIGNS,LOANS,FOODS,SINO,NATIVE].forEach(function(L){L.forEach(function(a){addPh(a,2,null);});});
 
   /* ---------- state ---------- */
-  var state={h:{},s:{},k:{},p:{},slow:false,ai:{sc:"food",m:"role"},view:{rm:true,zh:true}};
+  var state={h:{},s:{},k:{},p:{},slow:false,ai:{sc:"food",m:"role"},view:{rm:true,zh:true},srs:{}};
   try{var sv=JSON.parse(localStorage.getItem('krtrip-v2')||'null');if(sv)for(var x in state)if(sv[x]!=null)state[x]=sv[x];}catch(e){}
   function save(){try{localStorage.setItem('krtrip-v2',JSON.stringify(state));}catch(e){}}
 
@@ -629,23 +658,6 @@ a.btn{text-decoration:none;display:inline-block}
   /* ---------- views ---------- */
   var MARK={greet:'안',food:'밥',move:'역',shop:'원',stay:'방',sos:'119'};
   var V={};
-  V.home=function(){
-    var next=PRIORITY.filter(function(k){return !state.h[k];}).slice(0,3);
-    return {t:'旅遊韓語',html:
-      '<section class="hero"><div class="bubbles" aria-hidden="true"><span>가</span><span>나</span><span>다</span><span>라</span></div>'+
-        '<span class="pill">零基礎・旅遊韓語</span><h1 lang="ko">여행 <mark>한국어</mark></h1>'+
-        '<p>出發前學會讀招牌、開口點餐問路、遇到狀況求得到救。點任何韓文都能聽。</p></section>'+
-      '<label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="q" type="search" placeholder="找句子：廁所、結帳、多少錢…" autocomplete="off" aria-label="搜尋句子"></label>'+
-      '<div id="results"></div>'+
-      '<div id="homebody">'+
-        (next.length?'<h2>先從這幾句開始</h2><div class="stack">'+next.map(row).join('')+'</div>'
-          :'<h2>常用句都聽過了</h2><p class="lead">到「練習」遮住韓文考考自己，或到「清單」收藏你最常用的句子。</p>')+
-        '<h2>選一個情境</h2><div class="tiles">'+SC.map(function(s){
-          return '<a class="tile" href="#/scene/'+s.id+'" style="--c:'+s.c+';--cb:'+s.c.replace('--l','--b')+'"><span class="mark" aria-hidden="true" lang="ko">'+(MARK[s.id]||'')+'</span><b>'+s.n+'</b><span class="ko">'+s.ko+'</span><span class="cnt">聽過 '+heardIn(s.keys)+' / '+s.keys.length+'</span></a>';
-        }).join('')+'</div>'+
-        '<h2>想看懂招牌？</h2><a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>3 條規則看懂韓文字母</span></span></a>'+
-      '</div>'};
-  };
   V.scene=function(id){
     var s=SC.filter(function(x){return x.id===id;})[0];
     if(!s)return V.home();
@@ -655,17 +667,6 @@ a.btn{text-decoration:none;display:inline-block}
       h+='<h2>'+b.h+'</h2>'+(b.chips?chips(b.chips):rows(b.rows))+(b.note?'<p class="note" style="margin-top:10px">'+b.note+'</p>':'');
     });
     return {t:s.n,back:'#/',html:'<div class="scene'+(state.view.rm?'':' no-rm')+(state.view.zh?'':' no-zh')+'" style="--c:'+s.c+'">'+h+'</div>'};
-  };
-  V.practice=function(){
-    var L=shadowLists();
-    return {t:'練習',html:
-      '<h2>跟讀</h2><p class="lead">一句一句聽，跟著大聲說。有真人片段的句子，還能看韓國人實際怎麼說。</p>'+
-      '<div class="seg">'+Object.keys(L).filter(function(id){return L[id].keys.length;}).map(function(id){
-        return '<a class="btn" href="#/shadow/'+id+'/'+encodeURIComponent(L[id].keys[0])+'">'+L[id].n+'</a>';
-      }).join('')+'</div>'+
-      '<h2>遮住韓文，考考自己</h2><p class="lead">看中文，先試著說出韓文，再翻開對答案。題目從你聽過的句子裡出。</p><div id="quiz"></div>'+
-      '<h2>和 AI 對話練習</h2><p class="lead">選好情境和練習方式，複製提示詞貼到 Gemini、ChatGPT 或 Claude 的對話裡，再切換成語音模式。能中韓文混著說的語音模式（例如 Gemini Live）最適合，AI 會照這份教材的句子陪你練。</p>'+
-      '<div id="ai"></div>'};
   };
   /* 依情境與練習方式組出提示詞，教材範圍直接列在裡面 */
   var AI_SC=SC.concat([{id:"all",n:"綜合"}]);
@@ -707,18 +708,8 @@ a.btn{text-decoration:none;display:inline-block}
       '<textarea id="aip" readonly rows="9" aria-label="提示詞">'+esc(aiPrompt(a.sc,a.m))+'</textarea>'+
       '<div class="btns" style="justify-content:flex-start"><button class="btn pri" type="button" data-copy>複製提示詞</button></div>';
   }
-  V.tools=function(){
-    return {t:'工具',html:'<div class="stack">'+
-      '<a class="wide-link" href="#/tools/hangul"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>字母、拼字、尾音、招牌</span></span></a>'+
-      '<a class="wide-link" href="#/tools/offline" style="--c:var(--l7)"><span class="g" aria-hidden="true">↓</span><span><b>離線使用</b><span id="offsum">下載音檔、加到手機主畫面</span></span></a>'+
-      '<a class="wide-link" href="#/tools/patterns" style="--c:var(--l2)"><span class="g" aria-hidden="true">N</span><span><b>萬用句型</b><span>5 個句型，換個名詞就能用</span></span></a>'+
-      '<a class="wide-link" href="#/tools/chart" style="--c:var(--l1)"><span class="g" aria-hidden="true">40</span><span><b>40 音表</b><span>子音 19、母音 21、拼音表</span></span></a>'+
-      '<a class="wide-link" href="#/tools/numbers" style="--c:var(--l4)"><span class="g" aria-hidden="true">₩</span><span><b>數字與價錢</b><span>兩套數字、量詞、聽懂價錢</span></span></a>'+
-      '<a class="wide-link" href="#/tools/prep" style="--c:var(--l3)"><span class="g" aria-hidden="true">✓</span><span><b>出發前準備</b><span>App、交通卡、網路、文化提醒</span></span></a>'+
-      '</div><p class="foot">近似音與語音都只是輔助，發音以真人為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'};
-  };
   /* ---------- 認字入門：母音 → 子音家族 → 拼字積木 → 解碼招牌 ---------- */
-  var HSTEPS=['母音','子音','拼字','連讀','測驗'];
+  var HSTEPS=['母音','子音','拼字','連讀'];
   function vowel(ch){return VOW.filter(function(a){return a[0]===ch;})[0];}
   function cons(ch){return CON.filter(function(a){return a[0]===ch;})[0];}
   function letter(ch){return VOW.concat(COMPV,CON,TENSEC).filter(function(a){return a[0]===ch;})[0];}
@@ -769,7 +760,7 @@ a.btn{text-decoration:none;display:inline-block}
       CON.map(function(c){var li="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ".indexOf(c[0]);
         return '<tr><th>'+c[0]+'</th>'+bv.map(function(v){var vi="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ".indexOf(v);
           return '<td lang="ko">'+String.fromCharCode(0xAC00+li*588+vi*28)+'</td>';}).join('')+'</tr>';}).join('')+'</table></div>';
-    return {t:'40 音表',back:'#/tools',html:
+    return {t:'40 音表',back:'#/',html:
       '<p class="lead">韓文常說的「40 音」：子音 19 個、母音 21 個。虛線框是緊音和複合母音，點任何一格會唸出音節和例字。</p>'+
       '<div class="legend"><span class="c">子音（初聲）</span><span class="v">母音</span><span class="f">收音（最下方）</span></div>'+
       '<h2>子音 19 個</h2><div class="cgrid">'+ORD_C.map(cell).join('')+'</div>'+
@@ -778,7 +769,7 @@ a.btn{text-decoration:none;display:inline-block}
       '<a class="wide-link" href="#/tools/hangul" style="margin-top:20px"><span class="g" aria-hidden="true">한</span><span><b>認字入門</b><span>用《訓民正音》的設計原理一步步學</span></span></a>'};
   };
   V.hangul=function(step){
-    step=Math.min(Math.max(parseInt(step,10)||1,1),5);
+    step=Math.min(Math.max(parseInt(step,10)||1,1),4);
     var nav='<nav class="steps" aria-label="認字入門步驟">'+HSTEPS.map(function(n,i){
       return '<a href="#/tools/hangul/'+(i+1)+'"'+(i+1===step?' aria-current="step"':'')+'><i>'+(i+1)+'</i>'+n+'</a>';}).join('')+'</nav>';
     var body;
@@ -825,11 +816,10 @@ a.btn{text-decoration:none;display:inline-block}
             return '<button class="ph" type="button" data-open="'+esc(k)+'"><span class="dt'+(state.h[k]?' on':'')+'" aria-hidden="true"></span><span class="ko">'+esc(PH[k].ko)+'</span><span class="zh">唸成 ['+esc(pr)+']</span><span class="rm">'+esc(PH[k].zh)+'</span></button>';
           }).join('')+'</div></section>';}).join('')+'</div>'+
         '<p class="note" style="margin-top:10px">句子卡上的「實際唸法」就是套用這些規則後的讀音。書上的拼寫不變，只有唸法會變。</p>';
-    }else{
-      body='<div class="seg" role="radiogroup" aria-label="測驗種類">'+QMODES.map(function(m){return '<button type="button" role="radio" data-qm="'+m[0]+'" aria-checked="'+(qm===m[0])+'">'+m[1]+'</button>';}).join('')+'</div><div id="qarea"></div>';
     }
-    var next=step<5?'<div class="pager"><a aria-disabled="true">.</a><span></span><a href="#/tools/hangul/'+(step+1)+'">下一步：'+HSTEPS[step]+' ›</a></div>':'';
-    return {t:'認字入門',back:'#/tools',html:nav+body+next+hangulRef()};
+    var drill={1:['see','看字選音'],2:['see','看字選音'],3:['parts','拆字'],4:['pron','連讀猜唸法']}[step];
+    var next='<a class="wide-link" href="#/quiz/'+drill[0]+'" style="margin-top:20px;--c:var(--l6)"><span class="g" aria-hidden="true">?</span><span><b>練習這一節</b><span>'+drill[1]+'</span></span></a>'+(step<4?'<div class="pager"><a aria-disabled="true">.</a><span></span><a href="#/tools/hangul/'+(step+1)+'">下一步：'+HSTEPS[step]+' ›</a></div>':'');
+    return {t:'認字入門',back:'#/',html:nav+body+next+hangulRef()};
   };
 
   /* 拼字積木：用 Unicode 規則即時組字 */
@@ -930,85 +920,315 @@ a.btn{text-decoration:none;display:inline-block}
     ['5. ㅎ 弱化','ㅎ 夾在中間時常常不發音。괜찮아요 的標準唸法就是這樣；은행、천천히 則是口語常唸得很輕。',["괜찮아요",["은행","으냉（口語）"],["천천히 말해 주세요","천처니 마래 주세요（口語）"]]]
   ];
 
-  /* 測驗：解碼招牌、看字選音、拼字挑戰（不做聽音選字：單一字母的語音不夠準） */
-  var QMODES=[['decode','解碼招牌'],['see','看字選音'],['syl','拼字挑戰']],qm='decode',lq=null,lqTimer=null;
-  var QS={see:{n:0,ok:0,st:0},syl:{n:0,ok:0,st:0}};
-  function renderQArea(){
-    var box=$('qarea');if(!box)return;
-    clearTimeout(lqTimer);
-    if(qm==='decode'){box.innerHTML='<p class="lead">看招牌上的字，先試著拼出讀音，再猜是什麼意思。很多是英文外來語，唸出來就懂。</p><div id="decode"></div>';nextDecode();}
-    else{box.innerHTML='<p class="lead">'+(qm==='see'?'這個字母怎麼唸？答完會唸出音節和例字。':'這個字怎麼拼？點字可以聽發音。')+'</p><div id="lq"></div>';nextLQ();}
-  }
+  /* ---------- 練習引擎 ----------
+     間隔重複（Leitner 盒子）：答對就隔久一點再出，答錯回到第一盒、很快再出。
+     交錯練習：「今日練習」混合不同題型與內容。
+     提取練習：題目是主要的學習方式，答完立刻給回饋（聲音＋拆字卡）。 */
+  var DAY=864e5,BOX=[0,1,3,7,14,30];
   var rnd=function(n){return Math.floor(Math.random()*n);};
   var shuffle=function(a){for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t;}return a;};
-  /* 測驗只用一個主要拼音，避免 g/k 和 k 同時看起來都對 */
+  function srsUpdate(id,ok){
+    if(!id)return;
+    var r=state.srs[id]||{b:0,d:0};
+    r.b=ok?Math.min(r.b+1,5):0;r.d=Date.now()+(ok?BOX[r.b]*DAY:0);
+    state.srs[id]=r;save();
+  }
+  function sylCount(s){return (s.match(/[가-힣]/g)||[]).length;}
+  /* 練習素材：字母、單字、句子、價錢 */
+  var ITEMS=null;
+  function items(){
+    if(ITEMS)return ITEMS;
+    ITEMS={};
+    ORD_C.concat(ORD_V).forEach(function(ch){ITEMS['L:'+ch]={id:'L:'+ch,kind:'letter',ch:ch};});
+    var signSet={};SIGNS.forEach(function(a){signSet[norm(a[0])]=1;});
+    SIGNS.concat(LOANS,FOODS).forEach(function(a){var k=norm(a[0]);if(sylCount(k)>=2&&PH[k])ITEMS['W:'+k]={id:'W:'+k,kind:'word',k:k,sign:!!signSet[k]};});
+    var ph=[];SC.forEach(function(s){ph=ph.concat(s.keys);});
+    ph.concat(TRIO.map(function(a){return norm(a[0]);}),COUNTERS.map(function(a){return norm(a[0]);})).forEach(function(k){
+      if(PH[k]&&!ITEMS['P:'+k])ITEMS['P:'+k]={id:'P:'+k,kind:'phrase',k:k};});
+    PRICEQ.forEach(function(a){ITEMS['N:'+a[0]]={id:'N:'+a[0],kind:'price',k:a[0],amt:a[1]};});
+    return ITEMS;
+  }
+  function itemsOf(kinds,filter){
+    var all=items();
+    return Object.keys(all).map(function(id){return all[id];}).filter(function(it){return kinds.indexOf(it.kind)>=0&&(!filter||filter(it));});
+  }
+  /* 連讀題需要至少兩處音變，干擾選項才夠 */
+  var hasPron=function(it){
+    var pr=pronOf(it.k);if(!pr)return false;
+    var H=/[\uAC00-\uD7A3]/g,a=pr.match(H)||[],b=PH[it.k].ko.match(H)||[];
+    return a.length===b.length&&a.filter(function(c,i){return c!==b[i];}).length>=2;
+  },isSign=function(it){return it.sign;};
+  /* 題型 */
+  var QTYPES={
+    see:{n:'看字選音',g:'認字',kinds:['letter'],d:'看字母，選出唸法'},
+    rom2ko:{n:'拼音選韓文',g:'認字',kinds:['word'],d:'看拼音，找出對應的韓文'},
+    parts:{n:'拆字',g:'認字',kinds:['word'],d:'找出字塊裡的子音、母音、收音'},
+    syl:{n:'拼字挑戰',g:'認字',kinds:[],d:'任意組一個字，選出拼音'},
+    listen:{n:'聽音選字',g:'聽力',kinds:['word','phrase'],d:'聽發音，選出對的韓文'},
+    price:{n:'聽價錢',g:'聽力',kinds:['price'],d:'聽韓文價錢，選出金額'},
+    ko2zh:{n:'句子意思',g:'讀與說',kinds:['phrase'],d:'看韓文句子，選出中文意思'},
+    sign:{n:'解碼招牌',g:'讀與說',kinds:['word'],filter:isSign,d:'看招牌，猜是什麼意思'},
+    pron:{n:'連讀猜唸法',g:'讀與說',kinds:['phrase'],filter:hasPron,d:'選出句子實際的唸法'},
+    zh2ko:{n:'中翻韓',g:'讀與說',kinds:['phrase'],d:'看中文，選出韓文句子'},
+    say:{n:'說說看',g:'讀與說',kinds:['phrase'],d:'看中文先說出口，再翻開對答案'}
+  };
+  /* 每種素材在「今日練習」裡可以出的題型 */
+  function typesFor(it){
+    if(it.kind==='letter')return ['see'];
+    if(it.kind==='price')return ['price'];
+    if(it.kind==='word')return ['listen','rom2ko','parts'].concat(it.sign?['sign']:[]);
+    return ['ko2zh','zh2ko','listen','say'].concat(hasPron(it)?['pron']:[]);
+  }
   function romOfLetter(a){return a[0]==='ㅇ'?'ng':a[2].split('/')[0].replace(/（.*?）|\s/g,'');}
-  function nextLQ(){
-    clearTimeout(lqTimer);
-    if(qm==='see'){
-      var all=ORD_C.concat(ORD_V).map(letter),L;
-      do{L=all[rnd(all.length)];}while(lq&&lq.L===L);
-      var isV=L[0]>='ㅏ',same=all.filter(function(x){return (x[0]>='ㅏ')===isV&&romOfLetter(x)!==romOfLetter(L);});
-      var seen={},opts=[romOfLetter(L)];seen[opts[0]]=1;
-      shuffle(same).forEach(function(x){var r=romOfLetter(x);if(opts.length<4&&!seen[r]){seen[r]=1;opts.push(r);}});
-      lq={L:L,ans:romOfLetter(L),opts:shuffle(opts),done:false,say:L[1]+', '+L[4]};
-    }else{
-      var common=[1,4,8,16,17,21],basicV=[0,2,4,6,8,12,13,17,18,20],o={i:rnd(19),v:Math.random()<.75?basicV[rnd(10)]:rnd(21),f:Math.random()<.5?0:common[rnd(6)]};
-      var ans=sylRom(o),set={},list=[ans];set[ans]=1;
+  function pickOthers(list,n,not,key){
+    var seen={},out=[];seen[key(not)]=1;
+    shuffle(list.slice()).forEach(function(x){var v=key(x);if(out.length<n&&!seen[v]){seen[v]=1;out.push(x);}});
+    return out;
+  }
+  /* 依題型與素材組出一題：prompt、選項、答案、答完要播的聲音與說明 */
+  function buildQ(type,it){
+    var q={type:type,item:it,opts:[],ans:null,say:null,explain:'',auto:false};
+    if(type==='see'){
+      var L=letter(it.ch),isV=L[0]>='ㅏ',pool=ORD_C.concat(ORD_V).map(letter).filter(function(x){return (x[0]>='ㅏ')===isV;});
+      q.prompt='<button class="qcell mz '+(isV?'v':'c')+'" type="button" lang="ko">'+L[0]+'</button><div class="hint">這個字母怎麼唸？</div>';
+      q.ans=romOfLetter(L);q.opts=shuffle([q.ans].concat(pickOthers(pool,3,L,romOfLetter).map(romOfLetter)));
+      q.say=L[1]+', '+L[4];q.explain='例字：<b lang="ko">'+L[4]+'</b> '+L[5];
+    }else if(type==='syl'){
+      var common=[1,4,8,16,17,21],basicV=[0,2,4,6,8,12,13,17,18,20];
+      var o={i:rnd(19),v:Math.random()<.75?basicV[rnd(10)]:rnd(21),f:Math.random()<.5?0:common[rnd(6)]},ans=sylRom(o),set={},list=[ans];set[ans]=1;
       for(var k=0;list.length<4&&k<150;k++){
         var t={i:o.i,v:o.v,f:o.f},r=rnd(3);
         if(r===0)t.i=rnd(19);else if(r===1)t.v=rnd(21);else t.f=o.f===0||Math.random()<.6?common[rnd(6)]:0;
         var x=sylRom(t);if(x&&!set[x]){set[x]=1;list.push(x);}
       }
       var g=String.fromCharCode(0xAC00+o.i*588+o.v*28+o.f);
-      lq={g:g,ans:ans,opts:shuffle(list),done:false,say:g};
+      q.prompt='<button class="qcell mz" type="button" lang="ko" data-say="'+g+'" aria-label="聽「'+g+'」">'+g+'</button><div class="hint">這個字怎麼拼？點字可以聽。</div>';
+      q.ans=ans;q.opts=shuffle(list);q.say=g;q.explain=spellCards(g);
+    }else if(type==='rom2ko'||type==='listen'||type==='zh2ko'){
+      var p=PH[it.k],same=itemsOf([it.kind]).filter(function(x){return x.k!==it.k&&Math.abs(sylCount(x.k)-sylCount(it.k))<=(it.kind==='word'?1:3);});
+      if(same.length<3)same=itemsOf([it.kind]).filter(function(x){return x.k!==it.k;});
+      q.ans=p.ko;q.opts=shuffle([p.ko].concat(pickOthers(same,3,it,function(x){return x.k;}).map(function(x){return PH[x.k].ko;})));q.koOpts=true;
+      q.say=p.ko;q.explain='<b lang="ko">'+esc(p.ko)+'</b>　'+esc(p.zh)+(pronOf(it.k)?'<br>實際唸法 ['+esc(pronOf(it.k))+']':'');
+      if(type==='rom2ko')q.prompt='<div class="qbig">'+esc(p.rm)+'</div><div class="hint">這是哪個韓文？</div>';
+      else if(type==='zh2ko')q.prompt='<div class="qbig">'+esc(p.zh)+'</div><div class="hint">用韓文怎麼說？</div>';
+      else{q.prompt='<button class="btn pri qplay" type="button" data-qplay>再聽一次</button><div class="hint">聽到的是哪一個？</div>';q.auto=true;}
+    }else if(type==='ko2zh'||type==='sign'){
+      var p2=PH[it.k],pool2=itemsOf([it.kind],type==='sign'?isSign:null).filter(function(x){return PH[x.k].zh!==p2.zh;});
+      q.ans=p2.zh;q.opts=shuffle([p2.zh].concat(pickOthers(pool2,3,it,function(x){return PH[x.k].zh;}).map(function(x){return PH[x.k].zh;})));
+      q.prompt=(type==='sign'?'<div class="sign-w" lang="ko">'+esc(p2.ko)+'</div><div class="hint">這個招牌寫什麼？</div>':'<div class="qbig" lang="ko">'+esc(p2.ko)+'</div><div class="hint">這句是什麼意思？</div>');
+      q.say=p2.ko;q.explain='讀作 <b>'+esc(p2.rm)+'</b>'+spellCards(p2.ko);
+    }else if(type==='pron'){
+      var sp=PH[it.k].ko.replace(/[?？!！]/g,''),pr=pronOf(it.k),cand={};cand[pr]=1;
+      var opts=[pr];
+      if(!cand[sp]){cand[sp]=1;opts.push(sp);}
+      /* 干擾選項：只套用一部分音變（逐音節混合拼寫與唸法，空格照唸法的位置） */
+      var H=/[가-힣]/g,ps=pr.match(H)||[],ss=sp.match(H)||[];
+      if(ps.length===ss.length){
+        var diff=ps.map(function(c,i){return c!==ss[i]?i:-1;}).filter(function(i){return i>=0;});
+        for(var tries=0;opts.length<4&&tries<40&&diff.length>1;tries++){
+          var revert={};diff.forEach(function(i){if(Math.random()<.5)revert[i]=1;});
+          var n=0,mix=pr.replace(H,function(c){var j=n++;return revert[j]?ss[j]:c;});
+          if(!cand[mix]){cand[mix]=1;opts.push(mix);}
+        }
+      }
+      q.prompt='<div class="qbig" lang="ko">'+esc(PH[it.k].ko)+'</div><div class="hint">實際唸起來是哪一個？</div>';
+      q.ans=pr;q.opts=shuffle(opts).map(function(x){return x;});q.wrap=true;q.koOpts=true;
+      q.say=PH[it.k].ko;q.explain='規則在「學習 → 認字 → 連讀」。';
+    }else if(type==='price'){
+      var amts=PRICEQ.map(function(x){return x[1];});
+      q.ans=it.amt+' 元';q.opts=shuffle([q.ans].concat(shuffle(amts.filter(function(x){return x!==it.amt;})).slice(0,3).map(function(x){return x+' 元';})));
+      q.prompt='<button class="btn pri qplay" type="button" data-qplay>再聽一次</button><div class="hint">聽到多少錢？</div>';q.auto=true;
+      q.say=it.k;q.explain='<b lang="ko">'+esc(it.k)+'</b>'+(pronOf(it.k)?'　唸成 ['+esc(pronOf(it.k))+']':'');
+    }else if(type==='parts'){
+      var w=PH[it.k].ko,syls=[].filter.call(w,function(c){return /[가-힣]/.test(c);}),ch=syls[rnd(syls.length)],o2=sylParts(ch);
+      var which=o2.f&&Math.random()<.45?'f':(Math.random()<.5?'i':'v');
+      var arr=which==='i'?JL:which==='v'?JV:JT.slice(1),right=which==='i'?JL[o2.i]:which==='v'?JV[o2.v]:JT[o2.f];
+      q.ans=right;q.opts=shuffle([right].concat(shuffle(arr.filter(function(x){return x!==right;})).slice(0,3)));q.koOpts=true;
+      q.prompt='<div class="qbig" lang="ko">'+[].map.call(w,function(c){return c===ch?'<u>'+c+'</u>':esc(c);}).join('')+'</div><div class="hint">「'+ch+'」的'+({i:'子音（開頭）',v:'母音',f:'收音（最下面）'}[which])+'是？</div>';
+      q.say=w;q.explain=spellCards(ch);
+    }else if(type==='say'){
+      var p3=PH[it.k];
+      q.prompt='<div class="qbig">'+esc(p3.zh)+'</div><div class="hint">先說出口，再翻開對答案</div>';
+      q.self=true;q.say=p3.ko;q.explain='<b lang="ko" class="qko">'+esc(p3.ko)+'</b><br>'+esc(p3.rm)+(p3.zy?'　≈ '+esc(p3.zy):'');
     }
-    renderLQ();
-  }
-  function renderLQ(){
-    var box=$('lq');if(!box||!lq)return;
-    var sc=QS[qm];
-    var cell=qm==='see'?'<button class="qcell mz '+(lq.L[0]>='ㅏ'?'v':'c')+'" type="button" lang="ko"'+(lq.done?' data-say="'+lq.say+'"':'')+'>'+lq.L[0]+'</button>'
-      :'<button class="qcell mz" type="button" lang="ko" data-say="'+lq.g+'" aria-label="聽「'+lq.g+'」的發音">'+lq.g+'</button>';
-    box.innerHTML='<div class="quiz">'+cell+
-      '<div class="opts">'+lq.opts.map(function(r,i){
-        var cls=lq.done?(r===lq.ans?' ok':(r===lq.pick?' bad':' dim')):'';
-        return '<button class="btn opt'+cls+'" type="button" data-lq="'+i+'"'+(lq.done?' aria-disabled="true"':'')+'>'+r+'</button>';}).join('')+'</div>'+
-      (lq.done?'<div class="a"><div class="hint">'+(lq.pick===lq.ans?'答對了！':'答案是 <b>'+lq.ans+'</b>')+(qm==='see'?'　例字：'+lq.L[4]+' '+lq.L[5]:'')+
-        '</div><div class="btns">'+(qm==='syl'?spellCards(lq.g):'')+'<button class="btn pri" type="button" data-lq="next">下一題</button></div></div>':'')+
-      '</div><div class="score"><span>答對 <b>'+sc.ok+'</b> / '+sc.n+'</span><span>連續答對 <b>'+sc.st+'</b></span></div>';
-  }
-  function answerLQ(i){
-    if(!lq||lq.done)return;
-    var r=lq.opts[i],sc=QS[qm];
-    lq.done=true;lq.pick=r;sc.n++;
-    if(r===lq.ans){sc.ok++;sc.st++;}else sc.st=0;
-    renderLQ();speak(lq.say,state.slow);
-    if(r===lq.ans)lqTimer=setTimeout(function(){if($('lq'))nextLQ();},1600);
-    var fn=document.querySelector('[data-lq="next"]');if(fn)fn.focus();
+    return q;
   }
 
-  /* 解碼招牌：看字 → 看拆解 → 猜意思 */
-  var dq={k:null,opts:[],done:false,right:0,total:0};
-  function decodePool(){return SIGNS.concat(LOANS).map(function(a){return norm(a[0]);});}
-  function nextDecode(){
-    var pool=decodePool(),k;
-    do{k=pool[Math.floor(Math.random()*pool.length)];}while(k===dq.k&&pool.length>1);
-    var others=pool.filter(function(x){return x!==k&&PH[x].zh!==PH[k].zh;}).sort(function(){return Math.random()-.5;}).slice(0,3);
-    dq.k=k;dq.done=false;dq.opts=others.concat([k]).sort(function(){return Math.random()-.5;});
-    renderDecode();
+  /* 今日練習：先排到期的複習，再補新內容；不同素材交錯 */
+  function dueItems(){
+    var now=Date.now(),all=items();
+    return Object.keys(state.srs).filter(function(id){return all[id]&&state.srs[id].d<=now;})
+      .sort(function(a,b){return state.srs[a].d-state.srs[b].d;}).map(function(id){return all[id];});
   }
-  function renderDecode(){
-    var box=$('decode');if(!box)return;
-    var p=PH[dq.k];
-    box.innerHTML='<div class="quiz"><div class="hint">這個招牌寫什麼？</div><div class="sign-w" lang="ko">'+esc(p.ko)+'</div>'+
-      '<details class="spell"><summary>看拆解</summary><div class="sy">'+spellCards(p.ko)+'</div></details>'+
-      '<div class="opts">'+dq.opts.map(function(k,i){
-        var cls=dq.done?(k===dq.k?' ok':' dim'):'';
-        return '<button class="btn opt'+cls+'" type="button" data-dq="'+i+'"'+(dq.done?' aria-disabled="true"':'')+'>'+esc(PH[k].zh)+'</button>';}).join('')+'</div>'+
-      (dq.done?'<div class="a"><div class="hint">讀作 <b>'+esc(p.rm)+'</b></div><div class="btns"><button class="btn" type="button" data-say="'+esc(p.ko)+'">再聽一次</button><button class="btn pri" type="button" data-dq="next">下一題</button></div></div>':'')+
-      '</div>'+(dq.total?'<p class="lead" style="text-align:center;margin-top:8px;font-size:13px">這次答對 '+dq.right+' / '+dq.total+'</p>':'');
+  function newItems(){
+    var all=items(),fresh=function(it){return !state.srs[it.id];};
+    var heard=Object.keys(state.h).map(function(k){return all['P:'+k]||all['W:'+k];}).filter(function(x){return x&&fresh(x);});
+    var pri=PRIORITY.map(function(k){return all['P:'+k];}).filter(function(x){return x&&fresh(x);});
+    var letters=ORD_C.concat(ORD_V).map(function(ch){return all['L:'+ch];}).filter(fresh);
+    var words=shuffle(itemsOf(['word']).filter(fresh)),prices=shuffle(itemsOf(['price']).filter(fresh));
+    var phrases=[],seen={};heard.concat(pri).forEach(function(x){if(!seen[x.id]){seen[x.id]=1;phrases.push(x);}});
+    var lanes=[letters,phrases,words,letters,phrases,prices],out=[];
+    for(var r=0;r<6;r++)lanes.forEach(function(l){if(l.length)out.push(l.shift());});
+    return out;
   }
+  function buildDaily(){
+    var due=dueItems().slice(0,10),fresh=newItems(),list=due.slice();
+    fresh.forEach(function(x){if(list.length<10&&list.indexOf(x)<0)list.push(x);});
+    list=shuffle(list);
+    var last=null;
+    return list.map(function(it){
+      var ts=typesFor(it).filter(function(t){return t!==last;});if(!ts.length)ts=typesFor(it);
+      last=ts[rnd(ts.length)];return {type:last,id:it.id};
+    });
+  }
+  function pickForType(type){
+    var T=QTYPES[type];if(type==='syl')return null;
+    var pool=itemsOf(T.kinds,T.filter),now=Date.now();
+    var due=pool.filter(function(it){return state.srs[it.id]&&state.srs[it.id].d<=now;});
+    if(due.length&&Math.random()<.6)return due[rnd(due.length)];
+    var bag=[];pool.forEach(function(it){var r=state.srs[it.id],w=r?Math.max(1,4-r.b):3;for(var i=0;i<w;i++)bag.push(it);});
+    return bag[rnd(bag.length)];
+  }
+
+  /* 一次練習的狀態 */
+  var QZ=null,qTimer=null;
+  function startQuiz(mode){
+    clearTimeout(qTimer);
+    QZ={mode:mode,list:mode==='daily'?buildDaily():null,i:0,ok:0,n:0,missed:[],retry:{},q:null,answered:false};
+    nextQ();
+  }
+  function nextQ(){
+    clearTimeout(qTimer);
+    if(!QZ)return;
+    if(QZ.mode==='daily'&&QZ.i>=QZ.list.length){renderSummary();return;}
+    var spec=QZ.mode==='daily'?QZ.list[QZ.i]:{type:QZ.mode,id:(pickForType(QZ.mode)||{}).id};
+    QZ.q=buildQ(spec.type,spec.id?items()[spec.id]:null);QZ.answered=false;QZ.pick=null;
+    renderQ();
+    if(QZ.q.auto)setTimeout(function(){speak(QZ.q.say,state.slow);},250);
+  }
+  function renderQ(){
+    var box=$('qz');if(!box||!QZ)return;
+    var q=QZ.q,T=QTYPES[q.type],daily=QZ.mode==='daily';
+    var head=daily?'<div class="qprog"><span>'+T.n+'</span><span>'+(QZ.i+1)+' / '+QZ.list.length+'</span></div><div class="bar"><i style="width:'+Math.round(QZ.i/QZ.list.length*100)+'%"></i></div>'
+      :'<div class="score"><span>答對 <b>'+QZ.ok+'</b> / '+QZ.n+'</span></div>';
+    var body;
+    if(q.self){
+      body=q.prompt+(QZ.answered?'<div class="a">'+q.explain+'<div class="btns"><button class="btn" type="button" data-qs="0">還不熟</button><button class="btn pri" type="button" data-qs="1">說對了</button></div></div>'
+        :'<div class="btns"><button class="btn pri" type="button" data-qr>翻開答案</button></div>');
+    }else{
+      body=q.prompt+'<div class="opts'+(q.wrap?' wide':'')+'">'+q.opts.map(function(o,i){
+        var cls=QZ.answered?(o===q.ans?' ok':(o===QZ.pick?' bad':' dim')):'';
+        return '<button class="btn opt'+cls+(q.koOpts?' ko':'')+'" type="button" data-qa="'+i+'"'+(QZ.answered?' aria-disabled="true"':'')+'>'+esc(o)+'</button>';}).join('')+'</div>'+
+        (QZ.answered?'<div class="a"><div class="hint">'+(QZ.pick===q.ans?'答對了！':'答案是 <b>'+esc(q.ans)+'</b>')+'</div><div class="qex">'+q.explain+'</div>'+
+          '<div class="btns"><button class="btn pri" type="button" data-qn>'+(daily&&QZ.i+1>=QZ.list.length?'看結果':'下一題')+'</button></div></div>':'');
+    }
+    box.innerHTML=head+'<div class="quiz">'+body+'</div>';
+  }
+  function settle(ok){
+    var q=QZ.q;QZ.n++;if(ok)QZ.ok++;
+    if(q.item){
+      srsUpdate(q.item.id,ok);
+      if(!ok){
+        if(QZ.missed.indexOf(q.item.id)<0)QZ.missed.push(q.item.id);
+        /* 答錯的稍後換個題型再考一次 */
+        if(QZ.mode==='daily'&&!QZ.retry[q.item.id]&&QZ.list.length<14){ /* 最多 14 題，維持短時間練習 */
+          QZ.retry[q.item.id]=1;
+          var ts=typesFor(q.item),t2=ts.filter(function(t){return t!==q.type;});
+          QZ.list.splice(Math.min(QZ.i+3,QZ.list.length),0,{type:(t2.length?t2:ts)[rnd((t2.length?t2:ts).length)],id:q.item.id});
+        }
+      }
+    }
+  }
+  function answerQ(i){
+    if(!QZ||QZ.answered)return;
+    var q=QZ.q;QZ.pick=q.opts[i];QZ.answered=true;
+    var ok=QZ.pick===q.ans;settle(ok);
+    renderQ();speak(q.say,state.slow);
+    if(q.item&&q.item.kind!=='letter'&&PH[q.item.k])markHeard(q.item.k);
+    if(ok&&QZ.mode!=='daily')qTimer=setTimeout(function(){if($('qz'))advance();},1500);
+    var f=document.querySelector('[data-qn]');if(f)f.focus();
+  }
+  function advance(){if(!QZ)return;QZ.i++;nextQ();var f=document.querySelector('[data-qa="0"],[data-qr]');if(f)f.focus();}
+  function renderSummary(){
+    var box=$('qz');if(!box)return;
+    var all=items(),soon=Object.keys(state.srs).filter(function(id){return state.srs[id].d<=Date.now()+DAY;}).length;
+    var miss=QZ.missed.map(function(id){var it=all[id];
+      if(it.kind==='letter')return '<div class="ph"><span></span><span class="ko">'+it.ch+'</span><span class="zh">'+romOfLetter(letter(it.ch))+'</span></div>';
+      if(it.kind==='price')return '<button class="ph" type="button" data-say="'+esc(it.k)+'"><span></span><span class="ko">'+esc(it.k)+'</span><span class="zh">'+it.amt+' 元</span></button>';
+      return row(it.k);}).join('');
+    box.innerHTML='<div class="quiz"><div class="qbig">答對 '+QZ.ok+' / '+QZ.n+'</div>'+
+      '<div class="hint">'+(QZ.missed.length?'答錯的會在明天的練習再出現。':'全部答對！這些內容會隔幾天再複習。')+'未來 24 小時內有 '+soon+' 題要複習。</div>'+
+      '<div class="btns"><a class="btn" href="#/practice">回練習</a><button class="btn pri" type="button" data-qagain>再練一輪</button></div></div>'+
+      (miss?'<h2>要加強的</h2><div class="stack">'+miss+'</div>':'');
+  }
+  V.quiz=function(mode){
+    var T=mode==='daily'?{n:'今日練習'}:QTYPES[mode];
+    if(!T)return V.practice();
+    return {t:T.n,back:'#/practice',html:'<div id="qz" data-mode="'+mode+'"></div>'};
+  };
+
+  /* ---------- 四個分頁 ---------- */
+  V.home=function(){
+    var step=function(n,title,desc,inner){return '<section class="pstep"><div class="pn" aria-hidden="true">'+n+'</div><div class="pb"><b>'+title+'</b><p>'+desc+'</p>'+inner+'</div></section>';};
+    return {t:'旅遊韓語',html:
+      '<section class="hero"><div class="bubbles" aria-hidden="true"><span>가</span><span>나</span><span>다</span><span>라</span></div>'+
+        '<span class="pill">零基礎・旅遊韓語</span><h1 lang="ko">여행 <mark>한국어</mark></h1>'+
+        '<p>照著 1、2、3 學，到「練習」每天做幾題，出國時打開「旅途」就能用。</p></section>'+
+      '<h2>學習路徑</h2><div class="path">'+
+        step(1,'認字','用《訓民正音》的設計原理學 40 個字母，再學拼字和連讀。',
+          '<div class="seg">'+['母音','子音','拼字','連讀'].map(function(n,i){return '<a class="btn" href="#/tools/hangul/'+(i+1)+'">'+n+'</a>';}).join('')+'</div>')+
+        step(2,'萬用句型','5 個句型，換個名詞就能自己造句。','<div class="seg"><a class="btn" href="#/tools/patterns">看句型</a></div>')+
+        step(3,'情境會話','旅途中會遇到的 6 個情境。','<div class="tiles">'+SC.map(function(s){
+          return '<a class="tile" href="#/scene/'+s.id+'" style="--c:'+s.c+';--cb:'+s.c.replace('--l','--b')+'"><span class="mark" aria-hidden="true" lang="ko">'+(MARK[s.id]||'')+'</span><b>'+s.n+'</b><span class="ko">'+s.ko+'</span><span class="cnt">聽過 '+heardIn(s.keys)+' / '+s.keys.length+'</span></a>';
+        }).join('')+'</div>')+
+      '</div>'+
+      '<h2>參考</h2><div class="stack">'+
+        '<a class="wide-link" href="#/tools/chart" style="--c:var(--l1)"><span class="g" aria-hidden="true">40</span><span><b>40 音表</b><span>子音 19、母音 21、拼音表</span></span></a>'+
+        '<a class="wide-link" href="#/tools/numbers" style="--c:var(--l4)"><span class="g" aria-hidden="true">₩</span><span><b>數字與價錢</b><span>兩套數字、量詞、聽懂價錢</span></span></a>'+
+      '</div>'};
+  };
+  V.practice=function(){
+    var L=shadowLists(),due=dueItems().length,fresh=Math.max(0,10-due);
+    var groups={};Object.keys(QTYPES).forEach(function(t){(groups[QTYPES[t].g]=groups[QTYPES[t].g]||[]).push(t);});
+    return {t:'練習',html:
+      '<section class="daily"><b>今日練習</b><p>'+(due?due+' 題要複習，加上 '+Math.min(fresh,10)+' 題新內容':'10 題，混合認字、聽力和句子')+'，大約 3 分鐘。答對的會隔幾天再出，答錯的很快會再出現。</p>'+
+        '<a class="btn pri" href="#/quiz/daily">開始</a></section>'+
+      Object.keys(groups).map(function(g){
+        return '<h2>'+g+'</h2><div class="qgrid">'+groups[g].map(function(t){
+          return '<a class="qcard" href="#/quiz/'+t+'"><b>'+QTYPES[t].n+'</b><span>'+QTYPES[t].d+'</span></a>';}).join('')+'</div>';
+      }).join('')+
+      '<h2>跟讀</h2><p class="lead">一句一句聽，跟著大聲說。</p>'+
+      '<div class="seg">'+Object.keys(L).filter(function(id){return L[id].keys.length;}).map(function(id){
+        return '<a class="btn" href="#/shadow/'+id+'/'+encodeURIComponent(L[id].keys[0])+'">'+L[id].n+'</a>';
+      }).join('')+'</div>'+
+      '<h2>和 AI 對話</h2><a class="wide-link" href="#/practice/ai" style="--c:var(--l5)"><span class="g" aria-hidden="true">AI</span><span><b>產生對話練習提示詞</b><span>貼到 Gemini、ChatGPT 或 Claude 的語音模式</span></span></a>'};
+  };
+  V.ai=function(){
+    return {t:'和 AI 對話',back:'#/practice',html:
+      '<p class="lead">選好情境和練習方式，複製提示詞貼到 Gemini、ChatGPT 或 Claude 的對話裡，再切換成語音模式。能中韓文混著說的語音模式（例如 Gemini Live）最適合，AI 會照這份教材的句子陪你練。</p><div id="ai"></div>'};
+  };
+  V.use=function(){
+    var keys=Object.keys(state.s).filter(function(k){return state.s[k]&&PH[k];});
+    var sos=SC.filter(function(s){return s.id==='sos';})[0];
+    return {t:'旅途',html:
+      '<label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="q" type="search" placeholder="找句子：廁所、結帳、多少錢…" autocomplete="off" aria-label="搜尋句子"></label>'+
+      '<div id="results"></div><div id="usebody">'+
+        '<h2>我的清單</h2>'+(keys.length?'<div class="stack">'+keys.map(row).join('')+'</div>'
+          :'<div class="empty"><p>在句子卡上按「收藏」，常用的句子就會集中在這裡。點開句子後按「出示」，可以全螢幕給對方看。</p><button class="btn pri" type="button" id="seed">先收藏三句必學</button></div>')+
+        '<h2>常用句</h2><div class="stack">'+PRIORITY.slice(0,8).map(row).join('')+'</div>'+
+        '<h2>緊急</h2><p class="note">警察 112、消防與救護 119、旅遊諮詢熱線 1330（有中文服務）。</p><div class="stack">'+sos.keys.map(row).join('')+'</div>'+
+        '<h2>速查</h2><div class="stack"><a class="wide-link" href="#/tools/numbers" style="--c:var(--l4)"><span class="g" aria-hidden="true">₩</span><span><b>數字與價錢</b><span>聽不懂價錢時看這裡</span></span></a></div>'+
+      '</div>'};
+  };
+  V.more=function(){
+    return {t:'更多',html:'<div class="stack">'+
+      '<a class="wide-link" href="#/tools/offline" style="--c:var(--l7)"><span class="g" aria-hidden="true">↓</span><span><b>離線使用</b><span>下載音檔、加到手機主畫面</span></span></a>'+
+      '<a class="wide-link" href="#/tools/prep" style="--c:var(--l3)"><span class="g" aria-hidden="true">✓</span><span><b>出發前準備</b><span>App、交通卡、網路、文化提醒</span></span></a>'+
+      '</div>'+
+      '<h2>關於這份教材</h2><p class="lead">發音由開源的 MeloTTS 產生，近似音與語音都只是輔助，請以真人發音為準。播放沒有聲音時，請確認手機沒有開靜音。</p>'+
+      '<p class="lead">練習會依你答對答錯自動安排複習時間，紀錄只存在這支手機的瀏覽器裡。</p>'};
+  };
+
   /* 萬用句型：換掉名詞就能用在各種情境 */
   var PATTERNS=[
     ['N 주세요','請給我 N','東西 + 주세요，最萬用的一句。',["이거 주세요","물 주세요","영수증 주세요"]],
@@ -1018,7 +1238,7 @@ a.btn{text-decoration:none;display:inline-block}
     ['動詞 + 아/어 주세요','請幫我…','請對方幫你做事，하다 動詞變成 해 주세요。',["포장해 주세요","계산해 주세요","천천히 말해 주세요"]]
   ];
   V.patterns=function(){
-    return {t:'萬用句型',back:'#/tools',html:
+    return {t:'萬用句型',back:'#/',html:
       '<p class="lead">會這 5 個句型，把名詞換掉就能自己造句。點例句可以聽。</p>'+
       '<div class="stack">'+PATTERNS.map(function(p){
         return '<section class="art"><div class="art-h"><b lang="ko">'+p[0]+'</b><span class="o">'+p[1]+'</span><p>'+p[2]+'</p></div><div class="stack">'+p[3].map(row).join('')+'</div></section>';
@@ -1073,9 +1293,9 @@ a.btn{text-decoration:none;display:inline-block}
         '<p class="note">離線時無法使用：YouGlish 真人片段，以及和 AI 對話。拼字積木裡沒有預錄音檔的字，會用手機內建語音。</p>';
     });
   }
-  V.offline=function(){return {t:'離線使用',back:'#/tools',html:'<p class="lead">出國時網路不一定穩，建議出發前在 Wi-Fi 下把音檔下載好。</p><div id="offline"></div>'};};
+  V.offline=function(){return {t:'離線使用',back:'#/more',html:'<p class="lead">出國時網路不一定穩，建議出發前在 Wi-Fi 下把音檔下載好。</p><div id="offline"></div>'};};
   V.numbers=function(){
-    return {t:'數字與價錢',back:'#/tools',html:
+    return {t:'數字與價錢',back:'#/',html:
       '<p class="note"><b>漢字數字</b>用在價錢、樓層、號碼、日期。<b>固有數字</b>用在數量、人數、幾點。</p>'+
       '<h2>漢字數字（價錢用）</h2>'+chips(SINO)+
       '<h2>聽懂價錢</h2><p class="note">一萬直接說 <b>만</b>，不說 일만；一百、一千也一樣，直接說 <b>백</b>、<b>천</b>。所以 12,000 是 만 이천，50,000 是 오만。</p>'+rows(PRICES)+
@@ -1083,20 +1303,13 @@ a.btn{text-decoration:none;display:inline-block}
       '<p class="note" style="margin-top:10px">後面接量詞時，하나 → <b>한</b>、둘 → <b>두</b>、셋 → <b>세</b>、넷 → <b>네</b>。常用量詞：개（個）、명（人）、잔（杯）、병（瓶）。例外：<b>인분</b>（人份）要配漢字數字，兩人份是 이 인분。</p>'+rows(COUNTERS)};
   };
   V.prep=function(){
-    return {t:'出發前準備',back:'#/tools',html:
+    return {t:'出發前準備',back:'#/more',html:
       '<p class="lead">以下是一般性資訊，出發前請再到官方管道確認。</p>'+
       PRE.map(function(t,i){return '<label class="chk"><input type="checkbox" id="pre'+i+'" data-pre="p'+i+'"'+(state.p['p'+i]?' checked':'')+'><span>'+t+'</span></label>';}).join('')+
       '<h2>小小文化提醒</h2><ul class="plain">'+
         '<li>韓國一般沒有給小費的習慣。</li><li>遞東西或接東西時用雙手，比較有禮貌。</li>'+
         '<li>很多餐廳桌上有呼叫鈴，沒有的話就舉手喊 저기요 或 여기요。</li><li>很多餐廳是吃完到櫃台結帳，不是在座位上付錢。</li><li>部分烤肉店是 2 人份起點，一個人吃前先問一下。</li></ul>'};
   };
-  V.list=function(){
-    var keys=Object.keys(state.s).filter(function(k){return state.s[k]&&PH[k];});
-    return {t:'清單',html:keys.length
-      ?'<p class="lead">你收藏的句子。旅途中打開這裡最快，點開後可以按「出示」給對方看。</p><div class="stack">'+keys.map(row).join('')+'</div>'
-      :'<div class="empty"><p>在句子卡上按「收藏」，常用的句子就會集中在這裡，旅途中一打開就找得到。</p><button class="btn pri" type="button" id="seed">先收藏三句必學</button></div>'};
-  };
-
   /* ---------- shadowing ---------- */
   function ygLink(q){return 'https://youglish.com/pronounce/'+encodeURIComponent(q)+'/korean';}
 
@@ -1170,14 +1383,17 @@ a.btn{text-decoration:none;display:inline-block}
   function stopAudio(){if(player){player.pause();}}
 
   /* ---------- router ---------- */
-  var ROUTES={'':'home','practice':'practice','tools':'tools','tools/numbers':'numbers','tools/chart':'chart','tools/patterns':'patterns','tools/offline':'offline','tools/prep':'prep','list':'list'};
+  var ROUTES={'':'home','practice':'practice','practice/ai':'ai','use':'use','list':'use','more':'more','tools':'more',
+    'tools/numbers':'numbers','tools/chart':'chart','tools/patterns':'patterns','tools/offline':'offline','tools/prep':'prep'};
+  var TABOF={home:'learn',numbers:'learn',chart:'learn',patterns:'learn',practice:'practice',ai:'practice',use:'use',more:'more',offline:'more',prep:'more'};
   function render(){
     var path=location.hash.replace(/^#\/?/,''),v,tab;
-    stopYG();clearTimeout(lqTimer);
-    if(path.indexOf('tools/hangul')===0){v=V.hangul(path.split('/')[2]);tab='tools';}
+    stopYG();clearTimeout(qTimer);QZ=null;
+    if(path.indexOf('tools/hangul')===0){v=V.hangul(path.split('/')[2]);tab='learn';}
+    else if(path.indexOf('quiz/')===0){v=V.quiz(path.slice(5));tab='practice';}
     else if(path.indexOf('shadow/')===0){var ps=path.split('/');v=V.shadow(ps[1],decodeURIComponent(ps.slice(2).join('/')));tab='practice';}
-    else if(path.indexOf('scene/')===0){v=V.scene(path.slice(6));tab='home';}
-    else{var n=ROUTES[path]||'home';v=V[n]();tab=n==='home'?'home':(path.split('/')[0]);}
+    else if(path.indexOf('scene/')===0){v=V.scene(path.slice(6));tab='learn';}
+    else{var n=ROUTES[path]||'home';v=V[n]();tab=TABOF[n]||'learn';}
     $('view').innerHTML=v.html;
     $('ttl').textContent=v.t;
     document.title=v.t==='旅遊韓語'?'韓國旅遊速成教材':v.t+'｜韓國旅遊速成教材';
@@ -1185,10 +1401,9 @@ a.btn{text-decoration:none;display:inline-block}
     [].forEach.call(document.querySelectorAll('.tabbar a'),function(a){
       if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
     });
-    if($('quiz'))nextQuiz();
     initTracer();
     renderBuilder();
-    renderQArea();
+    if($('qz'))startQuiz($('qz').getAttribute('data-mode'));
     renderOffline();
     renderAI();
     window.scrollTo(0,0);
@@ -1197,7 +1412,7 @@ a.btn{text-decoration:none;display:inline-block}
 
   /* ---------- search ---------- */
   function search(q){
-    var box=$('results'),body=$('homebody');
+    var box=$('results'),body=$('usebody');
     q=q.trim().toLowerCase().replace(/\s+/g,'');
     if(!q){box.innerHTML='';body.hidden=false;return;}
     var hit=Object.keys(PH).filter(function(k){
@@ -1230,7 +1445,7 @@ a.btn{text-decoration:none;display:inline-block}
   function closeSheet(){
     $('sheet').hidden=true;document.body.classList.remove('lock');
     if(lastFocus&&document.contains(lastFocus))lastFocus.focus();
-    if(location.hash.replace(/^#\/?/,'')==='list')render();
+    if(/^(use|list)$/.test(location.hash.replace(/^#\/?/,'')))render();
   }
   var wake=null;
   function showBig(){
@@ -1242,25 +1457,6 @@ a.btn{text-decoration:none;display:inline-block}
   function hideBig(){
     $('show').hidden=true;$('panel').focus();
     try{wake&&wake.release();}catch(e){}wake=null;
-  }
-
-  /* ---------- quiz ---------- */
-  var qk=null;
-  function nextQuiz(){
-    var pool=Object.keys(state.h).filter(function(k){return PH[k]&&PH[k].zy;});
-    if(pool.length<5)PRIORITY.forEach(function(k){if(pool.indexOf(k)<0)pool.push(k);});
-    var bag=[];
-    pool.forEach(function(k){if(k===qk&&pool.length>1)return;var w=state.k[k]==='ok'?1:3;for(var i=0;i<w;i++)bag.push(k);});
-    qk=bag[Math.floor(Math.random()*bag.length)];
-    var p=PH[qk],q=$('quiz');
-    q.innerHTML='<div class="quiz"><div class="hint">用韓文怎麼說？</div><div class="q">'+esc(p.zh)+'</div>'+
-      '<div class="btns"><button class="btn pri" type="button" data-q="reveal">翻開答案</button></div></div>';
-  }
-  function revealQuiz(){
-    var p=PH[qk];
-    document.querySelector('.quiz .btns').outerHTML='<div class="a"><div class="ko">'+esc(p.ko)+'</div><div class="hint">'+esc(p.rm)+'　≈ '+esc(p.zy)+'</div>'+
-      '<div class="btns"><button class="btn" type="button" data-q="again">還不熟</button><button class="btn pri" type="button" data-q="ok">說對了</button></div></div>';
-    speak(p.ko,state.slow);markHeard(qk);
   }
 
   /* ---------- events ---------- */
@@ -1278,7 +1474,7 @@ a.btn{text-decoration:none;display:inline-block}
   document.addEventListener('click',function(e){
     if(e.target.closest('#show')){hideBig();return;}
     if(e.target.id==='sheet'){closeSheet();return;}
-    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-q],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-dq],[data-tr],[data-trx],[data-qm],[data-lq],[data-view],#speed,#back,#seed,#dlaudio,#install');
+    var t=e.target.closest('[data-open],[data-say],[data-act],[data-copy],[data-qa],[data-qn],[data-qr],[data-qs],[data-qplay],[data-qagain],[data-ai-sc],[data-ai-m],[data-sh],[data-hb],[data-tr],[data-trx],[data-view],#speed,#back,#seed,#dlaudio,#install');
     if(!t)return;
     if(t.id==='dlaudio'){downloadAudio();return;}
     if(t.id==='install'&&installEvt){installEvt.prompt();installEvt=null;renderOffline();return;}
@@ -1287,11 +1483,12 @@ a.btn{text-decoration:none;display:inline-block}
     if(t.id==='seed'){TRIO.forEach(function(a){state.s[norm(a[0])]=1;});save();render();return;}
     if(t.hasAttribute('data-open')){openSheet(t.getAttribute('data-open'));return;}
     if(t.hasAttribute('data-say')){speak(t.getAttribute('data-say'),state.slow);return;}
-    if(t.hasAttribute('data-q')){
-      var a=t.getAttribute('data-q');
-      if(a==='reveal')revealQuiz();else{state.k[qk]=a;save();nextQuiz();}
-      return;
-    }
+    if(t.hasAttribute('data-qa')){answerQ(+t.getAttribute('data-qa'));return;}
+    if(t.hasAttribute('data-qn')){advance();return;}
+    if(t.hasAttribute('data-qplay')){if(QZ)speak(QZ.q.say,state.slow);return;}
+    if(t.hasAttribute('data-qr')){if(QZ&&!QZ.answered){QZ.answered=true;renderQ();speak(QZ.q.say,state.slow);var fq=document.querySelector('[data-qs="1"]');if(fq)fq.focus();}return;}
+    if(t.hasAttribute('data-qs')){if(QZ&&QZ.answered){settle(t.getAttribute('data-qs')==='1');if(QZ.q.item&&PH[QZ.q.item.k])markHeard(QZ.q.item.k);advance();}return;}
+    if(t.hasAttribute('data-qagain')){if(QZ)startQuiz(QZ.mode);return;}
     if(t.hasAttribute('data-act')){
       var act=t.getAttribute('data-act');
       if(act==='play')speak(PH[cur].ko,false);
@@ -1307,16 +1504,6 @@ a.btn{text-decoration:none;display:inline-block}
       t.setAttribute('aria-pressed',String(state.view[vk]));
       var sw=document.querySelector('.scene');if(sw)sw.classList.toggle('no-'+vk,!state.view[vk]);return;
     }
-    if(t.hasAttribute('data-qm')){
-      qm=t.getAttribute('data-qm');
-      [].forEach.call(document.querySelectorAll('[data-qm]'),function(b){b.setAttribute('aria-checked',String(b===t));});
-      renderQArea();return;
-    }
-    if(t.hasAttribute('data-lq')){
-      var lv=t.getAttribute('data-lq');
-      if(lv==='next'){nextLQ();var f0=document.querySelector('[data-lq="0"]');if(f0)f0.focus();}else answerLQ(+lv);
-      return;
-    }
     if(t.hasAttribute('data-tr')){tr.g=t.getAttribute('data-tr');renderTracer();var ft=document.querySelector('[data-tr="'+tr.g+'"]');if(ft)ft.focus();return;}
     if(t.hasAttribute('data-trx')){
       if(t.getAttribute('data-trx')==='clear'){tr.strokes=[];drawStrokes();}
@@ -1326,14 +1513,6 @@ a.btn{text-decoration:none;display:inline-block}
     if(t.hasAttribute('data-hb')){
       var hp=t.getAttribute('data-hb').split(':');hb[hp[0]]=+hp[1];renderBuilder();
       var fb=document.querySelector('[data-hb="'+hp[0]+':'+hp[1]+'"]');if(fb)fb.focus();return;
-    }
-    if(t.hasAttribute('data-dq')){
-      var d=t.getAttribute('data-dq');
-      if(d==='next'){nextDecode();var fo=document.querySelector('[data-dq="0"]');if(fo)fo.focus();return;}
-      if(dq.done)return;
-      var pk=dq.opts[+d];dq.done=true;dq.total++;if(pk===dq.k)dq.right++;
-      renderDecode();speak(PH[dq.k].ko,state.slow);
-      var fn=document.querySelector('[data-dq="next"]');if(fn)fn.focus();return;
     }
     if(t.hasAttribute('data-sh')){
       var s=t.getAttribute('data-sh');
